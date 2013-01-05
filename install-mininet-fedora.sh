@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# sjas: cleanup bullshit, needed for testing purposes
+sudo rm -rf mininet openflow openvswitch oftest pox oflops
+
 # This script is intended to install Mininet into
 # a brand-new Ubuntu virtual machine,
 # to create a fully usable "tutorial" VM.
@@ -8,7 +11,7 @@ echo `whoami` ALL=NOPASSWD: ALL | sudo tee -a /etc/sudoers
 sudo sed -i -e 's/Default/#Default/' /etc/sudoers
 sudo sed -i -e 's/ubuntu/sjas-mininet-vm/' /etc/sysconfig/network
 sudo sed -i -e 's/ubuntu/sjas-mininet-vm/g' /etc/hosts
-sudo hostname `cat /etc/sysconfig/network | grep -i 'hostname' | sed -e 's/hostname//g' | sed -e 's/=//g'`
+sudo hostname `cat /etc/sysconfig/network | grep -i 'hostname' | sed -e 's/HOSTNAME//g' | sed -e 's/=//g'`
 sudo sed -i -e 's/quiet/text/' /etc/default/grub
 sudo grub2-mkconfig -o /etc/grub2.cfg
 #sudo sed -i -e 's/us.archive.ubuntu.com/mirrors.kernel.org/' /etc/apt/sources.list
