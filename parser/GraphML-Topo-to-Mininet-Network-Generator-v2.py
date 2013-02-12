@@ -124,36 +124,26 @@ for n in nodes:
         id_latitude_dict[node_root_attrib] = latitude
 #create strings
 tempstring = ''
-for i in range(0, len(id_node_dict)):
-    temp = id_node_dict[str(i)]
-    tempstring += '        '
-    tempstring += temp
-    tempstring += ' = '
-    tempstring += str(i)
-    tempstring += '\n'
-outputstring_to_be_exported += tempstring
-outputstring_to_be_exported += outputstring_2
-
-# second create the nodes sections
+# first create the nodes sections
 tempstring = ''
 for i in range(0, len(id_node_dict)):
-    temp =  '        self.add_node( '
+    temp =  '        '
     temp += id_node_dict[str(i)]
-    temp += ', Node( is_switch=True ) )\n'
+    temp += " = self.addSwitch( 's"
+    temp += i
+    temp += "' )\n"
     tempstring += temp
 outputstring_to_be_exported += tempstring
 outputstring_to_be_exported += outputstring_3
 
-# third calculate distances and create the edges
+# second calculate distances and create the edges
 tempstring = ''
 distance = 0.0
 latency = 0.0
 for e in edges:
-
     # get ids for easier handling
     src_id = e.attrib['source']
     dst_id = e.attrib['target']
-
     # calculate
     #formula: (for distance)
     #dist(SP,EP) = arccos{ sin(La[EP]) * sin(La[SP]) + cos(La[EP]) * cos(La[SP]) * cos(Lo[EP] - Lo[SP])} * r
@@ -163,17 +153,15 @@ for e in edges:
     #formula: (latency being calculated from distance and light speed)
     #t = distance / speed of light
     #t (in ms) = ( distance in km * 1000 (for meters) ) / ( speed of light / 1000 (for ms))
-
     firstproduct = math.sin(float(id_latitude_dict[dst_id])) * math.sin(float(id_latitude_dict[src_id]))
     secondproductfirstpart = math.cos(float(id_latitude_dict[dst_id])) * math.cos(float(id_latitude_dict[src_id]))
     secondproductsecondpart = math.cos((float(id_longitude_dict[dst_id])) - (float(id_longitude_dict[src_id])))
-
     distance = math.radians(math.acos(firstproduct + (secondproductfirstpart * secondproductsecondpart))) * 6378.137
 
     latency = ( distance * 1000 ) / ( 230000 )
 
     # create
-    temp =  '        self.add_edge( '
+    temp =  '        self.addLink( '
     temp += id_node_dict[src_id]
     temp += ' , '
     temp += id_node_dict[dst_id]
