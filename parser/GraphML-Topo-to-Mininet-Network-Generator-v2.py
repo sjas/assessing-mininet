@@ -67,12 +67,20 @@ outputstring_2='''
         #SWITCHES
 '''
 
+# TODO remove the host adding and
+# add a message to remind to not forget the
+# hosts after using the generator
 outputstring_3='''
         #HOSTS (put here if needed)
         # dont forget to add edges afterwards!
+        # Hamburg - Garching
+        HAM_h = self.addHost( 'h1' )
+        GAR_h = self.addHost( 'h2' )
 
+        self.addLink( HAM , HAM_h )
+        self.addLink( GAR , GAR_h )
 
-        # EDD EDGES
+        # ADD EDGES
 '''
 
 outputstring_4='''
@@ -165,14 +173,11 @@ for e in edges:
     temp += id_node_dict[src_id]
     temp += ' , '
     temp += id_node_dict[dst_id]
-
-    #temp += ', bw=10, delay="'
-    #temp += str(latency)
-    #temp += 'ms")'
-
+    temp += ', bw=10, delay="'
+    temp += str(latency)
+    temp += 'ms")'
     #temp += "ms', loss=0, max_queue_size=1000, use_htb=True)"
-    #temp += '\n'
-    temp += ')\n'
+    temp += '\n'
     tempstring += temp
 
 outputstring_to_be_exported += tempstring
