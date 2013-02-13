@@ -73,6 +73,11 @@ class GeneratedTopo( Topo ):
 
         #HOSTS (put here if needed)
         # dont forget to add edges afterwards!
+        HAM_h = self.addHost( 'h1' )
+        GAR_h = self.addHost( 'h2' )
+
+        self.addLink( HAM , HAM_h )
+        self.addLink( GAR , GAR_h )
 
 
         # EDD EDGES
