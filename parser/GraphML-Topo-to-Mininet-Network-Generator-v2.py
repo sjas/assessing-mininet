@@ -165,9 +165,9 @@ for e in edges:
     temp += id_node_dict[src_id]
     temp += ' , '
     temp += id_node_dict[dst_id]
-    temp += ', bw=10, delay='
+    temp += ", bw=10, delay='"
     temp += str(latency)
-    temp += 'ms, loss=0, max_queue_size=1000, use_htb=True)'
+    temp += "'ms, loss=0, max_queue_size=1000, use_htb=True)"
     temp += '\n'
     tempstring += temp
 
