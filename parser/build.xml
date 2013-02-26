@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<project name="ktr-parser" default="run">
+
+    <!--[>property file<]-->
+    <!--<property file="build.properties"/>-->
+
+    <!--delete generated topo-->
+    <target name="clean" description="remove last generated topo">
+        <delete file="./raw-material/Dfn.graphml-generated-Mininet-Topo.py"/>
+        <echo taskname="delmsg">Deleted all generated files!</echo>
+    </target>
+
+    <!--run script and generate topo-->
+    <target name="run" description="run the python code and generate current topo" depends="clean">
+        <exec executable="python" dir="." taskname="genmsg">
+            <arg value="GraphML-Topo-to-Mininet-Network-Generator-v2.py"/>
+            <arg value="-f"/>
+            <arg value="raw-material\Dfn.graphml"/>
+        </exec>
+    </target>
+
+</project>

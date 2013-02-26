@@ -178,15 +178,15 @@ for e in edges:
 
     # bandwidth
     #set bw to 10mbit if nothing was specified otherwise on startup
-    if bandwidth_argument == 0:
-        bandwidth_argument = 10;
+    if bandwidth_argument == '':
+        bandwidth_argument = '10';
 
     # create
     temp =  '        self.addLink( '
     temp += id_node_dict[src_id]
     temp += ' , '
     temp += id_node_dict[dst_id]
-    temp += ", port1=None, port2=None, bw="
+    temp += ", bw="
     temp += bandwidth_argument
     temp += ", delay='"
     temp += str(latency)
