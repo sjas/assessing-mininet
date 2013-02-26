@@ -11,6 +11,8 @@
 #   --file      [filename to of GraphML input file]
 #   -o          [filename to of GraphML output file]
 #   --output    [filename to of GraphML output file]
+#   -b          [number as integer for bandwidth in mbit]
+#   --bandwidth [number as integer for bandwidth in mbit]
 #
 # Without specified input, program will terminate.
 # Without specified output, outputfile will have the same name as the input file.
@@ -43,9 +45,8 @@ for i in range(len(argv)):
         output_file_name = argv[i+1]
     if argv[i] == '-b':
         bandwidth_argument = argv[i+1]
-    if argv[i] == '-b':
+    if argv[i] == '--bandwidth':
         bandwidth_argument = argv[i+1]
-# TODO add bandwidth parameter
 
 # terminate when inputfile is missing
 if input_file_name == '':
@@ -61,7 +62,7 @@ from mininet.topo import Topo
 class GeneratedTopo( Topo ):
     "Internet Topology Zoo Specimen."
 
-    def __init__( self ):
+    def __init__( self, **opts ):
         "Create a topology."
 
         # Initialize Topology
