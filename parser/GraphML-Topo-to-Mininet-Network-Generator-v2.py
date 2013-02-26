@@ -39,6 +39,7 @@ for i in range(len(argv)):
         outputfilename = argv[i+1]
     if argv[i] == '--output':
         outputfilename = argv[i+1]
+# TODO add bandwidth parameter
 
 # terminate when inputfile is missing
 if inputfilename == '':
@@ -190,3 +191,4 @@ if outputfilename == '':
 outputfile = open(outputfilename, 'w')
 outputfile.write(outputstring_to_be_exported)
 outputfile.close()
+print "Generation SUCCESSFUL!"
