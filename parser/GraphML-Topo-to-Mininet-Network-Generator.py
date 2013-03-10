@@ -19,8 +19,11 @@
 # Without specified input, program will terminate.
 # Without specified output, outputfile will have the same name as the input file.
 #
+# CAUTION: THIS WILL NOT RUN AFTER GENERATION!
+# YOU FIRST HAVE TO FIX THE HOSTS SECTION. SEE FIXME COMMENT.
+# This topology can be made executable, just look out for the other FIXME comments.
 #
-# Created by Stephan Schuberth in 01/2013
+# Created by Stephan Schuberth in 01/2013 to 03/2013
 
 
 
@@ -70,33 +73,65 @@ class GeneratedTopo( Topo ):
         "Create a topology."
 
         # Initialize Topology
-        Topo.__init__( self )
+        Topo.__init__( self, **opts )
 '''
 
 outputstring_2='''
-        # ADD NODES
-        #SWITCHES
+        # add nodes
+        # switches first
 '''
 
 # TODO remove the host adding and
 # add a message to remind to not forget the
 # hosts after using the generator
 outputstring_3='''
-        #HOSTS (put here if needed)
+        # hosts (put here if needed)
         # dont forget to add edges afterwards!
-        # Hamburg - Garching
-        HAM_h = self.addHost( 'h1' )
-        GAR_h = self.addHost( 'h2' )
 
-        self.addLink( HAM , HAM_h )
-        self.addLink( GAR , GAR_h )
+        #FIXME host and links section needs adjusting to your topology needs!!!
+        # this are just exemplarical entries,
+        # fitting my topology and needs.
+        # I left this here as an sample entry.
+        # tailor to your own needs!
 
-        # ADD EDGES
+        node1 = self.addHost( 'h1' )
+        node2 = self.addHost( 'h2' )
+
+        self.addLink( HAM , node1 )
+        self.addLink( GAR , node2 )
+
+        # add edges
 '''
 
 outputstring_4='''
 
 topos = { 'generated': ( lambda: GeneratedTopo() ) }
+
+# uncomment the following lines to run a basic performance test with your topology.
+# fix the next FIXME entries, in case you do not have a remote controller on 10.0.2.2 runnin!
+
+#FIXME uncomment all the following in case you need an executable script for performance testing
+
+#def perfTest():
+    #"Create network and run simple performance test"
+    #topo = GeneratedTopo()
+    ##FIXME chose another controller
+    #net = Mininet(topo=topo, controller=RemoteController, host=CPULimitedHost, link=TCLink)
+    ##FIXME fix controller ip if needed
+    #c1 = net.addController( 'c1', ip='10.0.2.2', port=6633 )
+    #net.start()
+    #print "Dumping host connections"
+    #dumpNodeConnections(net.hosts)
+    #print "Testing network connectivity"
+    #net.pingAll()
+    #print "Testing bandwidth between h1 and h2"
+    #h1, h2 = net.getNodeByName('h1', 'h2')
+    #net.iperf((h1, h2))
+    #net.stop()
+
+#if __name__ == '__main__':
+    #setLogLevel('info')
+    #perfTest()
 '''
 
 # where to put results
@@ -152,6 +187,8 @@ for i in range(0, len(id_node_dict)):
     temp += str(i)
     temp += "' )\n"
     tempstring += temp
+
+outputstring_to_be_exported += outputstring_2
 outputstring_to_be_exported += tempstring
 outputstring_to_be_exported += outputstring_3
 
