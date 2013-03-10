@@ -13,7 +13,7 @@
     <!--run script and generate topo-->
     <target name="run" description="run the python code and generate current topo" depends="clean">
         <exec executable="python" dir="." taskname="genmsg">
-            <arg value="GraphML-Topo-to-Mininet-Network-Generator-v2.py"/>
+            <arg value="GraphML-Topo-to-Mininet-Network-Generator.py"/>
             <arg value="-f"/>
             <arg value="raw-material/Dfn.graphml"/>
         </exec>
