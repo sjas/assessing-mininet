@@ -1,4 +1,6 @@
-#wGraphML-Topo-to-Mininet-Network-Generator
+#!/usr/bin/python
+
+#GraphML-Topo-to-Mininet-Network-Generator
 #
 # This file parses Network Topologies in GraphML format from the Internet Topology Zoo.
 # A python file for creating Mininet Topologies will be created as Output.
