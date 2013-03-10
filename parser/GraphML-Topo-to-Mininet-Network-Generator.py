@@ -19,9 +19,9 @@
 # Without specified input, program will terminate.
 # Without specified output, outputfile will have the same name as the input file.
 #
-# CAUTION: THIS WILL NOT RUN AFTER GENERATION!
-# YOU FIRST HAVE TO FIX THE HOSTS SECTION. SEE FIXME COMMENT.
-# This topology can be made executable, just look out for the other FIXME comments.
+# CAUTION: THE GENERATED TOPO WILL NOT RUN AFTER GENERATION!
+# YOU FIRST HAVE TO FIX THE HOSTS SECTION IN IT. SEE FIXME COMMENT THERE.
+# The topology can be made executable, just look out for the other FIXME comments in the newly generated file..
 #
 # Created by Stephan Schuberth in 01/2013 to 03/2013
 
