@@ -36,9 +36,9 @@ input_file_name = ''
 output_file_name = ''
 bandwidth_argument = ''
 
+# first check commandline arguments
 # TODO use 'argparse', the built-in argument parser of python
 # TODO argparse may seem overhead, but it actually eases helpdoc's
-# first check commandline arguments
 for i in range(len(argv)):
     if argv[i] == '-f':
         input_file_name = argv[i+1]
