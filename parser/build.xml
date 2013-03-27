@@ -16,6 +16,8 @@
             <arg value="GraphML-Topo-to-Mininet-Network-Generator.py"/>
             <arg value="-f"/>
             <arg value="raw-material/Dfn.graphml"/>
+            <arg value="-b"/>
+            <arg value="100"/>
         </exec>
     </target>
 
