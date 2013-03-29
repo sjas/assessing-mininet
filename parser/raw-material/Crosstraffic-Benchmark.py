@@ -39,11 +39,11 @@ class BenchmarkTopo( Topo ):
         host5 = self.addHost( 'log' )
 
         # add edges between switch and corresponding host
-        self.addLink( switch1 , srv1 )
-        self.addLink( switch5 , srv2 )
-        self.addLink( switch6 , cl1 )
-        self.addLink( switch2 , cl2 )
-        self.addLink( switch3 , log )
+        self.addLink( switch1 , host1 )
+        self.addLink( switch5 , host2 )
+        self.addLink( switch6 , host3 )
+        self.addLink( switch2 , host4 )
+        self.addLink( switch3 , host5 )
 
         # add edges between switches
         self.addLink( switch1 , switch2 )
