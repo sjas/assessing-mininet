@@ -14,7 +14,7 @@ from mininet.cli import CLI
 from mininet.log import setLogLevel
 
 
-class GeneratedTopo( Topo ):
+CLass GeneratedTopo( Topo ):
     "Internet Topology Zoo Specimen."
 
     def __init__( self, **opts ):
@@ -199,11 +199,9 @@ topos = { 'generated': ( lambda: GeneratedTopo() ) }
 def setupNetwork():
     "Create network and run simple performance test"
     topo = GeneratedTopo()
-    print 'creating mininet...'
     #net = Mininet(topo=topo, controller=lambda c1: RemoteController( c1, ip='10.0.2.2', port=6633 ), host=CPULimitedHost, link=TCLink)
     net = Mininet(topo=topo, controller=lambda a: RemoteController( a, ip='10.0.2.2', port=6633 ), host=CPULimitedHost, link=TCLink)
     #c1 = net.addController( 'c1', ip='10.0.2.2', port=6633 )
-    print '... mininet creation DONE'
     #net.start()
     #print "Dumping host connections"
     #dumpNodeConnections(net.hosts)
