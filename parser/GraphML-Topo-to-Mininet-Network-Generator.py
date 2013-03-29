@@ -13,7 +13,7 @@
 #   --file      [filename to of GraphML input file]
 #   -o          [filename to of GraphML output file]
 #   --output    [filename to of GraphML output file]
-#   -b          [number as integer for bandwidth in mbit]
+#   --bw        [number as integer for bandwidth in mbit]
 #   --bandwidth [number as integer for bandwidth in mbit]
 #
 # Without specified input, program will terminate.
