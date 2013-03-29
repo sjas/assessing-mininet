@@ -57,16 +57,16 @@ class GeneratedTopo( Topo ):
 
         #FIXME this was needed before a host per switch was generated and linked
 
-        node1 = self.addHost( 'h1' )
-        node2 = self.addHost( 'h2' )
+        #node1 = self.addHost( 'h1' )
+        #node2 = self.addHost( 'h2' )
 
         # next tree lines never put to use so far
         #node3 = self.addHost( 'rcv1' )
         #node4 = self.addHost( 'rcv2' )
         #node5 = self.addHost( 'logserv' )
 
-        self.addLink( HAM , node1 )
-        self.addLink( GAR , node2 )
+        #self.addLink( HAM , node1 )
+        #self.addLink( GAR , node2 )
 
         # add edges
         self.addLink( NewYork , Chicago, bw=100, delay='0.690677696537ms')

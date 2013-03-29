@@ -95,6 +95,7 @@ outputstring_2='''
 # TODO remove the host adding and
 # add a message to remind to not forget the
 # hosts after using the generator
+# or just remove it completely once the one-host-per-switch generation works
 outputstring_3='''
         # hosts (put here if needed)
         # dont forget to add edges afterwards!
@@ -106,16 +107,16 @@ outputstring_3='''
 
         #FIXME this was needed before a host per switch was generated and linked
 
-        node1 = self.addHost( 'h1' )
-        node2 = self.addHost( 'h2' )
+        #node1 = self.addHost( 'h1' )
+        #node2 = self.addHost( 'h2' )
 
         # next tree lines never put to use so far
         #node3 = self.addHost( 'rcv1' )
         #node4 = self.addHost( 'rcv2' )
         #node5 = self.addHost( 'logserv' )
 
-        self.addLink( HAM , node1 )
-        self.addLink( GAR , node2 )
+        #self.addLink( HAM , node1 )
+        #self.addLink( GAR , node2 )
 
         # add edges
 '''
