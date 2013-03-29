@@ -62,7 +62,7 @@ topos = { 'benchmark': ( lambda: BenchmarkTopo() ) }
 # and ssh access to the the mininet hosts from within the ubuntu vm
 def setupNetwork():
     "Create network and run simple performance test"
-    topo = GeneratedTopo()
+    topo = BenchmarkTopo()
     net = Mininet(topo=topo, controller=lambda a: RemoteController( a, ip='10.0.2.2', port=6633 ), host=CPULimitedHost, link=TCLink)
     return net
 
