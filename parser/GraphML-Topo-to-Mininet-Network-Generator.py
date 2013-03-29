@@ -239,6 +239,7 @@ for n in nodes:
         id_node_dict[node_root_attrib] = node_name
         id_longitude_dict[node_root_attrib] = longitude
         id_latitude_dict[node_root_attrib] = latitude
+
 #create strings
 tempstring = ''
 # first create the switches and hosts
