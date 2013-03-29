@@ -102,14 +102,14 @@ def sshd( network, cmd='/usr/sbin/sshd', opts='-D' ):
     #FIXME: when host lacks an interface because of broken setup process, dont call it!
     #FIXME: host.IP() will trigger a warning and shut mininet down
     #FIXME: (at least on this loglevel, dont know if others are different)
-    #for host in network.hosts:
-        #print host.name, host.IP()
+    for host in network.hosts:
+        print host.name, host.IP()
     #FIXME: because the upper part wont work dynamically,
     #FIXME: the listing (according to the settings just above the print statements above)
     #FIXME: will be static. in case you change the ip above, the next print lines
     #FIXME: will be false: 10.0.0.x will be wrong!
     #FIXME:
-    print "use 'ssh 10.0.0.x' from other consoles to connect"
+    #print "use 'ssh 10.0.0.x' from other consoles to connect"
     print
     print "*** Type 'exit' or control-D to shut down network"
 
@@ -117,30 +117,32 @@ def sshd( network, cmd='/usr/sbin/sshd', opts='-D' ):
     dumpNodeConnections(network.hosts)
     print "Testing network connectivity"
     network.pingAll()
-    network.pingAll()
-    print "Testing bandwidth between srv1 and cl1"
-    h1, h2 = network.getNodeByName('srv1', 'cl1')
-    network.iperf((h1, h2))
-    network.iperf((h1, h2))
-    network.iperf((h1, h2))
-    network.iperf((h1, h2))
-    network.iperf((h1, h2))
-    network.iperf((h1, h2))
-    network.iperf((h1, h2))
-    network.iperf((h1, h2))
-    network.iperf((h1, h2))
-    network.iperf((h1, h2))
-    h3, h4 = network.getNodeByName('srv2', 'cl2')
-    network.iperf((h3, h4))
-    network.iperf((h3, h4))
-    network.iperf((h3, h4))
-    network.iperf((h3, h4))
-    network.iperf((h3, h4))
-    network.iperf((h3, h4))
-    network.iperf((h3, h4))
-    network.iperf((h3, h4))
-    network.iperf((h3, h4))
-    network.iperf((h3, h4))
+
+    ## TEST
+    #network.pingAll()
+    #print "Testing bandwidth between srv1 and cl1"
+    #h1, h2 = network.getNodeByName('srv1', 'cl1')
+    #network.iperf((h1, h2))
+    #network.iperf((h1, h2))
+    #network.iperf((h1, h2))
+    #network.iperf((h1, h2))
+    #network.iperf((h1, h2))
+    #network.iperf((h1, h2))
+    #network.iperf((h1, h2))
+    #network.iperf((h1, h2))
+    #network.iperf((h1, h2))
+    #network.iperf((h1, h2))
+    #h3, h4 = network.getNodeByName('srv2', 'cl2')
+    #network.iperf((h3, h4))
+    #network.iperf((h3, h4))
+    #network.iperf((h3, h4))
+    #network.iperf((h3, h4))
+    #network.iperf((h3, h4))
+    #network.iperf((h3, h4))
+    #network.iperf((h3, h4))
+    #network.iperf((h3, h4))
+    #network.iperf((h3, h4))
+    #network.iperf((h3, h4))
 
     CLI( network )
     for host in network.hosts:
