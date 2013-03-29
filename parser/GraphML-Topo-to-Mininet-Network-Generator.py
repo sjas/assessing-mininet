@@ -87,16 +87,19 @@ class GeneratedTopo( Topo ):
         Topo.__init__( self, **opts )
 '''
 
-outputstring_2='''
+outputstring_2a='''
         # add nodes
         # switches first
+'''
+outputstring_2b='''
+        # and now hosts
 '''
 
 # TODO remove the host adding and
 # add a message to remind to not forget the
 # hosts after using the generator
 # or just remove it completely once the one-host-per-switch generation works
-outputstring_3='''
+outputstring_3a='''
         # hosts (put here if needed)
         # dont forget to add edges afterwards!
 
@@ -118,7 +121,11 @@ outputstring_3='''
         #self.addLink( HAM , node1 )
         #self.addLink( GAR , node2 )
 
-        # add edges
+        # add edges between switch and corresponding host
+'''
+
+outputstring_3b='''
+        # add edges between switches
 '''
 
 outputstring_4='''
@@ -131,7 +138,6 @@ topos = { 'generated': ( lambda: GeneratedTopo() ) }
 def setupNetwork():
     "Create network and run simple performance test"
     topo = GeneratedTopo()
-    #net = Mininet(topo=topo, controller=lambda c1: RemoteController( c1, ip='10.0.2.2', port=6633 ), host=CPULimitedHost, link=TCLink)
     net = Mininet(topo=topo, controller=lambda a: RemoteController( a, ip='10.0.2.2', port=6633 ), host=CPULimitedHost, link=TCLink)
     #print "Dumping host connections"
     #dumpNodeConnections(net.hosts)
@@ -163,16 +169,25 @@ def sshd( network, cmd='/usr/sbin/sshd', opts='-D' ):
     "Start a network, connect it to root ns, and run sshd on all hosts."
     switch = network.switches[ 0 ]  # switch to use
     ip = '10.123.123.1'  # our IP address on host network
-    #routes = [ '10.0.0.0/8' ]  # host networks to route to
-    routes = [ '10.0.1.0/24' ]  # host networks to route to
-    connectToRootNS( network, switch, ip, 24, routes )
+    routes = [ '10.0.0.0/8' ]  # host networks to route to
+    connectToRootNS( network, switch, ip, 8, routes )
     for host in network.hosts:
         host.cmd( cmd + ' ' + opts + '&' )
     print
     print "*** Hosts are running sshd at the following addresses:"
     print
-    for host in network.hosts:
-        print host.name, host.IP()
+
+    #FIXME: when host lacks an interface because of broken setup process, dont call it!
+    #FIXME: host.IP() will trigger a warning and shut mininet down
+    #FIXME: (at least on this loglevel, dont know if others are different)
+    #for host in network.hosts:
+        #print host.name, host.IP()
+    #FIXME: because the upper part wont work dynamically,
+    #FIXME: the listing (according to the settings just above the print statements above)
+    #FIXME: will be static. in case you change the ip above, the next print lines
+    #FIXME: will be false: 10.0.0.x will be wrong!
+    #FIXME:
+    print "use 'ssh 10.0.0.x' from other consoles to connect"
     print
     print "*** Type 'exit' or control-D to shut down network"
     CLI( network )
@@ -182,6 +197,7 @@ def sshd( network, cmd='/usr/sbin/sshd', opts='-D' ):
 
 if __name__ == '__main__':
     setLogLevel('info')
+    #setLogLevel('debug')
     sshd( setupNetwork() )
 '''
 
@@ -241,32 +257,37 @@ for n in nodes:
         id_latitude_dict[node_root_attrib] = latitude
 
 #create strings
-tempstring = ''
+tempstring1 = ''
+tempstring2 = ''
 # first create the switches and hosts
 tempstring = ''
 for i in range(0, len(id_node_dict)):
     #create switch
-    temp =  '        '
-    temp += id_node_dict[str(i)]
-    temp += " = self.addSwitch( 's"
-    temp += str(i)
-    temp += "' )\n"
+    temp1 =  '        '
+    temp1 += id_node_dict[str(i)]
+    temp1 += " = self.addSwitch( 's"
+    temp1 += str(i)
+    temp1 += "' )\n"
     #create corresponding host
-    temp +=  '        '
-    temp += id_node_dict[str(i)]
-    temp += "_host = self.addHost( 'h"
-    temp += str(i)
-    temp += "' )\n"
-    tempstring += temp
+    temp2 =  '        '
+    temp2 += id_node_dict[str(i)]
+    temp2 += "_host = self.addHost( 'h"
+    temp2 += str(i)
+    temp2 += "' )\n"
+    tempstring1 += temp1
+    tempstring2 += temp2
 
-outputstring_to_be_exported += outputstring_2
-outputstring_to_be_exported += tempstring
-outputstring_to_be_exported += outputstring_3
+outputstring_to_be_exported += outputstring_2a
+outputstring_to_be_exported += tempstring1
+outputstring_to_be_exported += outputstring_2b
+outputstring_to_be_exported += tempstring2
+outputstring_to_be_exported += outputstring_3a
 
 # second calculate distances between switches,
 #   set global bandwidth and create the edges between switches,
 #   and link each single host to its corresponding switch
-tempstring = ''
+tempstring3 = ''
+tempstring4 = ''
 distance = 0.0
 latency = 0.0
 for e in edges:
@@ -295,29 +316,32 @@ for e in edges:
     if bandwidth_argument == '':
         bandwidth_argument = '10';
 
-    # create links between switches...
-    temp =  '        self.addLink( '
-    temp += id_node_dict[src_id]
-    temp += ' , '
-    temp += id_node_dict[dst_id]
-    temp += ", bw="
-    temp += bandwidth_argument
-    temp += ", delay='"
-    temp += str(latency)
-    temp += "ms')"
-    temp += '\n'
+    # link each switch and its host...
+    temp3 =  '        self.addLink( '
+    temp3 += id_node_dict[src_id]
+    temp3 += ' , '
+    temp3 += id_node_dict[src_id]
+    temp3 += "_host )"
+    temp3 += '\n'
+    # ... and link all corresponding switches with each other
+    temp4 =  '        self.addLink( '
+    temp4 += id_node_dict[src_id]
+    temp4 += ' , '
+    temp4 += id_node_dict[dst_id]
+    temp4 += ", bw="
+    temp4 += bandwidth_argument
+    temp4 += ", delay='"
+    temp4 += str(latency)
+    temp4 += "ms')"
+    temp4 += '\n'
     # next line so i dont have to look up other possible settings
     #temp += "ms', loss=0, max_queue_size=1000, use_htb=True)"
-    # ... and each switch and its host
-    temp +=  '        self.addLink( '
-    temp += id_node_dict[src_id]
-    temp += ' , '
-    temp += id_node_dict[src_id]
-    temp += "_host )"
-    temp += '\n'
-    tempstring += temp
+    tempstring3 += temp3
+    tempstring4 += temp4
 
-outputstring_to_be_exported += tempstring
+outputstring_to_be_exported += tempstring3
+outputstring_to_be_exported += outputstring_3b
+outputstring_to_be_exported += tempstring4
 outputstring_to_be_exported += outputstring_4
 
 # generation finished, write string to file
