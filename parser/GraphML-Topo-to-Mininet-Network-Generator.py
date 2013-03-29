@@ -13,6 +13,7 @@
 #   --file      [filename to of GraphML input file]
 #   -o          [filename to of GraphML output file]
 #   --output    [filename to of GraphML output file]
+#   -b          [number as integer for bandwidth in mbit]
 #   --bw        [number as integer for bandwidth in mbit]
 #   --bandwidth [number as integer for bandwidth in mbit]
 #
@@ -49,6 +50,8 @@ for i in range(len(argv)):
     if argv[i] == '--output':
         output_file_name = argv[i+1]
     if argv[i] == '-b':
+        bandwidth_argument = argv[i+1]
+    if argv[i] == '--bw':
         bandwidth_argument = argv[i+1]
     if argv[i] == '--bandwidth':
         bandwidth_argument = argv[i+1]
