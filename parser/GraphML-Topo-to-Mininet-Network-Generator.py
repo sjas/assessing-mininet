@@ -107,19 +107,14 @@ outputstring_4='''
 
 topos = { 'generated': ( lambda: GeneratedTopo() ) }
 
-# uncomment the following lines to run a basic performance test with your topology.
-# fix the next FIXME entries, in case you do not have a remote controller on 10.0.2.2 runnin!
-
-#FIXME uncomment all the following in case you need an executable script for performance testing
-
-#def perfTest():
-    #"Create network and run simple performance test"
-    #topo = GeneratedTopo()
-    ##FIXME chose another controller
-    #net = Mininet(topo=topo, controller=RemoteController, host=CPULimitedHost, link=TCLink)
-    ##FIXME fix controller ip if needed
-    #c1 = net.addController( 'c1', ip='10.0.2.2', port=6633 )
-    #net.start()
+# here the code defining the topology ends
+# the following code produces an executable script working with a remote controller
+# and ssh access to the the mininet hosts from within the ubuntu vm
+def setupNetwork():
+    "Create network and run simple performance test"
+    topo = GeneratedTopo()
+    #net = Mininet(topo=topo, controller=lambda c1: RemoteController( c1, ip='10.0.2.2', port=6633 ), host=CPULimitedHost, link=TCLink)
+    net = Mininet(topo=topo, controller=lambda a: RemoteController( a, ip='10.0.2.2', port=6633 ), host=CPULimitedHost, link=TCLink)
     #print "Dumping host connections"
     #dumpNodeConnections(net.hosts)
     #print "Testing network connectivity"
@@ -127,11 +122,48 @@ topos = { 'generated': ( lambda: GeneratedTopo() ) }
     #print "Testing bandwidth between h1 and h2"
     #h1, h2 = net.getNodeByName('h1', 'h2')
     #net.iperf((h1, h2))
-    #net.stop()
+    return net
 
-#if __name__ == '__main__':
-    #setLogLevel('info')
-    #perfTest()
+def connectToRootNS( network, switch, ip, prefixLen, routes ):
+    """Connect hosts to root namespace via switch. Starts network.
+      network: Mininet() network object
+      switch: switch to connect to root namespace
+      ip: IP address for root namespace node
+      prefixLen: IP address prefix length (e.g. 8, 16, 24)
+      routes: host networks to route to"""
+    # Create a node in root namespace and link to switch 0
+    root = Node( 'root', inNamespace=False )
+    intf = TCLink( root, switch ).intf1
+    root.setIP( ip, prefixLen, intf )
+    # Start network that now includes link to root namespace
+    network.start()
+    # Add routes from root ns to hosts
+    for route in routes:
+        root.cmd( 'route add -net ' + route + ' dev ' + str( intf ) )
+
+def sshd( network, cmd='/usr/sbin/sshd', opts='-D' ):
+    "Start a network, connect it to root ns, and run sshd on all hosts."
+    switch = network.switches[ 0 ]  # switch to use
+    ip = '10.123.123.1'  # our IP address on host network
+    routes = [ '10.0.0.0/8' ]  # host networks to route to
+    connectToRootNS( network, switch, ip, 8, routes )
+    for host in network.hosts:
+        host.cmd( cmd + ' ' + opts + '&' )
+    print
+    print "*** Hosts are running sshd at the following addresses:"
+    print
+    for host in network.hosts:
+        print host.name, host.IP()
+    print
+    print "*** Type 'exit' or control-D to shut down network"
+    CLI( network )
+    for host in network.hosts:
+        host.cmd( 'kill %' + cmd )
+    network.stop()
+
+if __name__ == '__main__':
+    setLogLevel('info')
+    sshd( setupNetwork() )
 '''
 
 # where to put results
