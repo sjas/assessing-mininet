@@ -11,6 +11,7 @@ from mininet.node import Node
 from mininet.node import CPULimitedHost
 from mininet.link import TCLink
 from mininet.cli import CLI
+from mininet.log import setLogLevel
 
 
 class GeneratedTopo( Topo ):
