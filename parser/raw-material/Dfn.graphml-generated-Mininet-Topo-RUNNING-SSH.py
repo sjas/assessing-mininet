@@ -252,5 +252,5 @@ def sshd( network, cmd='/usr/sbin/sshd', opts='-D' ):
     network.stop()
 
 if __name__ == '__main__':
-    #setLogLevel('info')
+    setLogLevel('info')
     sshd( setupNetwork() )
