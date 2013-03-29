@@ -13,97 +13,49 @@ from mininet.link import TCLink
 from mininet.cli import CLI
 from mininet.log import setLogLevel
 
-class GeneratedTopo( Topo ):
-    "Internet Topology Zoo Specimen."
+class BenchmarkTopo( Topo ):
+    "KTR BenchmarkTopo."
 
     def __init__( self, **opts ):
-        "Create a topology."
+        "Create topology."
 
         # Initialize Topology
         Topo.__init__( self, **opts )
 
         # add nodes
         # switches first
-        NewYork = self.addSwitch( 's0' )
-        Chicago = self.addSwitch( 's1' )
-        WashingtonDC = self.addSwitch( 's2' )
-        Seattle = self.addSwitch( 's3' )
-        Sunnyvale = self.addSwitch( 's4' )
-        LosAngeles = self.addSwitch( 's5' )
-        Denver = self.addSwitch( 's6' )
-        KansasCity = self.addSwitch( 's7' )
-        Houston = self.addSwitch( 's8' )
-        Atlanta = self.addSwitch( 's9' )
-        Indianapolis = self.addSwitch( 's10' )
+        switch1 = self.addSwitch( 's1' )
+        switch2 = self.addSwitch( 's2' )
+        switch3 = self.addSwitch( 's3' )
+        switch4 = self.addSwitch( 's4' )
+        switch5 = self.addSwitch( 's5' )
+        switch6 = self.addSwitch( 's6' )
 
         # and now hosts
-        NewYork_host = self.addHost( 'h0' )
-        Chicago_host = self.addHost( 'h1' )
-        WashingtonDC_host = self.addHost( 'h2' )
-        Seattle_host = self.addHost( 'h3' )
-        Sunnyvale_host = self.addHost( 'h4' )
-        LosAngeles_host = self.addHost( 'h5' )
-        Denver_host = self.addHost( 'h6' )
-        KansasCity_host = self.addHost( 'h7' )
-        Houston_host = self.addHost( 'h8' )
-        Atlanta_host = self.addHost( 'h9' )
-        Indianapolis_host = self.addHost( 'h10' )
-
-        # hosts (put here if needed)
-        # dont forget to add edges afterwards!
-
-        #FIXME host and links section needs adjusting to your topology needs!!!
-        # this are just exemplarical entries,
-        # fitting my topology and needs.
-        # I left this here as an sample entry.
-
-        #FIXME this was needed before a host per switch was generated and linked
-
-        #node1 = self.addHost( 'h1' )
-        #node2 = self.addHost( 'h2' )
-
-        # next tree lines never put to use so far
-        #node3 = self.addHost( 'rcv1' )
-        #node4 = self.addHost( 'rcv2' )
-        #node5 = self.addHost( 'logserv' )
-
-        #self.addLink( HAM , node1 )
-        #self.addLink( GAR , node2 )
+        host1 = self.addHost( 'srv1' )
+        host2 = self.addHost( 'srv2' )
+        host3 = self.addHost( 'cl1' )
+        host4 = self.addHost( 'cl2' )
+        host5 = self.addHost( 'log' )
 
         # add edges between switch and corresponding host
-        self.addLink( NewYork , NewYork_host )
-        self.addLink( NewYork , NewYork_host )
-        self.addLink( Chicago , Chicago_host )
-        self.addLink( WashingtonDC , WashingtonDC_host )
-        self.addLink( Seattle , Seattle_host )
-        self.addLink( Seattle , Seattle_host )
-        self.addLink( Sunnyvale , Sunnyvale_host )
-        self.addLink( Sunnyvale , Sunnyvale_host )
-        self.addLink( LosAngeles , LosAngeles_host )
-        self.addLink( Denver , Denver_host )
-        self.addLink( KansasCity , KansasCity_host )
-        self.addLink( KansasCity , KansasCity_host )
-        self.addLink( Houston , Houston_host )
-        self.addLink( Atlanta , Atlanta_host )
+        self.addLink( switch1 , srv1 )
+        self.addLink( switch5 , srv2 )
+        self.addLink( switch6 , cl1 )
+        self.addLink( switch2 , cl2 )
+        self.addLink( switch3 , log )
 
         # add edges between switches
-        self.addLink( NewYork , Chicago, bw=10, delay='0.690677696537ms')
-        self.addLink( NewYork , WashingtonDC, bw=10, delay='0.518903303662ms')
-        self.addLink( Chicago , Indianapolis, bw=10, delay='1.15170240387ms')
-        self.addLink( WashingtonDC , Atlanta, bw=10, delay='0.477628158502ms')
-        self.addLink( Seattle , Sunnyvale, bw=10, delay='1.10351797289ms')
-        self.addLink( Seattle , Denver, bw=10, delay='0.952189623151ms')
-        self.addLink( Sunnyvale , LosAngeles, bw=10, delay='0.506044716762ms')
-        self.addLink( Sunnyvale , Denver, bw=10, delay='0.85423284091ms')
-        self.addLink( LosAngeles , Houston, bw=10, delay='1.02920365882ms')
-        self.addLink( Denver , KansasCity, bw=10, delay='0.191285963954ms')
-        self.addLink( KansasCity , Houston, bw=10, delay='1.46743666378ms')
-        self.addLink( KansasCity , Indianapolis, bw=10, delay='0.206336052247ms')
-        self.addLink( Houston , Atlanta, bw=10, delay='1.15068985002ms')
-        self.addLink( Atlanta , Indianapolis, bw=10, delay='0.466772343871ms')
+        self.addLink( switch1 , switch2 )
+        self.addLink( switch1 , switch3 )
+        self.addLink( switch2 , switch4 )
+        self.addLink( switch3 , switch4 )
+        self.addLink( switch3 , switch5 )
+        self.addLink( switch4 , switch5 )
+        self.addLink( switch4 , switch6 )
+        self.addLink( switch5 , switch6 )
 
-
-topos = { 'generated': ( lambda: GeneratedTopo() ) }
+topos = { 'benchmark': ( lambda: BenchmarkTopo() ) }
 
 # here the code defining the topology ends
 # the following code produces an executable script working with a remote controller
