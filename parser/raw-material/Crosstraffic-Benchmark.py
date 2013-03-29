@@ -12,6 +12,7 @@ from mininet.node import CPULimitedHost
 from mininet.link import TCLink
 from mininet.cli import CLI
 from mininet.log import setLogLevel
+from mininet.util import dumpNodeConnections
 
 class BenchmarkTopo( Topo ):
     "KTR BenchmarkTopo."
@@ -24,36 +25,36 @@ class BenchmarkTopo( Topo ):
 
         # add nodes
         # switches first
-        switch1 = self.addSwitch( 's1' )
-        switch2 = self.addSwitch( 's2' )
-        switch3 = self.addSwitch( 's3' )
-        switch4 = self.addSwitch( 's4' )
-        switch5 = self.addSwitch( 's5' )
-        switch6 = self.addSwitch( 's6' )
+        sw1 = self.addSwitch( 's1' )
+        sw2 = self.addSwitch( 's2' )
+        sw3 = self.addSwitch( 's3' )
+        sw4 = self.addSwitch( 's4' )
+        sw5 = self.addSwitch( 's5' )
+        sw6 = self.addSwitch( 's6' )
 
         # and now hosts
-        host1 = self.addHost( 'srv1' )
-        host2 = self.addHost( 'srv2' )
-        host3 = self.addHost( 'cl1' )
-        host4 = self.addHost( 'cl2' )
-        host5 = self.addHost( 'log' )
+        h1 = self.addHost( 'srv1' )
+        h2 = self.addHost( 'srv2' )
+        h3 = self.addHost( 'cl1' )
+        h4 = self.addHost( 'cl2' )
+        h5 = self.addHost( 'log' )
 
         # add edges between switch and corresponding host
-        self.addLink( switch1 , host1 )
-        self.addLink( switch5 , host2 )
-        self.addLink( switch6 , host3 )
-        self.addLink( switch2 , host4 )
-        self.addLink( switch3 , host5 )
+        self.addLink( sw1 , h1 )
+        self.addLink( sw5 , h2 )
+        self.addLink( sw6 , h3 )
+        self.addLink( sw2 , h4 )
+        self.addLink( sw3 , h5 )
 
         # add edges between switches
-        self.addLink( switch1 , switch2, bw=10, delay='1ms' )
-        self.addLink( switch1 , switch3, bw=10, delay='1ms' )
-        self.addLink( switch2 , switch4, bw=10, delay='1ms' )
-        self.addLink( switch3 , switch4, bw=10, delay='1ms' )
-        self.addLink( switch3 , switch5, bw=10, delay='1ms' )
-        self.addLink( switch4 , switch5, bw=10, delay='1ms' )
-        self.addLink( switch4 , switch6, bw=10, delay='1ms' )
-        self.addLink( switch5 , switch6, bw=10, delay='1ms' )
+        self.addLink( sw1 , sw2, bw=10, delay='1ms' )
+        self.addLink( sw1 , sw3, bw=10, delay='1ms' )
+        self.addLink( sw2 , sw4, bw=10, delay='1ms' )
+        self.addLink( sw3 , sw4, bw=10, delay='1ms' )
+        self.addLink( sw3 , sw5, bw=10, delay='1ms' )
+        self.addLink( sw4 , sw5, bw=10, delay='1ms' )
+        self.addLink( sw4 , sw6, bw=10, delay='1ms' )
+        self.addLink( sw5 , sw6, bw=10, delay='1ms' )
 
 topos = { 'benchmark': ( lambda: BenchmarkTopo() ) }
 
@@ -66,8 +67,8 @@ def setupNetwork():
     net = Mininet(topo=topo, controller=lambda a: RemoteController( a, ip='10.0.2.2', port=6633 ), host=CPULimitedHost, link=TCLink)
     return net
 
-#def connectToRootNS( network, switch, ip, prefixLen, routes ):
-def connectToRootNS( network, ip, prefixLen, routes ):
+def connectToRootNS( network, switch, ip, prefixLen, routes ):
+#def connectToRootNS( network, ip, prefixLen, routes ):
     """Connect hosts to root namespace via switch. Starts network.
       network: Mininet() network object
       switch: switch to connect to root namespace
@@ -76,9 +77,9 @@ def connectToRootNS( network, ip, prefixLen, routes ):
       routes: host networks to route to"""
     # Create a node in root namespace and link to switch 0
     root = Node( 'root', inNamespace=False )
-    for switch in network.switches:
-        intf = TCLink( root, switch ).intf1
-        root.setIP( ip, prefixLen, intf )
+    #for switch in network.switches:
+    intf = TCLink( root, switch ).intf1
+    root.setIP( ip, prefixLen, intf )
     # Start network that now includes link to root namespace
     network.start()
     # Add routes from root ns to hosts
@@ -89,9 +90,9 @@ def sshd( network, cmd='/usr/sbin/sshd', opts='-D' ):
     "Start a network, connect it to root ns, and run sshd on all hosts."
     ip = '10.123.123.1'  # our IP address on host network
     routes = [ '10.0.0.0/8' ]  # host networks to route to
-    #switch = network.switches[ 0 ]  # switch to use
-    #connectToRootNS( network, switch, ip, 8, routes )
-    connectToRootNS( network, ip, 8, routes )
+    switch = network.switches[ 0 ]  # switch to use
+    connectToRootNS( network, switch, ip, 8, routes )
+    #connectToRootNS( network, ip, 8, routes )
     for host in network.hosts:
         host.cmd( cmd + ' ' + opts + '&' )
     print
@@ -111,6 +112,36 @@ def sshd( network, cmd='/usr/sbin/sshd', opts='-D' ):
     print "use 'ssh 10.0.0.x' from other consoles to connect"
     print
     print "*** Type 'exit' or control-D to shut down network"
+
+    print "Dumping host connections"
+    dumpNodeConnections(network.hosts)
+    print "Testing network connectivity"
+    network.pingAll()
+    network.pingAll()
+    print "Testing bandwidth between srv1 and cl1"
+    h1, h2 = network.getNodeByName('srv1', 'cl1')
+    network.iperf((h1, h2))
+    network.iperf((h1, h2))
+    network.iperf((h1, h2))
+    network.iperf((h1, h2))
+    network.iperf((h1, h2))
+    network.iperf((h1, h2))
+    network.iperf((h1, h2))
+    network.iperf((h1, h2))
+    network.iperf((h1, h2))
+    network.iperf((h1, h2))
+    h3, h4 = network.getNodeByName('srv2', 'cl2')
+    network.iperf((h3, h4))
+    network.iperf((h3, h4))
+    network.iperf((h3, h4))
+    network.iperf((h3, h4))
+    network.iperf((h3, h4))
+    network.iperf((h3, h4))
+    network.iperf((h3, h4))
+    network.iperf((h3, h4))
+    network.iperf((h3, h4))
+    network.iperf((h3, h4))
+
     CLI( network )
     for host in network.hosts:
         host.cmd( 'kill %' + cmd )
