@@ -25,26 +25,28 @@ class GeneratedTopo( Topo ):
         # add nodes
         # switches first
         NewYork = self.addSwitch( 's0' )
-        NewYork_host = self.addHost( 'h0' )
         Chicago = self.addSwitch( 's1' )
-        Chicago_host = self.addHost( 'h1' )
         WashingtonDC = self.addSwitch( 's2' )
-        WashingtonDC_host = self.addHost( 'h2' )
         Seattle = self.addSwitch( 's3' )
-        Seattle_host = self.addHost( 'h3' )
         Sunnyvale = self.addSwitch( 's4' )
-        Sunnyvale_host = self.addHost( 'h4' )
         LosAngeles = self.addSwitch( 's5' )
-        LosAngeles_host = self.addHost( 'h5' )
         Denver = self.addSwitch( 's6' )
-        Denver_host = self.addHost( 'h6' )
         KansasCity = self.addSwitch( 's7' )
-        KansasCity_host = self.addHost( 'h7' )
         Houston = self.addSwitch( 's8' )
-        Houston_host = self.addHost( 'h8' )
         Atlanta = self.addSwitch( 's9' )
-        Atlanta_host = self.addHost( 'h9' )
         Indianapolis = self.addSwitch( 's10' )
+
+        # and now hosts
+        NewYork_host = self.addHost( 'h0' )
+        Chicago_host = self.addHost( 'h1' )
+        WashingtonDC_host = self.addHost( 'h2' )
+        Seattle_host = self.addHost( 'h3' )
+        Sunnyvale_host = self.addHost( 'h4' )
+        LosAngeles_host = self.addHost( 'h5' )
+        Denver_host = self.addHost( 'h6' )
+        KansasCity_host = self.addHost( 'h7' )
+        Houston_host = self.addHost( 'h8' )
+        Atlanta_host = self.addHost( 'h9' )
         Indianapolis_host = self.addHost( 'h10' )
 
         # hosts (put here if needed)
@@ -68,35 +70,37 @@ class GeneratedTopo( Topo ):
         #self.addLink( HAM , node1 )
         #self.addLink( GAR , node2 )
 
-        # add edges
-        self.addLink( NewYork , Chicago, bw=10, delay='0.690677696537ms')
+        # add edges between switch and corresponding host
         self.addLink( NewYork , NewYork_host )
-        self.addLink( NewYork , WashingtonDC, bw=10, delay='0.518903303662ms')
         self.addLink( NewYork , NewYork_host )
-        self.addLink( Chicago , Indianapolis, bw=10, delay='1.15170240387ms')
         self.addLink( Chicago , Chicago_host )
-        self.addLink( WashingtonDC , Atlanta, bw=10, delay='0.477628158502ms')
         self.addLink( WashingtonDC , WashingtonDC_host )
-        self.addLink( Seattle , Sunnyvale, bw=10, delay='1.10351797289ms')
         self.addLink( Seattle , Seattle_host )
-        self.addLink( Seattle , Denver, bw=10, delay='0.952189623151ms')
         self.addLink( Seattle , Seattle_host )
-        self.addLink( Sunnyvale , LosAngeles, bw=10, delay='0.506044716762ms')
         self.addLink( Sunnyvale , Sunnyvale_host )
-        self.addLink( Sunnyvale , Denver, bw=10, delay='0.85423284091ms')
         self.addLink( Sunnyvale , Sunnyvale_host )
-        self.addLink( LosAngeles , Houston, bw=10, delay='1.02920365882ms')
         self.addLink( LosAngeles , LosAngeles_host )
-        self.addLink( Denver , KansasCity, bw=10, delay='0.191285963954ms')
         self.addLink( Denver , Denver_host )
-        self.addLink( KansasCity , Houston, bw=10, delay='1.46743666378ms')
         self.addLink( KansasCity , KansasCity_host )
-        self.addLink( KansasCity , Indianapolis, bw=10, delay='0.206336052247ms')
         self.addLink( KansasCity , KansasCity_host )
-        self.addLink( Houston , Atlanta, bw=10, delay='1.15068985002ms')
         self.addLink( Houston , Houston_host )
-        self.addLink( Atlanta , Indianapolis, bw=10, delay='0.466772343871ms')
         self.addLink( Atlanta , Atlanta_host )
+
+        # add edges between switches
+        self.addLink( NewYork , Chicago, bw=10, delay='0.690677696537ms')
+        self.addLink( NewYork , WashingtonDC, bw=10, delay='0.518903303662ms')
+        self.addLink( Chicago , Indianapolis, bw=10, delay='1.15170240387ms')
+        self.addLink( WashingtonDC , Atlanta, bw=10, delay='0.477628158502ms')
+        self.addLink( Seattle , Sunnyvale, bw=10, delay='1.10351797289ms')
+        self.addLink( Seattle , Denver, bw=10, delay='0.952189623151ms')
+        self.addLink( Sunnyvale , LosAngeles, bw=10, delay='0.506044716762ms')
+        self.addLink( Sunnyvale , Denver, bw=10, delay='0.85423284091ms')
+        self.addLink( LosAngeles , Houston, bw=10, delay='1.02920365882ms')
+        self.addLink( Denver , KansasCity, bw=10, delay='0.191285963954ms')
+        self.addLink( KansasCity , Houston, bw=10, delay='1.46743666378ms')
+        self.addLink( KansasCity , Indianapolis, bw=10, delay='0.206336052247ms')
+        self.addLink( Houston , Atlanta, bw=10, delay='1.15068985002ms')
+        self.addLink( Atlanta , Indianapolis, bw=10, delay='0.466772343871ms')
 
 
 topos = { 'generated': ( lambda: GeneratedTopo() ) }
@@ -107,7 +111,6 @@ topos = { 'generated': ( lambda: GeneratedTopo() ) }
 def setupNetwork():
     "Create network and run simple performance test"
     topo = GeneratedTopo()
-    #net = Mininet(topo=topo, controller=lambda c1: RemoteController( c1, ip='10.0.2.2', port=6633 ), host=CPULimitedHost, link=TCLink)
     net = Mininet(topo=topo, controller=lambda a: RemoteController( a, ip='10.0.2.2', port=6633 ), host=CPULimitedHost, link=TCLink)
     #print "Dumping host connections"
     #dumpNodeConnections(net.hosts)
@@ -139,16 +142,25 @@ def sshd( network, cmd='/usr/sbin/sshd', opts='-D' ):
     "Start a network, connect it to root ns, and run sshd on all hosts."
     switch = network.switches[ 0 ]  # switch to use
     ip = '10.123.123.1'  # our IP address on host network
-    #routes = [ '10.0.0.0/8' ]  # host networks to route to
-    routes = [ '10.44.22.0/24' ]  # host networks to route to
-    connectToRootNS( network, switch, ip, 24, routes )
+    routes = [ '10.0.0.0/8' ]  # host networks to route to
+    connectToRootNS( network, switch, ip, 8, routes )
     for host in network.hosts:
         host.cmd( cmd + ' ' + opts + '&' )
     print
     print "*** Hosts are running sshd at the following addresses:"
     print
-    for host in network.hosts:
-        print host.name, host.IP()
+
+    #FIXME: when host lacks an interface because of broken setup process, dont call it!
+    #FIXME: host.IP() will trigger a warning and shut mininet down
+    #FIXME: (at least on this loglevel, dont know if others are different)
+    #for host in network.hosts:
+        #print host.name, host.IP()
+    #FIXME: because the upper part wont work dynamically,
+    #FIXME: the listing (according to the settings just above the print statements above)
+    #FIXME: will be static. in case you change the ip above, the next print lines
+    #FIXME: will be false: 10.0.0.x will be wrong!
+    #FIXME:
+    print "use 'ssh 10.0.0.x' from other consoles to connect"
     print
     print "*** Type 'exit' or control-D to shut down network"
     CLI( network )
@@ -158,4 +170,5 @@ def sshd( network, cmd='/usr/sbin/sshd', opts='-D' ):
 
 if __name__ == '__main__':
     setLogLevel('info')
+    #setLogLevel('debug')
     sshd( setupNetwork() )
