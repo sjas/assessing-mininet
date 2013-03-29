@@ -1,0 +1,10 @@
+#!/bin/bash
+#usage: $ ./ITGSendTCP 10.0.0.x
+#   -a  dest ip
+#   -rp port
+#   -C  packets/sec
+#   -u  min .. max packetsize <variable>
+#   -l  send_log_file
+#   -L  logserv ip
+#   -x  recv_log_file
+sudo ITGSend -a "$@" -rp 9500

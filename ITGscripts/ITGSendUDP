@@ -1,0 +1,9 @@
+#!/bin/bash
+#usage: $ ./ITGSendUDP 10.0.0.x
+#   -a  dest ip
+#   -sp src port
+#   -rp rcv port
+#   -C  packets/sec
+#   -c  packtsize <constant>
+#   -t  duration
+sudo ITGSend -a "$@" -rp 9500 
