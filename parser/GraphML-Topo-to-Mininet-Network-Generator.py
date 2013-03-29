@@ -31,6 +31,7 @@
 import xml.etree.ElementTree as ET
 import sys
 import math
+import re
 from sys import argv
 
 input_file_name = ''
@@ -102,10 +103,16 @@ outputstring_3='''
         # this are just exemplarical entries,
         # fitting my topology and needs.
         # I left this here as an sample entry.
-        # tailor to your own needs!
+
+        #FIXME this was needed before a host per switch was generated and linked
 
         node1 = self.addHost( 'h1' )
         node2 = self.addHost( 'h2' )
+
+        # next tree lines never put to use so far
+        #node3 = self.addHost( 'rcv1' )
+        #node4 = self.addHost( 'rcv2' )
+        #node5 = self.addHost( 'logserv' )
 
         self.addLink( HAM , node1 )
         self.addLink( GAR , node2 )
@@ -155,7 +162,8 @@ def sshd( network, cmd='/usr/sbin/sshd', opts='-D' ):
     "Start a network, connect it to root ns, and run sshd on all hosts."
     switch = network.switches[ 0 ]  # switch to use
     ip = '10.123.123.1'  # our IP address on host network
-    routes = [ '10.0.0.0/8' ]  # host networks to route to
+    #routes = [ '10.0.0.0/8' ]  # host networks to route to
+    routes = [ '10.0.0.0' ]  # host networks to route to
     connectToRootNS( network, switch, ip, 8, routes )
     for host in network.hosts:
         host.cmd( cmd + ' ' + opts + '&' )
@@ -204,15 +212,27 @@ id_latitude_dict = {}
 #get id data
 #get longitude datk
 #get latitude data
+# FIXME here you have to set the correct 'dxy' settings.
+# THESE MAY DIFFER IN THE DIFFERENT TOPOLOGY ZOO FILES!!!
 for n in nodes:
     node_root_attrib = n.attrib['id']
     data = n.findall(ns + 'data')
     for d in data:
-        if d.attrib['key'] == 'd34':
-            node_name = d.text
+        #node name
         if d.attrib['key'] == 'd33':
+        #DFN network
+        #if d.attrib['key'] == 'd34':
+            #next line strips all whitespace from names
+            node_name = re.sub(r'\s+', '', d.text)
+        #longitude data
+        if d.attrib['key'] == 'd32':
+        #DFN network
+        #if d.attrib['key'] == 'd33':
             longitude = d.text
-        if d.attrib['key'] == 'd30':
+        #latitude data
+        if d.attrib['key'] == 'd29':
+        #DFN network
+        #if d.attrib['key'] == 'd30':
             latitude = d.text
         #save data couple
         id_node_dict[node_root_attrib] = node_name
@@ -220,12 +240,19 @@ for n in nodes:
         id_latitude_dict[node_root_attrib] = latitude
 #create strings
 tempstring = ''
-# first create the nodes sections
+# first create the switches and hosts
 tempstring = ''
 for i in range(0, len(id_node_dict)):
+    #create switch
     temp =  '        '
     temp += id_node_dict[str(i)]
     temp += " = self.addSwitch( 's"
+    temp += str(i)
+    temp += "' )\n"
+    #create corresponding host
+    temp +=  '        '
+    temp += id_node_dict[str(i)]
+    temp += "_host = self.addHost( 'h"
     temp += str(i)
     temp += "' )\n"
     tempstring += temp
@@ -234,7 +261,9 @@ outputstring_to_be_exported += outputstring_2
 outputstring_to_be_exported += tempstring
 outputstring_to_be_exported += outputstring_3
 
-# second calculate distances, set bandwidth and create the edges
+# second calculate distances between switches,
+#   set global bandwidth and create the edges between switches,
+#   and link each single host to its corresponding switch
 tempstring = ''
 distance = 0.0
 latency = 0.0
@@ -264,7 +293,7 @@ for e in edges:
     if bandwidth_argument == '':
         bandwidth_argument = '10';
 
-    # create
+    # create links between switches...
     temp =  '        self.addLink( '
     temp += id_node_dict[src_id]
     temp += ' , '
@@ -274,7 +303,15 @@ for e in edges:
     temp += ", delay='"
     temp += str(latency)
     temp += "ms')"
+    temp += '\n'
+    # next line so i dont have to look up other possible settings
     #temp += "ms', loss=0, max_queue_size=1000, use_htb=True)"
+    # ... and each switch and its host
+    temp +=  '        self.addLink( '
+    temp += id_node_dict[src_id]
+    temp += ' , '
+    temp += id_node_dict[src_id]
+    temp += "_host )"
     temp += '\n'
     tempstring += temp
 
