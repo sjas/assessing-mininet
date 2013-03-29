@@ -140,8 +140,8 @@ def sshd( network, cmd='/usr/sbin/sshd', opts='-D' ):
     switch = network.switches[ 0 ]  # switch to use
     ip = '10.123.123.1'  # our IP address on host network
     #routes = [ '10.0.0.0/8' ]  # host networks to route to
-    routes = [ '10.0.0.0' ]  # host networks to route to
-    connectToRootNS( network, switch, ip, 8, routes )
+    routes = [ '10.0.0.0/24' ]  # host networks to route to
+    connectToRootNS( network, switch, ip, 24, routes )
     for host in network.hosts:
         host.cmd( cmd + ' ' + opts + '&' )
     print
