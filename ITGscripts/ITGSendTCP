@@ -20,8 +20,8 @@
 #
 ############################################
 #GENERATE LOGFILENAMES
-sendname="snd_log_${2}"
-recvname="rcv_log_${2}"
+sendname="log_snd_${2}"
+recvname="log_rcv_${2}"
 logserv="${3}"
 #logserv="<insert ip here>"
 #
