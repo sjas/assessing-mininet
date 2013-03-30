@@ -59,7 +59,7 @@ for i in range(len(argv)):
 
 # terminate when inputfile is missing
 if input_file_name == '':
-    sys.exit('\n\tno input file was specified as argument')
+    sys.exit('\n\tNo input file was specified as argument....!')
 
 # define string fragments for output later on
 outputstring_1 = '''#!/usr/bin/python
