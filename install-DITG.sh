@@ -11,9 +11,9 @@ wget http://traffic.comics.unina.it/software/ITG/codice/D-ITG-2.8.0-rc1.tgz
 tar xf D-ITG-2.8.0-rc1.tgz
 # cd
 cd D-ITG-2.8.0-rc1
-cp ~/D-ITG-PATCH/* .
-# next line won't work since patch cannot be aplied anymore!
-# patch was for another version and is out of sync now.
+# next lines won't work since patch cannot be aplied anymore!
+# patch was for another revision of the version control and is out of sync now.
+#cp ~/D-ITG-PATCH/* .
 #patch -p1 --dry-run < ITGDec.patch
 #cd src
 #make
