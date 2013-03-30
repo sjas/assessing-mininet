@@ -16,15 +16,15 @@
 #srv1="10.0.0.4"
 #srv2="10.0.0.5"
 
-#log server
+echo 'log server'
 sshpass -p 'mininet' ssh mininet@10.0.0.3 "sudo ITGLog 0>/dev/null &"
 
-#client 1
+echo 'client 1'
 sshpass -p 'mininet' ssh mininet@10.0.0.1 "sudo ITGRecv 0>/dev/null &"
-#client 2
+echo 'client 2'
 sshpass -p 'mininet' ssh mininet@10.0.0.2 "sudo ITGRecv 0>/dev/null &"
 
-#server 1
+echo 'server 1'
 sshpass -p 'mininet' ssh mininet@10.0.0.4 "sudo ktr/ITGscripts/ITGSendUDP 10.0.0.1 1 10.0.0.3 0>/dev/null &"
-#server 2
+echo 'server 2'
 sshpass -p 'mininet' ssh mininet@10.0.0.5 "sudo ktr/ITGscripts/ITGSendUDP 10.0.0.2 1 10.0.0.3 0>/dev/null &"
