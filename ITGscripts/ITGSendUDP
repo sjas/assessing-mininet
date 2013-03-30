@@ -22,8 +22,8 @@
 #GENERATE LOGFILENAMES
 sendname="snd_log_${2}"
 recvname="rcv_log_${2}"
-logserv="S{3}"
+logserv="${3}"
 #logserv="<insert ip here>"
 #
 #GO TEST SOME STUFF
-sudo ITGSend -a "$1" -rp 9500 -T UDP -C 100 -c 25 -t 60000 -l $sendname -L $logserv -x $recvname -X $logserv
+echo "sudo ITGSend -a "$1" -rp 9500 -T UDP -C 100 -c 25 -t 60000 -l $sendname -L $logserv -x $recvname -X $logserv"
