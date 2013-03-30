@@ -8,6 +8,7 @@
 #DECODE
 for file in $(ls log_*)
 do
-    outputfilename="clean_${file}.txt"
-    sudo ITGDec ${file} -l $outputfilename
+    outputFileName="decoded_${file}.txt"
+    outputOctaveFileName="decoded_octave_${file}.octave"
+    sudo ITGDec ${file} -l $outputFileName -o $outputOctaveFileName
 done
