@@ -1,8 +1,35 @@
 #!/bin/bash
 #
-# this needs 'sshpass', so the script can provide the passwords
+# TEST SUITE SCRIPT
 #
-#first make the log server run
-ssh vbox
-ssh 10.0.0.3
+# NEEDS: sudo apt-get install sshpass -y
+#
+# ssh's automatically into each machine, starting everything
+# <CTRL-D> a lot after the flow is sent completely to get out of all shells
+#
+###########################################################################
+#currently unneeded:
+##ip section
+#cl1="10.0.0.1"
+#cl2="10.0.0.2"
+#log="10.0.0.3"
+#srv1="10.0.0.4"
+#srv2="10.0.0.5"
 
+#log server
+sshpass -p 'mininet' ssh mininet@10.0.0.3
+ITGLog &
+
+#client 1
+sshpass -p 'mininet' ssh mininet@10.0.0.1
+ITGRecv &
+#client 2
+sshpass -p 'mininet' ssh mininet@10.0.0.2
+ITGRecv &
+
+#server 1
+sshpass -p 'mininet' ssh mininet@10.0.0.4
+ktr/ITGscripts/ITGSendUDP 10.0.0.1 1 10.0.0.3 &
+#server 2
+sshpass -p 'mininet' ssh mininet@10.0.0.5
+ktr/ITGscripts/ITGSendUDP 10.0.0.2 1 10.0.0.3 &
