@@ -7,13 +7,15 @@
 # Files have to be in the same directory.
 #
 # Arguments:
-#   -f          [filename to of GraphML input file]
-#   --file      [filename to of GraphML input file]
-#   -o          [filename to of GraphML output file]
-#   --output    [filename to of GraphML output file]
-#   -b          [number as integer for bandwidth in mbit]
-#   --bw        [number as integer for bandwidth in mbit]
-#   --bandwidth [number as integer for bandwidth in mbit]
+#   -f              [filename to of GraphML input file]
+#   --file          [filename to of GraphML input file]
+#   -o              [filename to of GraphML output file]
+#   --output        [filename to of GraphML output file]
+#   -b              [number as integer for bandwidth in mbit]
+#   --bw            [number as integer for bandwidth in mbit]
+#   --bandwidth     [number as integer for bandwidth in mbit]
+#   -c              [controller ip as string]
+#   --controller    [controller ip as string]
 #
 # Without any input, program will terminate.
 # Without specified output, outputfile will have the same name as the input file.
@@ -29,6 +31,7 @@
 #   -   clean up
 #   -   make ip parameter to set adress for remote controller
 #   -   use formatted strings instead of this ugly concatenation
+#   -   use 'argparse' for script parameters, eases help creation
 #
 #################################################################################
 
@@ -43,10 +46,9 @@ from sys import argv
 input_file_name = ''
 output_file_name = ''
 bandwidth_argument = ''
+controller_ip = ''
 
 # first check commandline arguments
-# TODO use 'argparse', the built-in argument parser of python
-# TODO argparse may seem overhead, but it actually eases helpdoc creation
 for i in range(len(argv)):
     if argv[i] == '-f':
         input_file_name = argv[i+1]
@@ -62,6 +64,10 @@ for i in range(len(argv)):
         bandwidth_argument = argv[i+1]
     if argv[i] == '--bandwidth':
         bandwidth_argument = argv[i+1]
+    if argv[i] == '-c':
+        controller_ip = argv[i+1]
+    if argv[i] == '--controller':
+        controller_ip = argv[i+1]
 
 # terminate when inputfile is missing
 if input_file_name == '':
@@ -121,7 +127,11 @@ topos = { 'generated': ( lambda: GeneratedTopo() ) }
 def setupNetwork():
     "Create network and run simple performance test"
     topo = GeneratedTopo()
-    net = Mininet(topo=topo, controller=lambda a: RemoteController( a, ip='10.0.2.2', port=6633 ), host=CPULimitedHost, link=TCLink)
+    # check if remote controller's ip was set
+    # else set it to vbox standard: 10.0.2.2
+    if controller_ip == '':
+        controller_ip = '10.0.2.2';
+    net = Mininet(topo=topo, controller=lambda a: RemoteController( a, ip=controller_ip, port=6633 ), host=CPULimitedHost, link=TCLink)
     return net
 
 
