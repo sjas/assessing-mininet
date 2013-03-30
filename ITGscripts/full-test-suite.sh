@@ -24,11 +24,14 @@ bash -i -l -c 'sshpass -p mininet ssh mininet@10.0.0.1 "sudo ITGRecv 0>/dev/null
 echo 'client 2'
 bash -i -l -c 'sshpass -p mininet ssh mininet@10.0.0.2 "sudo ITGRecv 0>/dev/null" &'
 
+echo 'UDP TESTS'
 echo 'server 1'
 bash -i -l -c 'sshpass -p mininet ssh mininet@10.0.0.4 "sudo ktr/ITGscripts/ITGSendUDP 10.0.0.1 1 10.0.0.3 0>/dev/null" &'
 echo 'server 2'
 bash -i -l -c 'sshpass -p mininet ssh mininet@10.0.0.5 "sudo ktr/ITGscripts/ITGSendUDP 10.0.0.2 2 10.0.0.3 0>/dev/null" &'
+
+echo 'TCP TESTS'
 echo 'server 1'
-bash -i -l -c 'sshpass -p mininet ssh mininet@10.0.0.4 "sudo ktr/ITGscripts/ITGSendTCP 10.0.0.1 1 10.0.0.3 0>/dev/null" &'
+bash -i -l -c 'sshpass -p mininet ssh mininet@10.0.0.4 "sudo ktr/ITGscripts/ITGSendTCP 10.0.0.1 3 10.0.0.3 0>/dev/null" &'
 echo 'server 2'
-bash -i -l -c 'sshpass -p mininet ssh mininet@10.0.0.5 "sudo ktr/ITGscripts/ITGSendTCP 10.0.0.2 2 10.0.0.3 0>/dev/null" &'
+bash -i -l -c 'sshpass -p mininet ssh mininet@10.0.0.5 "sudo ktr/ITGscripts/ITGSendTCP 10.0.0.2 4 10.0.0.3 0>/dev/null" &'
