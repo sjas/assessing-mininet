@@ -8,6 +8,6 @@
 #DECODE
 for file in $(ls log_*)
 do
-    outputfilename="${file}.txt"
+    outputfilename="clean_${file}.txt"
     sudo ITGDec ${file} -l $outputfilename
 done
