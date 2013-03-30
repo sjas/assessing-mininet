@@ -1,10 +1,29 @@
 #!/bin/bash
-#usage: $ ./ITGSendTCP 10.0.0.x
+#usage: $ ./ITGSendTCP <recv ip> <number> <logserv ip>
+#       <ip> is in the 10.0.0.x range
+#       <number> is for enumerating the logs
+#
 #   -a  dest ip
-#   -rp port
+#   -rp rcv port (9500)
+#       -sp src port (9400)
+#
+#   -T  protocol type
+#
 #   -C  packets/sec
 #   -u  min .. max packetsize <variable>
+#   -t  duration in microsec
+#
 #   -l  send_log_file
 #   -L  logserv ip
 #   -x  recv_log_file
-sudo ITGSend -a "$@" -rp 9500
+#   -X  logserv ip
+#
+############################################
+#GENERATE LOGFILENAMES
+sendname="snd_log_${2}"
+recvname="rcv_log_${2}"
+logserv="S{3}"
+#logserv="<insert ip here>"
+#
+#GO TEST SOME STUFF
+sudo ITGSend -a "${1}" -rp 9500 -T TCP -C 100 -u 12 34 -t 60000 -l $sendname -L $logserv -x $recvname -X $logserv
