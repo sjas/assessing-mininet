@@ -1,0 +1,13 @@
+#!/bin/bash
+#usage: $ ./ITGDecALL
+#
+# This script will take all log files (name starting with 'log_')
+# and decode them.
+#
+############################################
+#DECODE
+for file in $(ls log_*)
+do
+    outputfilename="${file}.txt"
+    sudo ITDec -l $outputfilename
+done
