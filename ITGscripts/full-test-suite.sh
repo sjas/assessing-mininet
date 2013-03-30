@@ -17,19 +17,14 @@
 #srv2="10.0.0.5"
 
 #log server
-sshpass -p 'mininet' ssh mininet@10.0.0.3
-sudo ITGLog &
+sshpass -p 'mininet' ssh mininet@10.0.0.3 && sudo ITGLog &
 
 #client 1
-sshpass -p 'mininet' ssh mininet@10.0.0.1
-sudo ITGRecv &
+sshpass -p 'mininet' ssh mininet@10.0.0.1 && sudo ITGRecv &
 #client 2
-sshpass -p 'mininet' ssh mininet@10.0.0.2
-sudo ITGRecv &
+sshpass -p 'mininet' ssh mininet@10.0.0.2 && sudo ITGRecv &
 
 #server 1
-sshpass -p 'mininet' ssh mininet@10.0.0.4
-sudo ktr/ITGscripts/ITGSendUDP 10.0.0.1 1 10.0.0.3 &
+sshpass -p 'mininet' ssh mininet@10.0.0.4 && sudo ktr/ITGscripts/ITGSendUDP 10.0.0.1 1 10.0.0.3 &
 #server 2
-sshpass -p 'mininet' ssh mininet@10.0.0.5
-sudo ktr/ITGscripts/ITGSendUDP 10.0.0.2 1 10.0.0.3 &
+sshpass -p 'mininet' ssh mininet@10.0.0.5 && sudo ktr/ITGscripts/ITGSendUDP 10.0.0.2 1 10.0.0.3 &
