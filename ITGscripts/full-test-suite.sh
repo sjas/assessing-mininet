@@ -18,18 +18,18 @@
 
 #log server
 sshpass -p 'mininet' ssh mininet@10.0.0.3
-ITGLog &
+sudo ITGLog &
 
 #client 1
 sshpass -p 'mininet' ssh mininet@10.0.0.1
-ITGRecv &
+sudo ITGRecv &
 #client 2
 sshpass -p 'mininet' ssh mininet@10.0.0.2
-ITGRecv &
+sudo ITGRecv &
 
 #server 1
 sshpass -p 'mininet' ssh mininet@10.0.0.4
-ktr/ITGscripts/ITGSendUDP 10.0.0.1 1 10.0.0.3 &
+sudo ktr/ITGscripts/ITGSendUDP 10.0.0.1 1 10.0.0.3 &
 #server 2
 sshpass -p 'mininet' ssh mininet@10.0.0.5
-ktr/ITGscripts/ITGSendUDP 10.0.0.2 1 10.0.0.3 &
+sudo ktr/ITGscripts/ITGSendUDP 10.0.0.2 1 10.0.0.3 &
