@@ -2,6 +2,8 @@
 #
 # FOR THIS TO WORK, PLACE PATCH FILES IN ~/D-ITG-PATCH
 #
+# goto home folder
+cd /home/root
 # create working dir
 mkdir D-ITG
 cd D-ITG

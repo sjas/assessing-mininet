@@ -347,4 +347,4 @@ outputfile = open(output_file_name, 'w')
 outputfile.write(outputstring_to_be_exported)
 outputfile.close()
 
-print "Generation SUCCESSFUL!"
+print "Topology generation SUCCESSFUL!"
