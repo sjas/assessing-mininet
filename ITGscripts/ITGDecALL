@@ -18,4 +18,5 @@ do
 done
 mkdir itg-logs
 mv decoded_* itg-logs
-sshpass -p tcpip-admin scp -r itg-logs/ ktr@141.13.92.12:itg-logs/
+sshpass -p tcpip-admin ssh -oStrictHostKeyChecking=no ktr@141.13.92.12 "rm -rf itg-logs && mkdir itg-logs && exit"
+sshpass -p tcpip-admin scp -oStrictHostKeyChecking=no -r itg-logs/* ktr@141.13.92.12:itg-logs/
