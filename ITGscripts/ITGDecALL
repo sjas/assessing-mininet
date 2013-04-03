@@ -9,6 +9,6 @@
 for file in $(ls log_*)
 do
     outputFileName="decoded_${file}.txt"
-    outputOctaveFileName="decoded_octave_${file}.octave"
+    outputOctaveFileName="decoded_octave_${file}.csv"
     sudo ITGDec ${file} -l $outputFileName -o $outputOctaveFileName
 done
