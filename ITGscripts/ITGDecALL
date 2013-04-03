@@ -18,5 +18,5 @@ do
 done
 mkdir itg-logs
 mv decoded_* itg-logs
-sshpass -p tcpip-admin ssh -oStrictHostKeyChecking=no ktr@141.13.92.12 "rm -rf itg-logs && mkdir itg-logs && exit"
-sshpass -p tcpip-admin scp -oStrictHostKeyChecking=no -r itg-logs/* ktr@141.13.92.12:itg-logs/
+sshpass -p tcpip-admin ssh -oStrictHostKeyChecking=no ktr@141.13.92.12 "rm -rf Documents/MATLAB/Mininet/itg-logs && mkdir Documents/MATLAB/Mininet/itg-logs && exit"
+sshpass -p tcpip-admin scp -oStrictHostKeyChecking=no -r itg-logs/* ktr@141.13.92.12:Documents/MATLAB/Mininet/itg-logs/
