@@ -26,4 +26,4 @@ logserv="${3}"
 #logserv="<insert ip here>"
 #
 #GO TEST SOME STUFF
-sudo ITGSend -a "${1}" -rp 9500 -T TCP -C 100 -u 12 34 -t 60000 -l $sendname -L $logserv -x $recvname -X $logserv
+sudo D-ITG/D-ITG-2.8.0-rc1/bin/ITGSend -a "${1}" -rp 9500 -T TCP -C 100 -u 12 34 -t 60000 -l $sendname -L $logserv -x $recvname -X $logserv

@@ -4,11 +4,18 @@
 # This script will take all log files (name starting with 'log_')
 # and decode them.
 #
+# after putting them nicely in a folder here...
+# ... they will also be scp'd to 141.13.92.12.
+#
 ############################################
 #DECODE
+rm -rf itg-logs
 for file in $(ls log_*)
 do
     outputFileName="decoded_${file}.txt"
     outputOctaveFileName="decoded_octave_${file}.dat"
-    sudo ITGDec ${file} -l $outputFileName -o $outputOctaveFileName
+    sudo ~/D-ITG/D-ITG-2.8.0-rc1/bin/ITGDec ${file} -l $outputFileName -o $outputOctaveFileName
 done
+mkdir itg-logs
+mv decoded_* itg-logs
+sshpass -p tcpip-admin scp -r itg-logs/ ktr@141.13.92.12:itg-logs/

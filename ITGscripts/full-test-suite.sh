@@ -17,21 +17,28 @@
 #srv2="10.0.0.5"
 
 echo 'log server'
-bash -i -l -c 'sshpass -p mininet ssh -oStrictHostKeyChecking=no mininet@10.0.0.3 "sudo ITGLog 0>/dev/null" &'
+bash -i -l -c 'sshpass -p mininet \
+ssh -oStrictHostKeyChecking=no mininet@10.0.0.3 "sudo D-ITG/D-ITG-2.8.0-rc1/bin/ITGLog 0>/dev/null" &'
 
 echo 'client 1'
-bash -i -l -c 'sshpass -p mininet ssh -oStrictHostKeyChecking=no mininet@10.0.0.1 "sudo ITGRecv 0>/dev/null" &'
+bash -i -l -c 'sshpass -p mininet \
+ssh -oStrictHostKeyChecking=no mininet@10.0.0.1 "sudo D-ITG/D-ITG-2.8.0-rc1/bin/ITGRecv 0>/dev/null" &'
 echo 'client 2'
-bash -i -l -c 'sshpass -p mininet ssh -oStrictHostKeyChecking=no mininet@10.0.0.2 "sudo ITGRecv 0>/dev/null" &'
+bash -i -l -c 'sshpass -p mininet \
+ssh -oStrictHostKeyChecking=no mininet@10.0.0.2 "sudo D-ITG/D-ITG-2.8.0-rc1/bin/ITGRecv 0>/dev/null" &'
 
 echo 'UDP TESTS'
 echo 'server 1'
-bash -i -l -c 'sshpass -p mininet ssh -oStrictHostKeyChecking=no mininet@10.0.0.4 "sudo ktr/ITGscripts/ITGSendUDP 10.0.0.1 1 10.0.0.3 0>/dev/null" &'
+bash -i -l -c 'sshpass -p mininet \
+ssh -oStrictHostKeyChecking=no mininet@10.0.0.4 "sudo ktr/ITGscripts/ITGSendUDP 10.0.0.1 1 10.0.0.3 0>/dev/null" &'
 echo 'server 2'
-bash -i -l -c 'sshpass -p mininet ssh -oStrictHostKeyChecking=no mininet@10.0.0.5 "sudo ktr/ITGscripts/ITGSendUDP 10.0.0.2 2 10.0.0.3 0>/dev/null" &'
+bash -i -l -c 'sshpass -p mininet \
+ssh -oStrictHostKeyChecking=no mininet@10.0.0.5 "sudo ktr/ITGscripts/ITGSendUDP 10.0.0.2 2 10.0.0.3 0>/dev/null" &'
 
 echo 'TCP TESTS'
 echo 'server 1'
-bash -i -l -c 'sshpass -p mininet ssh -oStrictHostKeyChecking=no mininet@10.0.0.4 "sudo ktr/ITGscripts/ITGSendTCP 10.0.0.1 3 10.0.0.3 0>/dev/null" &'
+bash -i -l -c 'sshpass -p mininet \
+ssh -oStrictHostKeyChecking=no mininet@10.0.0.4 "sudo ktr/ITGscripts/ITGSendTCP 10.0.0.1 3 10.0.0.3 0>/dev/null" &'
 echo 'server 2'
-bash -i -l -c 'sshpass -p mininet ssh -oStrictHostKeyChecking=no mininet@10.0.0.5 "sudo ktr/ITGscripts/ITGSendTCP 10.0.0.2 4 10.0.0.3 0>/dev/null" &'
+bash -i -l -c 'sshpass -p mininet \
+ssh -oStrictHostKeyChecking=no mininet@10.0.0.5 "sudo ktr/ITGscripts/ITGSendTCP 10.0.0.2 4 10.0.0.3 0>/dev/null" &'
