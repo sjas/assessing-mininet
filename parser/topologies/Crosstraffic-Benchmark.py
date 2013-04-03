@@ -64,7 +64,11 @@ topos = { 'benchmark': ( lambda: BenchmarkTopo() ) }
 def setupNetwork():
     "Create network and run simple performance test"
     topo = BenchmarkTopo()
-    net = Mininet(topo=topo, controller=lambda a: RemoteController( a, ip='10.0.2.2', port=6633 ), host=CPULimitedHost, link=TCLink)
+
+    # Controller for KTR network
+    net = Mininet(topo=topo, controller=lambda a: RemoteController( a, ip='141.13.92.98', port=6633 ), host=CPULimitedHost, link=TCLink)
+    # Controller for vbox
+    #net = Mininet(topo=topo, controller=lambda a: RemoteController( a, ip='10.0.2.2', port=6633 ), host=CPULimitedHost, link=TCLink)
     return net
 
 def connectToRootNS( network, switch, ip, prefixLen, routes ):
