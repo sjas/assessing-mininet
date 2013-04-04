@@ -1,0 +1,34 @@
+#!/bin/bash
+#
+#usage: $ ./ITGSendUDP <recv ip> <logserv ip> <id> <bitrate> <duration>
+#       <ip> is in the 10.0.0.x range
+#       <duration> 1000 is 1 sec
+#
+#   -a  dest ip
+#   -rp rcv port (9500)
+#       -sp src port (9400)
+#
+#   -T  protocol type
+#
+#   -C  packets/sec
+#   -c  packtsize <constant>
+#   -u  min .. max packetsize <variable>
+#   -t  duration in microsec
+#
+#   -l  send_log_file
+#   -L  logserv ip
+#   -x  recv_log_file
+#   -X  logserv ip
+#
+############################################
+#GENERATE LOGFILENAMES
+destserv="${1}"
+logserv="${2}"
+sendname="log_snd_udp_${3}-${4}vbr"
+recvname="log_rcv_udp_${3}-${4}vbr"
+bitrate1="${3}"
+bitrate2="${4}"
+duration="${5}"
+#
+#GO TEST SOME STUFF
+sudo D-ITG/D-ITG-2.8.0-rc1/bin/ITGSend -a $destserv -rp 9500 -T UDP -C 100 -u $bitrate1 $bitrate2 -t $duration -l $sendname -L $logserv -x $recvname -X $logserv
