@@ -17,7 +17,7 @@
 #srv2="10.0.0.5"
 
 
-# first clean up else have too many logs later
+# first clean up all old binary logs
 rm -rf log_*
 
 echo '***** log server'
@@ -36,17 +36,45 @@ echo '***** server 1'
 #bash -i -l -c 'sshpass -p mininet ssh -oStrictHostKeyChecking=no mininet@10.0.0.4 "sudo ~/ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.1 10.0.0.3 150 20000 0>/dev/null" &'
 bash -i -l -c 'sshpass -p mininet \
 ssh -oStrictHostKeyChecking=no mininet@10.0.0.5 "\
-sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.2 10.0.0.3     10 10000 0>/dev/null && \
-sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.2 10.0.0.3    100 10000 0>/dev/null && \
-sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.2 10.0.0.3   1000 10000 0>/dev/null && \
-sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.2 10.0.0.3  10000 10000 0>/dev/null && \
-sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.2 10.0.0.3 100000 10000 0>/dev/null && \
-sudo ktr/ITGscripts/ITGSendTCP_cbr 10.0.0.2 10.0.0.3     10 10000 0>/dev/null && \
-sudo ktr/ITGscripts/ITGSendTCP_cbr 10.0.0.2 10.0.0.3    100 10000 0>/dev/null && \
-sudo ktr/ITGscripts/ITGSendTCP_cbr 10.0.0.2 10.0.0.3   1000 10000 0>/dev/null && \
-sudo ktr/ITGscripts/ITGSendTCP_cbr 10.0.0.2 10.0.0.3  10000 10000 0>/dev/null && \
-sudo ktr/ITGscripts/ITGSendTCP_cbr 10.0.0.2 10.0.0.3 100000 10000 0>/dev/null \
-" &'
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.2 10.0.0.3   11500 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.2 10.0.0.3   11600 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.2 10.0.0.3   11700 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.2 10.0.0.3   11800 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.2 10.0.0.3   11900 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.2 10.0.0.3   12000 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.2 10.0.0.3   12100 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.2 10.0.0.3   12200 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.2 10.0.0.3   12300 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.2 10.0.0.3   12400 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.2 10.0.0.3   12500 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.2 10.0.0.3   12600 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.2 10.0.0.3   12700 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.2 10.0.0.3   12800 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.2 10.0.0.3   12900 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.2 10.0.0.3   13000 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.2 10.0.0.3   13100 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.2 10.0.0.3   13200 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.2 10.0.0.3   13300 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.2 10.0.0.3   13400 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.2 10.0.0.3   13500 30000 0>/dev/null && \
+\
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendTCP_cbr 10.0.0.2 10.0.0.3    8000 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendTCP_cbr 10.0.0.2 10.0.0.3    8500 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendTCP_cbr 10.0.0.2 10.0.0.3    9000 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendTCP_cbr 10.0.0.2 10.0.0.3    9500 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendTCP_cbr 10.0.0.2 10.0.0.3   10000 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendTCP_cbr 10.0.0.2 10.0.0.3   10500 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendTCP_cbr 10.0.0.2 10.0.0.3   11000 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendTCP_cbr 10.0.0.2 10.0.0.3   11500 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendTCP_cbr 10.0.0.2 10.0.0.3   12000 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendTCP_cbr 10.0.0.2 10.0.0.3   12500 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendTCP_cbr 10.0.0.2 10.0.0.3   13000 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendTCP_cbr 10.0.0.2 10.0.0.3   13500 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendTCP_cbr 10.0.0.2 10.0.0.3   14000 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendTCP_cbr 10.0.0.2 10.0.0.3   14500 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendTCP_cbr 10.0.0.2 10.0.0.3   15000 30000 0>/dev/null && \
+echo '\n' && date && sudo ktr/ITGscripts/ITGSendTCP_cbr 10.0.0.2 10.0.0.3   15500 30000 0>/dev/null && \
+date && echo ***** ... FINISHED"&'
 
 #echo '***** server 2'
 #bash -i -l -c 'sshpass -p mininet 

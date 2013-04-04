@@ -20,8 +20,6 @@ done
 mkdir itg-logs
 mv decoded_* itg-logs
 
-touch itg-logs/complete.dat
-
 #for file in $(ls /home/mininet/itg-logs/decoded_*.txt | tac)
 #do
     #echo "${file}"
