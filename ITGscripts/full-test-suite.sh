@@ -15,12 +15,10 @@
 #log="10.0.0.3"
 #srv1="10.0.0.4"
 #srv2="10.0.0.5"
-rate1="25"
-rate2="50"
-rate3="75"
-rate4="100"
-rate5="125"
-rate6="150"
+
+
+# first clean up else have too many logs later
+rm -rf log_*
 
 echo '***** log server'
 bash -i -l -c 'sshpass -p mininet \
@@ -35,7 +33,21 @@ ssh -oStrictHostKeyChecking=no mininet@10.0.0.2 "sudo D-ITG/D-ITG-2.8.0-rc1/bin/
 
 echo 'UDP TESTS'
 echo '***** server 1'
-bash -i -l -c 'sshpass -p mininet ssh -oStrictHostKeyChecking=no mininet@10.0.0.4 "sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.1 10.0.0.3 $rate6 20000 0>/dev/null" &'
+#bash -i -l -c 'sshpass -p mininet ssh -oStrictHostKeyChecking=no mininet@10.0.0.4 "sudo ~/ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.1 10.0.0.3 150 20000 0>/dev/null" &'
+bash -i -l -c 'sshpass -p mininet \
+ssh -oStrictHostKeyChecking=no mininet@10.0.0.5 "\
+sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.2 10.0.0.3     10 10000 0>/dev/null && \
+sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.2 10.0.0.3    100 10000 0>/dev/null && \
+sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.2 10.0.0.3   1000 10000 0>/dev/null && \
+sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.2 10.0.0.3  10000 10000 0>/dev/null && \
+sudo ktr/ITGscripts/ITGSendUDP_cbr 10.0.0.2 10.0.0.3 100000 10000 0>/dev/null && \
+sudo ktr/ITGscripts/ITGSendTCP_cbr 10.0.0.2 10.0.0.3     10 10000 0>/dev/null && \
+sudo ktr/ITGscripts/ITGSendTCP_cbr 10.0.0.2 10.0.0.3    100 10000 0>/dev/null && \
+sudo ktr/ITGscripts/ITGSendTCP_cbr 10.0.0.2 10.0.0.3   1000 10000 0>/dev/null && \
+sudo ktr/ITGscripts/ITGSendTCP_cbr 10.0.0.2 10.0.0.3  10000 10000 0>/dev/null && \
+sudo ktr/ITGscripts/ITGSendTCP_cbr 10.0.0.2 10.0.0.3 100000 10000 0>/dev/null \
+" &'
+
 #echo '***** server 2'
 #bash -i -l -c 'sshpass -p mininet 
 #ssh -oStrictHostKeyChecking=no mininet@10.0.0.5 "

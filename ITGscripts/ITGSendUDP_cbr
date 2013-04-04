@@ -24,8 +24,8 @@
 #GENERATE LOGFILENAMES
 destserv="${1}"
 logserv="${2}"
-sendname="log_snd_udp_${3}cbr"
-recvname="log_rcv_udp_${3}cbr"
+sendname="log_udp_snd_${3}cbr"
+recvname="log_udp_rcv_${3}cbr"
 bitrate="${3}"
 duration="${4}"
 #

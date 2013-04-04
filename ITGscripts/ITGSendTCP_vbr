@@ -24,8 +24,8 @@
 #GENERATE LOGFILENAMES
 destserv="${1}"
 logserv="${2}"
-sendname="log_snd_tcp_${3}-${4}vbr"
-recvname="log_rcv_tcp_${3}-${4}vbr"
+sendname="log_tcp_snd_${3}-${4}vbr"
+recvname="log_tcp_rcv_${3}-${4}vbr"
 bitrate1="${3}"
 bitrate2="${4}"
 duration="${5}"
