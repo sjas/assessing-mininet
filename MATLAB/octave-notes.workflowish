@@ -1,0 +1,94 @@
+THIS FILE IS INTENDED TO HOLD VALUABLE INFORMATION WHILE LEARNING OCTAVE
+========================================================================
+
+\\ GENERAL
+* #shebang: (to run scripts from shell and not from within octave console)
+  #!/usr/bin/octave -qf
+* use 'pwd', 'ls', 'cd' in octave shell, to go to directories with scripts
+* or use 'addpath('<path to add>')' 
+* stick to MATLAB syntax and be happy
+
+\\ MATLAB/OCTAVE use
+* show set of currently bound variables:
+  $ who
+* show type information
+  $ whos <varname>
+* clear bound variable:
+  $ clear <varname>
+* ';' as delimiter needed in scripts, but not on REPL
+* #console-print:
+  $ fprintf('hello world\n')
+* data types
+  * chars
+  * numbers (integer, real...)
+  * booleans
+  * ACESSING COMPLEX DATA TYPES
+    * ROWS                             x   COLUMNS
+    * #row-number                      x   #column-number
+      * count of rows                  x  count of columns
+      * count of elements in a column  x  count of elements in a row
+  * complex types
+    * #vectors
+      * column-wise: use semicolon as delimiter
+        * $ a = [ 3 ; 4 ; 5 ]
+        *         [ 3 ]
+          a  -->  [ 4 ]
+                  [ 5 ]
+        * size: 3x1
+      * row-wise: use comma as separator
+        * $ b = [ 6 , 7 , 8 , 9 ]
+        * b  -->   [ 6 7 8 9 ]
+        * size: 1x4
+      * transpose: $ a'  -->  [ 3 4 5 ]
+    * #matrices
+      * defined row after row
+        * c = [1 2 3 4; 5 6 7 8; 9 10 11 12]
+        *         [ 1  2  3  4 ]
+          c  -->  [ 5  6  7  8 ]
+                  [ 9 10 11 12 ]
+        * to list: $ c(:)
+        * $ size(c)  -->  3x4
+          * $ size(c,1)  -->  3
+          * $ size(c,2)  -->  4
+    * #strings are char-arrays
+      * $ s = 'Hammerzeit'
+        * s(i) to access an index
+      * $ s(7)  -->  'z'
+    * #cell-arrays are multidimensional arrays
+      * can be filled with with data of different types
+      * accessed like arrays:
+      * $ array(4,5)
+    * #struct's
+      * are kind of like an object without methods
+        * $ person = struct ( 'name', 'Egon', 'nachname', 'Struck' )
+      * struct members are accessed the same:
+        * $ person.name  -->  'Egon'
+          * $ person.name = 'Hector'
+          * $ person.name  -->  'Hector'
+        * $ person(1)  --> returns the first struct
+          * $ person(2) references another struct!
+* #operators
+  * < > <= >= == 
+    * 'not equal': ~=
+  * && || 
+    * xor(a,b)
+  * 'not': ~
+* #control_structures
+  * usually sequential
+  * conditional branches:
+    * if a<b 
+          x 
+      else 
+          y 
+      end
+  * loops:
+    * for i = 1:number
+      * also row-vectors can be passed, it's arguments will be processed each time the loop is performed:
+        for j = [ 5, 6, 7]
+        ... will be run three times
+* #functions
+  * function [ return_value_1, return_value_2 ] = function_name( parameter )
+      ... code ...
+    end
+* #plotting
+  * use plotting functions available as any other function
