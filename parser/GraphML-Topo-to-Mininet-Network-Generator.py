@@ -50,6 +50,7 @@ controller_ip = ''
 
 # first check commandline arguments
 for i in range(len(argv)):
+
     if argv[i] == '-f':
         input_file_name = argv[i+1]
     if argv[i] == '--file':
@@ -181,84 +182,97 @@ if __name__ == '__main__':
     sshd( setupNetwork() )
 '''
 
-# WHERE TO PUT RESULTS
+#WHERE TO PUT RESULTS
 outputstring_to_be_exported = ''
 outputstring_to_be_exported += outputstring_1
 
-# READ FILE AND DO THE ACTUAL PARSING
-tree = ET.parse(input_file_name)
-namespace = "{http://graphml.graphdrawing.org/xmlns}"
-ns = namespace # just doing shortcutting, namespaces are needed often.
+#READ FILE AND DO ALL THE ACTUAL PARSING IN THE NEXT PARTS
+xml_tree    = ET.parse(input_file_name)
+namespace   = "{http://graphml.graphdrawing.org/xmlns}"
+ns          = namespace # just doing shortcutting, namespace is needed often.
 
-root = tree.getroot()
-graph = root.find(ns + 'graph')
+#GET ALL ELEMENTS THAT ARE PARENTS OF ELEMENTS NEEDED LATER ON
+root_element    = xml_tree.getroot()
+graph_element   = root_element.find(ns + 'graph')
 
-#GET ALL ENTRIES
-nodes = graph.findall(ns + 'node')
-edges = graph.findall(ns + 'edge')
+# GET ALL ELEMENT SETS NEEDED LATER ON
+index_values_set    = root_element.findall(ns + 'key')
+node_set            = graph_element.findall(ns + 'node')
+edge_set            = graph_element.findall(ns + 'edge')
 
-# NOW GENERATE THE ID'S
-node_root_attrib = ''
-node_name = ''
-longitude = ''
-latitude = ''
-id_node_dict = {} # to hold all 'id: name' pairs
-id_longitude_dict = {}
-id_latitude_dict = {}
+# SET SOME VARIABLES TO SAVE FOUND DATA FIRST
+# memomorize the values' ids to search for in current topology
+node_label_name_in_graphml = ''
+node_latitude_name_in_graphml = ''
+node_longitude_name_in_graphml = ''
+# for saving the current values
+node_index_value     = ''
+node_name_value      = ''
+node_longitude_value = ''
+node_latitude_value  = ''
+# id:value dictionaries
+id_node_name_dict   = {}     # to hold all 'id: node_name_value' pairs
+id_longitude_dict   = {}     # to hold all 'id: node_longitude_value' pairs
+id_latitude_dict    = {}     # to hold all 'id: node_latitude_value' pairs
 
+# FIND OUT WHAT KEYS ARE TO BE USED, SINCE THIS DIFFERS IN DIFFERENT GRAPHML TOPOLOGIES
+for i in index_values_set:
 
-#GET ID DATA
-#GET LONGITUDE DATK
-#GET LATITUDE DATA
-# FIXME here you have to set the correct 'dxy' settings.
-# THESE MAY DIFFER IN THE DIFFERENT TOPOLOGY ZOO FILES!!!
+    if i.attrib['attr.name'] == 'label' and i.attrib['for'] == 'node':
+        node_label_name_in_graphml = i.attrib['id']
+    if i.attrib['attr.name'] == 'Longitude':
+        node_longitude_name_in_graphml = i.attrib['id']
+    if i.attrib['attr.name'] == 'Latitude':
+        node_latitude_name_in_graphml = i.attrib['id']
 
-for n in nodes:
-    node_root_attrib = n.attrib['id']
-    data = n.findall(ns + 'data')
+# NOW PARSE ELEMENT SETS TO GET THE DATA FOR THE TOPO
+# GET NODE_NAME DATA
+# GET LONGITUDE DATK
+# GET LATITUDE DATA
+for n in node_set:
 
-    for d in data:
+    node_index_value = n.attrib['id']
+
+    #get all data elements residing under all node elements
+    data_set = n.findall(ns + 'data')
+
+    #finally get all needed values
+    for d in data_set:
+
         #node name
-    ## ABILENE network
-        if d.attrib['key'] == 'd33':
-            #next line strips all whitespace from names
-            node_name = re.sub(r'\s+', '', d.text)
+        if d.attrib['key'] == node_label_name_in_graphml:
+            #strip all whitespace from names so they can be used as id's
+            node_name_value = re.sub(r'\s+', '', d.text)
         #longitude data
-        if d.attrib['key'] == 'd32':
-            longitude = d.text
+        if d.attrib['key'] == node_longitude_name_in_graphml:
+            node_longitude_value = d.text
         #latitude data
-        if d.attrib['key'] == 'd29':
-            latitude = d.text
-    ##DFN network
-        #if d.attrib['key'] == 'd34':
-            ##next line strips all whitespace from names
-            #node_name = re.sub(r'\s+', '', d.text)
-        #if d.attrib['key'] == 'd33':
-            #longitude = d.text
-        ##DFN network
-        #if d.attrib['key'] == 'd30':
-            #latitude = d.text
-        #save data couple
-        id_node_dict[node_root_attrib] = node_name
-        id_longitude_dict[node_root_attrib] = longitude
-        id_latitude_dict[node_root_attrib] = latitude
+        if d.attrib['key'] == node_latitude_name_in_graphml:
+            node_latitude_value = d.text
+
+        #save id:data couple
+        id_node_name_dict[node_index_value] = node_name_value
+        id_longitude_dict[node_index_value] = node_longitude_value
+        id_latitude_dict[node_index_value]  = node_latitude_value
 
 
+# STRING CREATION
 # FIRST CREATE THE SWITCHES AND HOSTS
-
 tempstring1 = ''
 tempstring2 = ''
 
-for i in range(0, len(id_node_dict)):
+for i in range(0, len(id_node_name_dict)):
+
     #create switch
     temp1 =  '        '
-    temp1 += id_node_dict[str(i)]
+    temp1 += id_node_name_dict[str(i)]
     temp1 += " = self.addSwitch( 's"
     temp1 += str(i)
     temp1 += "' )\n"
+
     #create corresponding host
     temp2 =  '        '
-    temp2 += id_node_dict[str(i)]
+    temp2 += id_node_name_dict[str(i)]
     temp2 += "_host = self.addHost( 'h"
     temp2 += str(i)
     temp2 += "' )\n"
@@ -281,24 +295,33 @@ tempstring4 = ''
 distance = 0.0
 latency = 0.0
 
-for e in edges:
+for e in edge_set:
+
     # GET IDS FOR EASIER HANDLING
     src_id = e.attrib['source']
     dst_id = e.attrib['target']
+
     # CALCULATE
 
-        #formula: (for distance)
-        #dist(SP,EP) = arccos{ sin(La[EP]) * sin(La[SP]) + cos(La[EP]) * cos(La[SP]) * cos(Lo[EP] - Lo[SP])} * r
-        #r = 6378.137 km
-        #formula: (speed of light)
-        # v = 2.3 * 10**8 m/s
-        #formula: (latency being calculated from distance and light speed)
-        #t = distance / speed of light
-        #t (in ms) = ( distance in km * 1000 (for meters) ) / ( speed of light / 1000 (for ms))
+    #    CALCULATION EXPLANATION
+    #
+    #    formula: (for distance)
+    #    dist(SP,EP) = arccos{ sin(La[EP]) * sin(La[SP]) + cos(La[EP]) * cos(La[SP]) * cos(Lo[EP] - Lo[SP])} * r
+    #    r = 6378.137 km
+    #
+    #    formula: (speed of light)
+    #     v = 2.3 * 10**8 m/s
+    #
+    #    formula: (latency being calculated from distance and light speed)
+    #    t = distance / speed of light
+    #    t (in ms) = ( distance in km * 1000 (for meters) ) / ( speed of light / 1000 (for ms))
 
+    #    ACTUAL CALCULATION
+    #    this was no fun
     firstproduct = math.sin(float(id_latitude_dict[dst_id])) * math.sin(float(id_latitude_dict[src_id]))
     secondproductfirstpart = math.cos(float(id_latitude_dict[dst_id])) * math.cos(float(id_latitude_dict[src_id]))
     secondproductsecondpart = math.cos((float(id_longitude_dict[dst_id])) - (float(id_longitude_dict[src_id])))
+
     distance = math.radians(math.acos(firstproduct + (secondproductfirstpart * secondproductsecondpart))) * 6378.137
 
     #t (in ms) = ( distance in km * 1000 (for meters) ) / ( speed of light / 1000 (for ms))
@@ -311,16 +334,16 @@ for e in edges:
 
     # link each switch and its host...
     temp3 =  '        self.addLink( '
-    temp3 += id_node_dict[src_id]
+    temp3 += id_node_name_dict[src_id]
     temp3 += ' , '
-    temp3 += id_node_dict[src_id]
+    temp3 += id_node_name_dict[src_id]
     temp3 += "_host )"
     temp3 += '\n'
     # ... and link all corresponding switches with each other
     temp4 =  '        self.addLink( '
-    temp4 += id_node_dict[src_id]
+    temp4 += id_node_name_dict[src_id]
     temp4 += ' , '
-    temp4 += id_node_dict[dst_id]
+    temp4 += id_node_name_dict[dst_id]
     temp4 += ", bw="
     temp4 += bandwidth_argument
     temp4 += ", delay='"
