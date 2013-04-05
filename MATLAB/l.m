@@ -1,9 +1,12 @@
 %%% put this in a new script, in a function it WILL NOT WORK!
 %%% and fix your paths, ofc. i left mine in here on purpose.
 
+%%% to use it in a function, '-ascii' flag might be needed for load()
+
 
 %%% settings
-folderName='/home/ktr/Documents/MATLAB/Mininet/itg-logs/';
+%folderName='/home/ktr/Documents/MATLAB/Mininet/itg-logs/';
+folderName='/cygdrive/c/Users/sjas/work/ktr/MATLAB/itg-logs/';
 extension='*.dat';
 
 
