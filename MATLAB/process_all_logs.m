@@ -1,4 +1,4 @@
-%%% this should do some nice batch processing
+%%% this does some nice batch processing
 %%% and make pictures out of it, while at it.
 
 %%% SETTINGS: where are which files
@@ -32,15 +32,26 @@ for i = 1:length(file_set)
     %%% TODO check if this can be done easier with 'file_in_loadpath(<file>)'
     current_file = loadwrapper(strcat(folder_name, current_file_name_with_ext)); 
     parsed_data = processdata(current_file);
+    clear parsed_data;
 
+    % save image
     saveas(1, current_picture_file_name);
 
 end
 
-% CLEAN UP
+% TIDY UP
 %clear string_splits;
 %clear current_file_name_bare;
-clear parsed_data;
-clear current_file_name_with_ext;
-clear current_picture_file_name;
+clear folder_name;
+clear extension_loadfile;
+clear prefix_imgfile;
+clear extension_imgfile;
+clear wildcard_string;
 clear file_set;
+clear current_file_name_with_ext;
+clear temp_picture_file_name;
+clear current_picture_file_name;
+clear current_file;
+%clear parsed_data;
+% close gfx window
+close all
