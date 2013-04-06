@@ -1,9 +1,7 @@
 #!/bin/bash
 #
-# FOR THIS TO WORK, PLACE PATCH FILES IN ~/D-ITG-PATCH
-#
 # goto home folder
-cd /home/mininet
+#cd /home/mininet
 # create working dir
 mkdir D-ITG
 cd D-ITG
@@ -15,6 +13,7 @@ tar xf D-ITG-2.8.0-rc1.tgz
 cd D-ITG-2.8.0-rc1
 # next lines won't work since patch cannot be aplied anymore!
 # patch was for another revision of the version control and is out of sync now.
+# FOR THIS TO WORK, PLACE PATCH FILES IN ~/D-ITG-PATCH
 #cp ~/D-ITG-PATCH/* .
 #patch -p1 --dry-run < ITGDec.patch
 #cd src
