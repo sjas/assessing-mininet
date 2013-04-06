@@ -5,10 +5,11 @@ THIS FILE IS INTENDED TO HOLD VALUABLE INFORMATION WHILE LEARNING OCTAVE
 * #shebang: (to run scripts from shell and not from within octave console)
   #!/usr/bin/octave -qf
 * use 'pwd', 'ls', 'cd' in octave shell, to go to directories with scripts
-* or use 'addpath('<path to add>')' 
+* or use 'addpath('<path to add>')'
 * stick to MATLAB syntax and be happy
 
 \\ MATLAB/OCTAVE use
+\\ general use
 * show set of currently bound variables:
   $ who
 * show type information
@@ -16,6 +17,7 @@ THIS FILE IS INTENDED TO HOLD VALUABLE INFORMATION WHILE LEARNING OCTAVE
 * clear bound variable:
   $ clear <varname>
 * ';' as delimiter needed in scripts, but not on REPL
+\\ real language stuff now following
 * #console-print:
   $ fprintf('hello world\n')
 * data types
@@ -68,18 +70,18 @@ THIS FILE IS INTENDED TO HOLD VALUABLE INFORMATION WHILE LEARNING OCTAVE
         * $ person(1)  --> returns the first struct
           * $ person(2) references another struct!
 * #operators
-  * < > <= >= == 
+  * < > <= >= ==
     * 'not equal': ~=
-  * && || 
+  * && ||
     * xor(a,b)
   * 'not': ~
 * #control_structures
   * usually sequential
   * conditional branches:
-    * if a<b 
-          x 
-      else 
-          y 
+    * if a<b
+          x
+      else
+          y
       end
   * loops:
     * for i = 1:number
@@ -92,3 +94,5 @@ THIS FILE IS INTENDED TO HOLD VALUABLE INFORMATION WHILE LEARNING OCTAVE
     end
 * #plotting
   * use plotting functions available as any other function
+    * for better instructions see example files...
+    * maybe some day i will write some stuff here down
