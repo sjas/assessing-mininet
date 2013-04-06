@@ -20,7 +20,7 @@ file_set        = dir(wildcard_string);
 % loop from 1 through to the amount of rows
 for i = 1:length(file_set)
     current_file_name_with_ext = file_set(i).name;
-    % create filename for picture
+    % create filename for picture by replacing the extension
     temp_picture_file_name    = strrep(current_file_name_with_ext, extension_loadfile, extension_imgfile);
     current_picture_file_name = strcat(prefix_imgfile, temp_picture_file_name);
 
