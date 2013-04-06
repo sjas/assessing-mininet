@@ -1,4 +1,4 @@
-function [ x ] = v( test )
+function [ x ] = visualize( test )
 %UNTITLED Summary of this function goes here
 %   Detailed explanation goes here
 
