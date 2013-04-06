@@ -14,12 +14,28 @@ for file in $(ls log_*)
 do
     outputFileName="decoded_txt_${file}.txt"
     outputOctaveFileName="decoded_dat_${file}.dat"
+
+    #OLD SETUP, JUST THE BASE FILE
     sudo ~/D-ITG/D-ITG-2.8.0-rc1/bin/ITGDec ${file} -l $outputFileName -o $outputOctaveFileName
+
+    #NEW TEST, CREATES {DELAY, BITRATE, JITTER, PACKET-LOSS}.DAT
+        #AT LEAST I HOPE SO...
+        #CURRENTLY OUT OF ORDER 
+            #SINCE I DON'T WANT TO HAVE TO SET UP OCTAVE ON KTR LAB COMPUTER
+            #GETTING IT TO RUN ON CYGWIN WAS MORE FUN THAN MOST CAN EVEN IMAGINE
+    #sudo ~/D-ITG/D-ITG-2.8.0-rc1/bin/ITGDec ${file} -l $outputFileName -o $outputOctaveFileName \
+            #-d <insertTimeWindowHere>
+            #-b <insertTimeWindowHere>
+            #-j <insertTimeWindowHere>
+            #-p <insertTimeWindowHere>
 done
 
 mkdir itg-logs
 mv decoded_* itg-logs
 
+##THIS CONCATS ALL LOG FILES INTO ONE, 'TAC' JUST REVERSES THEIR ORDER
+    ##USELESS SINCE MATLAB CAN ONLY SHOW LAST FILE,
+    ##SINCE ALL COLUMNS NEED TO BE REINDEXED.
 #for file in $(ls /home/mininet/itg-logs/decoded_*.txt | tac)
 #do
     #echo "${file}"
