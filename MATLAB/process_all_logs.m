@@ -18,29 +18,29 @@ file_set        = dir(wildcard_string);
 % ACTUAL PROCESSING
 % loop from 1 through to the amount of rows
 for i = 1:length(file_set)
-
-    % create filename for picture
     current_file_name_with_ext = file_set(i).name;
-    temp                       = strsplit(current_file_with_ext, '.');
-    current_file_name_bare     = temp(1,1);
-    picture_file_name = strcat(current_file_name_bare, extension_imgfile);
-    clear temp;
+    % create filename for picture
+    temp_picture_file_name     = strcat(prefix_imgfile, current_file_name_with_ext)
+    current_picture_file_name  = strcat(temp_picture_file_name, extension_imgfile);
+
+    %string_splits              = strsplit(current_file_name_with_ext, '.');
+    %current_file_name_bare     = string_splits(1, 1);
+    %current_picture_file_name  = strcat(current_file_name_bare, extension_imgfile);
 
     % load file with absolute path, 
     % since the file_set provides just the bare filename
     %%% TODO check if this can be done easier with 'file_in_loadpath(<file>)'
-    current_file = loadwrapper(strcat(folder_name, current_file_with_ext)); 
-    %figure(i);
-    %TODO
-    unused_atm        = processdata(current_file);
+    current_file = loadwrapper(strcat(folder_name, current_file_name_with_ext)); 
+    parsed_data = processdata(current_file);
 
-    saveas(1, picture_file_name);
+    saveas(1, current_picture_file_name);
 
-    clear unused_atm;
-    clear current_file_name_bare;
-    clear current_file_with_ext;
-    clear picture_file_name;
 end
 
 % CLEAN UP
+%clear string_splits;
+%clear current_file_name_bare;
+clear parsed_data;
+clear current_file_name_with_ext;
+clear current_picture_file_name;
 clear file_set;
