@@ -1,4 +1,4 @@
-function [ x ] = processdata( mx, matrix_name )
+function [ x ] = process_data( mx, matrix_name )
 
     t_start   = mx(1,5)  * 3600 + mx(1,6) * 60 + mx(1,7);
     t_conv    = (mx(:,5) * 3600 + mx(:,6) * 60 + mx(:,7)) - t_start;
