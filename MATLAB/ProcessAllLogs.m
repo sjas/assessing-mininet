@@ -18,21 +18,27 @@ file_set        = dir(wildcard_string);
 % ACTUAL PROCESSING
 % loop from 1 through to the amount of rows
 for i = 1:length(file_set)
+
     current_file_name_with_ext = file_set(i).name;
-    % create filename for picture by replacing the extension
+
+    % extract sanitized filename for picture by replacing the extension
     bare_file_name            = strrep(current_file_name_with_ext, extension_loadfile, '');
     temp_picture_file_name    = strcat(bare_file_name, extension_imgfile);
     current_picture_file_name = strcat(prefix_imgfile, temp_picture_file_name);
 
+    % collect images filenames for later on
+    file_names_images(i) = current_picture_file_name;
+
+    files_to_be_processed(i)= load_wrapper(strcat(folder_name, current_file_name_with_ext)); 
+
     % load file with absolute path, 
     % since the file_set provides just the bare filename
     %%% TODO check if this can be done easier with 'file_in_loadpath(<file>)'
-    current_file = load_wrapper(strcat(folder_name, current_file_name_with_ext)); 
-    parsed_data = process_data(current_file, bare_file_name);
+    parsed_data = process_data(files_to_be_processed(i), bare_file_name);
 
     %%% PRODUCE DATA STRUCTURES TO BE USED FOR THE GRAPH
     %SAVE CORRESPONDING BITRATE VALUE, THE X VALUE FOR CORRESPONDENCE
-    bitrate_of_test(i) = str2num(substr(current_file_name_with_ext, 25, 5));
+    %bitrate_of_test(i) = str2num(substr(current_file_name_with_ext, 25, 5));
 
 
     %SAVE CALCULATIONS HERE FOR OVERVIEW GRAPH AT THE END
@@ -69,7 +75,9 @@ for i = 1:length(file_set)
 
 end
 
+%FIXME
 whos parsed_data;
+bitrate_of_test=10000:100:10900;
 
 % CREATE THE ERRORBARS FOR BETTER OVERVIEW ALTOGETHER
 % FIRST CREATE START AND END VALUES FOR GRAPHS

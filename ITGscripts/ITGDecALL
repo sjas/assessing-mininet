@@ -9,29 +9,29 @@
 #
 ############################################
 #DECODE
-sudo rm -rf /home/mininet/itg-logs/
 for file in $(ls log_*)
 do
     outputFileName="decoded_txt_${file}.txt"
     outputOctaveFileName="decoded_dat_${file}.dat"
 
     #OLD SETUP, JUST THE BASE FILE
-    sudo ~/D-ITG/D-ITG-2.8.0-rc1/bin/ITGDec ${file} -l $outputFileName -o $outputOctaveFileName
+    ~/D-ITG/D-ITG-2.8.0-rc1/bin/ITGDec ${file} -l $outputFileName -o $outputOctaveFileName
 
     #NEW TEST, CREATES {DELAY, BITRATE, JITTER, PACKET-LOSS}.DAT
         #AT LEAST I HOPE SO...
         #CURRENTLY OUT OF ORDER 
             #SINCE I DON'T WANT TO HAVE TO SET UP OCTAVE ON KTR LAB COMPUTER
             #GETTING IT TO RUN ON CYGWIN WAS MORE FUN THAN MOST CAN EVEN IMAGINE
-    #sudo ~/D-ITG/D-ITG-2.8.0-rc1/bin/ITGDec ${file} -l $outputFileName -o $outputOctaveFileName \
+    #~/D-ITG/D-ITG-2.8.0-rc1/bin/ITGDec ${file} -l $outputFileName -o $outputOctaveFileName \
             #-d <insertTimeWindowHere>
             #-b <insertTimeWindowHere>
             #-j <insertTimeWindowHere>
             #-p <insertTimeWindowHere>
 done
 
-mkdir itg-logs
-mv decoded_* itg-logs
+rm -rf /home/mininet/itg-logs/
+mkdir /home/mininet/itg-logs
+mv /home/Mininet/decoded_* /home/mininet/itg-logs
 
 ##THIS CONCATS ALL LOG FILES INTO ONE, 'TAC' JUST REVERSES THEIR ORDER
     ##USELESS SINCE MATLAB CAN ONLY SHOW LAST FILE,
@@ -47,5 +47,11 @@ mv decoded_* itg-logs
     #cat "${file}" >> /home/mininet/itg-logs/complete.dat
 #done
 
-sshpass -p tcpip-admin ssh -oStrictHostKeyChecking=no ktr@141.13.92.12 "rm -rf Documents/MATLAB/Mininet/itg-logs && mkdir Documents/MATLAB/Mininet/itg-logs && exit"
-sshpass -p tcpip-admin scp -oStrictHostKeyChecking=no -r itg-logs/* ktr@141.13.92.12:Documents/MATLAB/Mininet/itg-logs/
+# setting for pushing testfiles to while @ktr lab
+#sshpass -p tcpip-admin ssh -oStrictHostKeyChecking=no ktr@141.13.92.12 "rm -rf Documents/MATLAB/Mininet/itg-logs && mkdir Documents/MATLAB/Mininet/itg-logs && exit"
+#sshpass -p tcpip-admin scp -oStrictHostKeyChecking=no -r itg-logs/* ktr@141.13.92.12:Documents/MATLAB/Mininet/itg-logs/
+# location to push to when testing locally with mininet
+
+#TODO fix this here...
+rm -rf /home/mininet/ktr/itg-logs
+cp -R /home/mininet/itg-logs /home/mininet/ktr
