@@ -4,8 +4,6 @@ function [ loaded_data ] = loadwrapper( file_name )
 %%% x =loadwrapper('<filenam>')
 
     files = dir(file_name);
-     for k = 1:length(files)
-         loaded_data = load(files(k).name, '-ascii');
-     end
+    loaded_data = load(files.name, '-ascii');
 
- end
+end

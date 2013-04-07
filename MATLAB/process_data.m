@@ -6,12 +6,12 @@ function [ x ] = processdata( mx, matrix_name )
     t_conv_s  = (mx(:,2) * 3600 + mx(:,3) * 60 + mx(:,4)) - t_start_s;
 
     % compute intervals
-    j = 1;
+    j     = 1;
     t_int = 0;
 
     bitrate(j) = 0;
-    delay(j) = 0;
-    jitter(j) = 0;
+    delay(j)   = 0;
+    jitter(j)  = 0;
     pktloss(j) = 0;
 
     for i = 1:length(mx)
