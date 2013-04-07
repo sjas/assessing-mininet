@@ -27,8 +27,8 @@ for i = 1:length(file_set)
     % load file with absolute path, 
     % since the file_set provides just the bare filename
     %%% TODO check if this can be done easier with 'file_in_loadpath(<file>)'
-    current_file = loadwrapper(strcat(folder_name, current_file_name_with_ext)); 
-    parsed_data = processdata(current_file, bare_file_name);
+    current_file = load_wrapper(strcat(folder_name, current_file_name_with_ext)); 
+    parsed_data = process_data(current_file, bare_file_name);
 
     %%% PRODUCE DATA STRUCTURES TO BE USED FOR THE GRAPH
     %SAVE CORRESPONDING BITRATE VALUE, THE X VALUE FOR CORRESPONDENCE
@@ -69,70 +69,79 @@ for i = 1:length(file_set)
 
 end
 
+whos parsed_data;
+
 % CREATE THE ERRORBARS FOR BETTER OVERVIEW ALTOGETHER
+% FIRST CREATE START AND END VALUES FOR GRAPHS
+
+
+% NOW PLOT ACTUAL GRAPHS
 %% throughput
-%subplot(4,1,1);
-figure(1);
-errorbar(test_bitrate, mean_bitrate, std_dev_bitrate);
+subplot(4,1,1);
+%figure(1);
+errorbar(test_bitrate, mean_bitrate, std_dev_bitrate, '>');
 title('mean throughput + std. dev.');
 xlabel('bitrates');
 ylabel('bitrate value');
-line([x,x],[11800,13200]);
+axis('tight', 'tic');
 %axis([0 max(t_conv) 0 round(max(bitrate_u))+1]);
 grid on
 %% delay
-%subplot(4,1,2);
-figure(2);
-errorbar(test_bitrate, mean_delay, std_dev_delay);
+subplot(4,1,2);
+%figure(2);
+errorbar(test_bitrate, mean_delay, std_dev_delay, '~>');
 title('mean delay + std. dev.');
 xlabel('bitrates');
 ylabel('delay value');
 %axis([0 max(t_conv) 0 round(max(bitrate_u))+1]);
+axis('tight', 'tic');
 grid on
 %% jitter
-%subplot(4,1,3);
-figure(3);
-errorbar(test_bitrate, mean_jitter, std_dev_jitter);
+subplot(4,1,3);
+%figure(3);
+errorbar(test_bitrate, mean_jitter, std_dev_jitter, '#');
 title('mean jitter + std. dev.');
 xlabel('bitrates');
 ylabel('jitter value');
 %axis([0 max(t_conv) 0 round(max(bitrate_u))+1]);
+axis('tight', 'tic');
 grid on
 %% packet loss
-%subplot(4,1,4);
-figure(4);
-errorbar(test_bitrate, mean_packetloss, std_dev_packetloss);
+subplot(4,1,4);
+%figure(4);
+errorbar(test_bitrate, mean_packetloss, std_dev_packetloss, '#~>');
 title('mean packetloss + std. dev.');
 xlabel('bitrates');
 ylabel('packetloss value');
 %axis([0 max(t_conv) 0 round(max(bitrate_u))+1]);
+axis('tight', 'tic');
 grid on
 
 % TIDY UP
 % clear variables
-clear folder_name;
-clear extension_loadfile;
-clear extension_imgfile;
-clear prefix_imgfile;
-clear wildcard;
-clear wildcard_string;
-clear file_set;
-clear i;
-clear current_file_name_with_ext;
-clear bare_file_name;
-clear temp_picture_file_name;
-clear current_picture_file_name;
-clear current_file;
+%clear folder_name;
+%clear extension_loadfile;
+%clear extension_imgfile;
+%clear prefix_imgfile;
+%clear wildcard;
+%clear wildcard_string;
+%clear file_set;
+%clear i;
+%clear current_file_name_with_ext;
+%clear bare_file_name;
+%clear temp_picture_file_name;
+%clear current_picture_file_name;
+%clear current_file;
 %clear parsed_data;
-clear parse_result;
-clear test_bitrate;
-clear mean_bitrate;
-clear mean_delay;
-clear mean_jitter;
-clear mean_packetloss;
-clear std_dev_bitrate;
-clear std_dev_delay;
-clear std_dev_jitter;
-clear std_dev_packetloss;
+%clear parse_result;
+%clear test_bitrate;
+%clear mean_bitrate;
+%clear mean_delay;
+%clear mean_jitter;
+%clear mean_packetloss;
+%clear std_dev_bitrate;
+%clear std_dev_delay;
+%clear std_dev_jitter;
+%clear std_dev_packetloss;
 % close gfx window
 %close all

@@ -7,6 +7,20 @@ THIS FILE IS INTENDED TO HOLD VALUABLE INFORMATION WHILE LEARNING OCTAVE
 * use 'pwd', 'ls', 'cd' in octave shell, to go to directories with scripts
 * or use 'addpath('<path to add>')'
 * stick to MATLAB syntax and be happy
+* file/naming conventions:
+  * #functions
+    * lowercase_with_underscore.m for function file names
+    * one function per file
+    * name of the defined function is the same as its filename
+  * #scripts
+    * PascalCase.m for naming scripts
+  * keep scripts/functions in the same folder
+  * keep testfiles separate from scripts
+    * put testfiles in folder below your functions/scripts
+    * start octave in testfiles folder
+    * $ addpath('..')
+    * this really is the easiest approach, if you do not have a setupscript
+  * after renaming files, you might need to redo 'addpath' command
 
 \\ MATLAB/OCTAVE use
 \\ general use
