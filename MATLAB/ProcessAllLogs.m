@@ -37,32 +37,32 @@ for i = 1:length(file_set)
 
     %SAVE CALCULATIONS HERE FOR OVERVIEW GRAPH AT THE END
     % mean bitrate as y value according to x
-    mean_bitrate(i,1)       = test_bitrate(i);
-    mean_bitrate(i,2)       = mean(parsed_data(i,1));
+    %mean_bitrate(i,1)       = test_bitrate(i);
+    mean_bitrate(i )       = mean(parsed_data(i,1));
     % standard deviation for bitrate according to each x value
-    std_dev_bitrate(i,1)    = test_bitrate(i);
-    std_dev_bitrate(i,2)    = std(parsed_data(i,1));
+    %std_dev_bitrate(i,1)    = test_bitrate(i);
+    std_dev_bitrate(i )    = std(parsed_data(i,1));
     
     % mean delay as y value according to x
-    mean_delay(i,1)         = test_bitrate(i);
-    mean_delay(i,2)         = mean(parsed_data(i,2));
+    %mean_delay(i,1)         = test_bitrate(i);
+    mean_delay(i )         = mean(parsed_data(i,2));
     % standard deviation for delay according to each x value
-    std_dev_delay(i,1)      = test_bitrate(i);
-    std_dev_delay(i,2)      = std(parsed_data(i,2));
+    %std_dev_delay(i,1)      = test_bitrate(i);
+    std_dev_delay(i )      = std(parsed_data(i,2));
 
     % mean jitter as y value according to x
-    mean_jitter(i,1)        = test_bitrate(i);
-    mean_jitter(i,2)        = mean(parsed_data(i,3));
+    %mean_jitter(i,1)        = test_bitrate(i);
+    mean_jitter(i )        = mean(parsed_data(i,3));
     % standard deviation for jitter according to each x value
-    std_dev_jitter(i,1)     = test_bitrate(i);
-    std_dev_jitter(i,2)     = std(parsed_data(i,3));
+    %std_dev_jitter(i,1)     = test_bitrate(i);
+    std_dev_jitter(i )     = std(parsed_data(i,3));
 
     % mean packetloss as y value according to x
-    mean_packetloss(i,1)    = test_bitrate(i);
-    mean_packetloss(i,2)    = mean(parsed_data(i,4));
+    %mean_packetloss(i,1)    = test_bitrate(i);
+    mean_packetloss(i )    = mean(parsed_data(i,4));
     % standard deviation for packetloss according to each x value
-    std_dev_packetloss(i,1) = test_bitrate(i);
-    std_dev_packetloss(i,2) = std(parsed_data(i,4));
+    %std_dev_packetloss(i,1) = test_bitrate(i);
+    std_dev_packetloss(i ) = std(parsed_data(i,4));
 
     % SAVE SINGLE OVERVIEW IMAGE
     %saveas(1, current_picture_file_name);
@@ -73,49 +73,63 @@ whos parsed_data;
 
 % CREATE THE ERRORBARS FOR BETTER OVERVIEW ALTOGETHER
 % FIRST CREATE START AND END VALUES FOR GRAPHS
+s_bitrate         = min(test_bitrate);
+e_bitrate         = max(test_bitrate);
+s_mean_bitrate    = min(mean_bitrate);
+e_mean_bitrate    = max(mean_bitrate);
+s_mean_delay      = min(mean_delay);
+e_mean_delay      = max(mean_delay);
+s_mean_jitter     = min(mean_jitter);
+e_mean_jitter     = max(mean_jitter);
+s_mean_packetloss = min(mean_packetloss);
+e_mean_packetloss = max(mean_packetloss);
 
 
 % NOW PLOT ACTUAL GRAPHS
-%% throughput
+%% THROUGHPUT
 subplot(4,1,1);
 %figure(1);
-errorbar(test_bitrate, mean_bitrate, std_dev_bitrate, '>');
+errorbar(test_bitrate, mean_bitrate, std_dev_bitrate, '~');
 title('mean throughput + std. dev.');
 xlabel('bitrates');
 ylabel('bitrate value');
-axis('tight', 'tic');
+axis(s_bitrate, e_bitrate, s_mean_bitrate, e_mean_bitrate);
 %axis([0 max(t_conv) 0 round(max(bitrate_u))+1]);
 grid on
-%% delay
+
+%% DELAY
 subplot(4,1,2);
 %figure(2);
-errorbar(test_bitrate, mean_delay, std_dev_delay, '~>');
+errorbar(test_bitrate, mean_delay, std_dev_delay, '~');
 title('mean delay + std. dev.');
 xlabel('bitrates');
 ylabel('delay value');
 %axis([0 max(t_conv) 0 round(max(bitrate_u))+1]);
-axis('tight', 'tic');
+axis(s_bitrate, e_bitrate, s_mean_delay, e_mean_delay);
 grid on
-%% jitter
+
+%% JITTER
 subplot(4,1,3);
 %figure(3);
-errorbar(test_bitrate, mean_jitter, std_dev_jitter, '#');
+errorbar(test_bitrate, mean_jitter, std_dev_jitter, '~');
 title('mean jitter + std. dev.');
 xlabel('bitrates');
 ylabel('jitter value');
 %axis([0 max(t_conv) 0 round(max(bitrate_u))+1]);
-axis('tight', 'tic');
+axis(s_bitrate, e_bitrate, s_mean_jitter, e_mean_jitter);
 grid on
-%% packet loss
+
+%% PACKET LOSS
 subplot(4,1,4);
 %figure(4);
-errorbar(test_bitrate, mean_packetloss, std_dev_packetloss, '#~>');
+errorbar(test_bitrate, mean_packetloss, std_dev_packetloss, '~');
 title('mean packetloss + std. dev.');
 xlabel('bitrates');
 ylabel('packetloss value');
 %axis([0 max(t_conv) 0 round(max(bitrate_u))+1]);
-axis('tight', 'tic');
+axis(s_bitrate, e_bitrate, s_mean_packetloss, e_mean_packetloss);
 grid on
+
 
 % TIDY UP
 % clear variables
