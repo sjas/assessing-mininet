@@ -1,4 +1,4 @@
-function [ loaded_data ] = loadwrapper( file_name )
+function [ loaded_data ] = load_wrapper( file_name )
 %%% will load a file if its filename is provided
 %%% USAGE: (save data to var)
 %%% x =loadwrapper('<filenam>')

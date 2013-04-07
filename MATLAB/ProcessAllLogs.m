@@ -27,8 +27,8 @@ for i = 1:length(file_set)
     % load file with absolute path, 
     % since the file_set provides just the bare filename
     %%% TODO check if this can be done easier with 'file_in_loadpath(<file>)'
-    current_file = loadwrapper(strcat(folder_name, current_file_name_with_ext)); 
-    parsed_data = processdata(current_file, bare_file_name);
+    current_file = load_wrapper(strcat(folder_name, current_file_name_with_ext)); 
+    parsed_data = process_data(current_file, bare_file_name);
 
     %%% PRODUCE DATA STRUCTURES TO BE USED FOR THE GRAPH
     %SAVE CORRESPONDING BITRATE VALUE, THE X VALUE FOR CORRESPONDENCE
