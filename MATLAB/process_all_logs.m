@@ -84,6 +84,9 @@ function [ ] = process_all_logs( log_type )
 
     end
 
+    % close last picture or be damned
+    % seriously
+    close all;
     bitrate_interval   = 100;
     % took that out of the loop, since its got no running index
     bitrate_of_test    = 8000:bitrate_interval:12000;
