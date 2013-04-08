@@ -1,6 +1,8 @@
 %%% this does some nice batch processing
 %%% and make pictures out of it, while at it.
 
+
+
 %%% SETTINGS: where are which files
 folder_name        = '/cygdrive/c/Users/sjas/work/ktr/MATLAB/itg-logs/';
 extension_loadfile = '.dat';
@@ -9,16 +11,32 @@ extension_loadfile = '.dat';
 extension_imgfile  = '.png';
 prefix_imgfile     = 'pic_';
 
+
+
+
 %%% CODE
 % string concatenation and getting a file list
 wildcard        = strcat('*', extension_loadfile);
 wildcard_string = strcat(folder_name, wildcard);
+% getting all the files' info parameters
 file_set        = dir(wildcard_string);
 
+%INITIALIZE VARIABLES tFIRST
+result_matrix          = []
+complete_result_matrix = [];
+mean_bitrate           = [];
+std_dev_bitrate        = [];
+mean_delay             = [];
+std_dev_delay          = [];
+mean_jitter            = [];
+std_dev_jitter         = [];
+mean_packetloss        = [];
+std_dev_packetloss     = [];
 % ACTUAL PROCESSING
 % loop from 1 through to the amount of rows
 for i = 1:length(file_set)
 
+    % getting just the filename.ext
     current_file_name_with_ext = file_set(i).name;
 
     % extract sanitized filename for picture by replacing the extension
@@ -26,58 +44,42 @@ for i = 1:length(file_set)
     temp_picture_file_name    = strcat(bare_file_name, extension_imgfile);
     current_picture_file_name = strcat(prefix_imgfile, temp_picture_file_name);
 
-    % collect images filenames for later on
-    file_names_images(i) = current_picture_file_name;
 
-    files_to_be_processed(i)= load_wrapper(strcat(folder_name, current_file_name_with_ext)); 
+    file_to_be_processed = load_wrapper(strcat(folder_name, current_file_name_with_ext)); 
 
     % load file with absolute path, 
     % since the file_set provides just the bare filename
-    %%% TODO check if this can be done easier with 'file_in_loadpath(<file>)'
-    parsed_data = process_data(files_to_be_processed(i), bare_file_name);
-
-    %%% PRODUCE DATA STRUCTURES TO BE USED FOR THE GRAPH
-    %SAVE CORRESPONDING BITRATE VALUE, THE X VALUE FOR CORRESPONDENCE
-    %bitrate_of_test(i) = str2num(substr(current_file_name_with_ext, 25, 5));
-
-
-    %SAVE CALCULATIONS HERE FOR OVERVIEW GRAPH AT THE END
-    % mean bitrate as y value according to x
-    %mean_bitrate(i,1)       = bitrate_of_test(i);
-    mean_bitrate(i)       = mean(parsed_data(i,1));
-    % standard deviation for bitrate according to each x value
-    %std_dev_bitrate(i,1)    = bitrate_of_test(i);
-    std_dev_bitrate(i)    = std(parsed_data(i,1));
-    
-    % mean delay as y value according to x
-    %mean_delay(i,1)         = bitrate_of_test(i);
-    mean_delay(i)         = mean(parsed_data(i,2));
-    % standard deviation for delay according to each x value
-    %std_dev_delay(i,1)      = bitrate_of_test(i);
-    std_dev_delay(i)      = std(parsed_data(i,2));
-
-    % mean jitter as y value according to x
-    %mean_jitter(i,1)        = bitrate_of_test(i);
-    mean_jitter(i)        = mean(parsed_data(i,3));
-    % standard deviation for jitter according to each x value
-    %std_dev_jitter(i,1)     = bitrate_of_test(i);
-    std_dev_jitter(i)     = std(parsed_data(i,3));
-
-    % mean packetloss as y value according to x
-    %mean_packetloss(i,1)    = bitrate_of_test(i);
-    mean_packetloss(i)    = mean(parsed_data(i,4));
-    % standard deviation for packetloss according to each x value
-    %std_dev_packetloss(i,1) = bitrate_of_test(i);
-    std_dev_packetloss(i) = std(parsed_data(i,4));
+    parsed_data = process_data(file_to_be_processed, bare_file_name);
 
     % SAVE SINGLE OVERVIEW IMAGE
     %saveas(1, current_picture_file_name);
 
+    % save for having a complete dataset for the final graphs
+    %fixme
+    %result_matrix = [result_matrix, parsed_data];
+
+    %%% PRODUCE DATA STRUCTURES TO BE USED FOR THE GRAPH
+    %SAVE CORRESPONDING BITRATE VALUE, THE X VALUE FOR CORRESPONDENCE
+    %bitrate_of_test(i)   = str2num(substr(current_file_name_with_ext, 25, 5));
+    %bitrate_of_test(i)   = 8000:100:12000;
+    %SAVE CALCULATIONS HERE FOR OVERVIEW GRAPH AT THE END
+    % mean values as y value according to x
+    % standard deviations for having error values
+    mean_bitrate       (:,i) = mean (parsed_data (:,1));
+    std_dev_bitrate    (:,i) = std  (parsed_data (:,1));
+    mean_delay         (:,i) = mean (parsed_data (:,2));
+    std_dev_delay      (:,i) = std  (parsed_data (:,2));
+    mean_jitter        (:,i) = mean (parsed_data (:,3));
+    std_dev_jitter     (:,i) = std  (parsed_data (:,3));
+    mean_packetloss    (:,i) = mean (parsed_data (:,4));
+    std_dev_packetloss (:,i) = std  (parsed_data (:,4));
+
 end
 
-%FIXME
-whos parsed_data;
-bitrate_of_test=10000:100:10900;
+% took that out of the loop, since its got no running index
+bitrate_of_test    = 8000:100:12000;
+
+
 
 % CREATE THE ERRORBARS FOR BETTER OVERVIEW ALTOGETHER
 % FIRST CREATE START AND END VALUES FOR GRAPHS
@@ -149,50 +151,6 @@ grid on
 
 
 % TIDY UP
-% clear variables
-clear folder_name;
-clear extension_loadfile;
-clear extension_imgfile;
-clear prefix_imgfile;
-clear wildcard;
-clear wildcard_string;
-clear file_set;
-clear i;
-clear current_file_name_with_ext;
-clear bare_file_name;
-clear temp_picture_file_name;
-clear current_picture_file_name;
-clear current_file;
-clear parsed_data;
-clear parse_result;
-clear bitrate_of_test;
-clear mean_bitrate;
-clear mean_delay;
-clear mean_jitter;
-clear mean_packetloss;
-%clear std_dev_bitrate;
-%clear std_dev_delay;
-%clear std_dev_jitter;
-%clear std_dev_packetloss;
-clear e_mean_bitrate;
-clear s_mean_bitrate;
-clear e_mean_delay;
-clear s_mean_delay;
-clear e_mean_jitter;
-clear s_mean_jitter;
-clear e_mean_packetloss;
-clear s_mean_packetloss;
-clear axis_bitrate;
-clear axis_delay;
-clear axis_jitter;
-clear axis_packetloss;
-clear e_abitrate;
-clear s_abitrate;
-clear e_bbitrate;
-clear s_bbitrate;
-clear e_cbitrate;
-clear s_cbitrate;
-clear e_dbitrate;
-clear s_dbitrate;
-% close gfx window
+clear all
+% close gfx windows
 %close all
