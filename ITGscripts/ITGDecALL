@@ -47,11 +47,11 @@ mv /home/Mininet/decoded_* /home/mininet/itg-logs
     #cat "${file}" >> /home/mininet/itg-logs/complete.dat
 #done
 
-# setting for pushing testfiles to while @ktr lab
-sshpass -p tcpip-admin ssh -oStrictHostKeyChecking=no ktr@141.13.92.1 "rm -rf Documents/MATLAB/Mininet/itg-logs && mkdir Documents/MATLAB/Mininet/itg-logs && exit"
-sshpass -p tcpip-admin scp -oStrictHostKeyChecking=no -r itg-logs/* ktr@141.13.92.1:Documents/MATLAB/Mininet/itg-logs/
-# location to push to when testing locally with mininet
-
-#TODO fix this here...
 rm -rf /home/mininet/ktr/itg-logs
 cp -R /home/mininet/itg-logs /home/mininet/ktr
+
+# setting for pushing testfiles to while @ktr lab
+sshpass -p tcpip-admin ssh -oStrictHostKeyChecking=no ktr@141.13.92.1 "rm -rf Documents/MATLAB/Mininet/itg-logs && mkdir Documents/MATLAB/Mininet/itg-logs && exit"
+sshpass -p tcpip-admin scp -oStrictHostKeyChecking=no -r /home/mininet/itg-logs/* ktr@141.13.92.1:Documents/MATLAB/Mininet/itg-logs/
+# location to push to when testing locally with mininet
+
