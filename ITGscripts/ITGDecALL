@@ -31,7 +31,7 @@ done
 
 rm -rf /home/mininet/itg-logs/
 mkdir /home/mininet/itg-logs
-cp /home/Mininet/decoded_* /home/mininet/itg-logs
+cp /home/mininet/decoded_* /home/mininet/itg-logs
 
 ##THIS CONCATS ALL LOG FILES INTO ONE, 'TAC' JUST REVERSES THEIR ORDER
     ##USELESS SINCE MATLAB CAN ONLY SHOW LAST FILE,
@@ -48,8 +48,8 @@ cp /home/Mininet/decoded_* /home/mininet/itg-logs
 #done
 
 # setting for pushing testfiles to while @ktr lab
-sshpass -p tcpip-admin ssh -oStrictHostKeyChecking=no ktr@141.13.92.12 "rm -rf Documents/MATLAB/Mininet/itg-logs && mkdir Documents/MATLAB/Mininet/itg-logs && exit"
-sshpass -p tcpip-admin scp -oStrictHostKeyChecking=no -r itg-logs/* ktr@141.13.92.12:Documents/MATLAB/Mininet/itg-logs/
+sshpass -p tcpip-admin ssh -oStrictHostKeyChecking=no ktr@141.13.92.1 "rm -rf Documents/MATLAB/Mininet/itg-logs && mkdir Documents/MATLAB/Mininet/itg-logs && exit"
+sshpass -p tcpip-admin scp -oStrictHostKeyChecking=no -r itg-logs/* ktr@141.13.92.1:Documents/MATLAB/Mininet/itg-logs/
 # location to push to when testing locally with mininet
 
 #TODO fix this here...
