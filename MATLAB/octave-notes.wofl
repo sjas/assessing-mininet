@@ -20,7 +20,7 @@ THIS FILE IS INTENDED TO HOLD VALUABLE INFORMATION WHILE LEARNING OCTAVE
     * start octave in testfiles folder
     * $ addpath('..')
     * this really is the easiest approach, if you do not have a setupscript
-  * after renaming files, you might need to redo 'addpath' command
+  * after renaming files, you might need to redo 'addpath' command (!!!)
 
 \\ MATLAB/OCTAVE use
 \\ general use

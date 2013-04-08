@@ -1,0 +1,2 @@
+cd ./itg-logs
+addpath('..')
