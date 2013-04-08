@@ -9,8 +9,9 @@ function [ ] = process_all_logs( log_type )
     file_general_prefix = 'decoded_dat_log_';
     extension_loadfile  = '.dat';
     %choose: ps, eps, jpg, png, emf, pdf 
+    output_format       = 'png'
     %others are possible, lookup in documentation!
-    extension_imgfile  = '.png';
+    extension_imgfile  = strcat('.', output_format);
     prefix_imgfile     = 'pic_';
     overview_img_part  = 'overview_';
 
@@ -57,7 +58,8 @@ function [ ] = process_all_logs( log_type )
         parsed_data = process_data(file_to_be_processed, bare_file_name);
 
         % SAVE SINGLE OVERVIEW IMAGE
-        saveas(1, current_picture_file_name);
+        figure(1);
+        saveas(1, current_picture_file_name, output_format);
 
         %FIXME
         % save for having a complete dataset for the final graphs
@@ -90,8 +92,8 @@ function [ ] = process_all_logs( log_type )
 
     % CREATE THE ERRORBARS FOR BETTER OVERVIEW ALTOGETHER
     % FIRST CREATE START AND END POINTS FOR GRAPHS' AXES
-    s_bitrate        = min(bitrate_of_test) - 3 * bitrate_interval;
-    e_bitrate        = max(bitrate_of_test) + 3 * bitrate_interval;
+    s_bitrate         = min(bitrate_of_test) - 3 * bitrate_interval;
+    e_bitrate         = max(bitrate_of_test) + 3 * bitrate_interval;
     e_mean_bitrate    = max(mean_bitrate)    * 1.1-0.1;
     s_mean_bitrate    = min(mean_bitrate)    * 0.9;
     s_mean_jitter     = min(mean_jitter)     * 0.9;
@@ -148,10 +150,11 @@ function [ ] = process_all_logs( log_type )
     grid on
 
 
-    saveas(1, overview_img_file);
+    figure(2);
+    saveas(2, overview_img_file, output_format);
 
     % TIDY UP
-    clear all
+    %clear all
     % close gfx windows
     %close all
 end
