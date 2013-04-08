@@ -31,7 +31,7 @@ done
 
 rm -rf /home/mininet/itg-logs/
 mkdir /home/mininet/itg-logs
-mv /home/Mininet/decoded_* /home/mininet/itg-logs
+cp /home/mininet/decoded_* /home/mininet/itg-logs
 
 ##THIS CONCATS ALL LOG FILES INTO ONE, 'TAC' JUST REVERSES THEIR ORDER
     ##USELESS SINCE MATLAB CAN ONLY SHOW LAST FILE,
@@ -46,9 +46,6 @@ mv /home/Mininet/decoded_* /home/mininet/itg-logs
     #echo "${file}"
     #cat "${file}" >> /home/mininet/itg-logs/complete.dat
 #done
-
-rm -rf /home/mininet/ktr/itg-logs
-cp -R /home/mininet/itg-logs /home/mininet/ktr
 
 # setting for pushing testfiles to while @ktr lab
 sshpass -p tcpip-admin ssh -oStrictHostKeyChecking=no ktr@141.13.92.1 "rm -rf Documents/MATLAB/Mininet/itg-logs && mkdir Documents/MATLAB/Mininet/itg-logs && exit"
