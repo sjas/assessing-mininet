@@ -89,7 +89,8 @@ function [ ] = process_all_logs( log_type )
     close all;
     bitrate_interval   = 100;
     % took that out of the loop, since its got no running index
-    bitrate_of_test    = 8000:bitrate_interval:12000;
+    %bitrate_of_test    = 8000:bitrate_interval:12000;
+    bitrate_of_test    = 8000:bitrate_interval:8500;
 
 
 
@@ -115,6 +116,10 @@ function [ ] = process_all_logs( log_type )
     %% THROUGHPUT
     subplot(4,1,1);
     %figure(1);
+    %FIXME
+    disp(bitrate_of_test);
+    disp(mean_bitrate);
+    disp(std_dev_bitrate);
     errorbar(bitrate_of_test, mean_bitrate, std_dev_bitrate, 'rd');
     title('mean throughput + std. dev.');
     %xlabel('bitrates');
@@ -125,11 +130,13 @@ function [ ] = process_all_logs( log_type )
     %% DELAY
     subplot(4,1,2);
     %figure(2);
+    disp(bitrate_of_test);
+    disp(mean_delay);
+    disp(std_dev_delay);
     errorbar(bitrate_of_test, mean_delay, std_dev_delay, 'g*');
     title('mean delay + std. dev.');
     %xlabel('bitrates');
     ylabel('delay value');
-    disp(axis_delay);
     axis(axis_delay);
     grid on
 
@@ -158,7 +165,8 @@ function [ ] = process_all_logs( log_type )
     saveas(2, overview_img_file, output_format);
 
     % TIDY UP
-    %clear all
+    %clean all workspace info
+    clear all
     % close gfx windows
-    %close all
+    close all
 end

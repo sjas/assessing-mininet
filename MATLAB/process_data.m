@@ -46,7 +46,7 @@ function [ x ] = process_data( mx, matrix_name )
     x = [bitrate' delay' jitter' pktloss'];
 
     % Throughput
-    subplot (4, 2, 1);
+    subplot (3, 2, 1);
     bitrate_u = bitrate ./ 125;
     plot(0:j-2, bitrate_u(1:j-1),'-');
     title('Throughput');
@@ -57,7 +57,7 @@ function [ x ] = process_data( mx, matrix_name )
     %hold on;
 
     % Delay
-    subplot (4, 2, 2);
+    subplot (3, 2, 2);
     plot(0:length(delay)-1, delay,'-');
     title('Delay');
     xlabel('time [s]');
@@ -67,7 +67,7 @@ function [ x ] = process_data( mx, matrix_name )
     %hold on;
 
     % Jitter
-    subplot (4, 2, 3);
+    subplot (3, 2, 3);
     plot(0:length(jitter)-1, jitter,'-');
     title('Jitter');
     xlabel('time [s]');
@@ -76,7 +76,7 @@ function [ x ] = process_data( mx, matrix_name )
     grid on
 
     % Packet loss
-    subplot (4, 2, 4);
+    subplot (3, 2, 4);
     plot(0:length(pktloss)-1, pktloss,'-');
     title('Packet loss');
     xlabel('time [s]');
@@ -85,7 +85,7 @@ function [ x ] = process_data( mx, matrix_name )
     grid on
 
     % IDT distribution
-    subplot (4, 2, 5);
+    subplot (3, 2, 5);
     d = diff(t_conv);
     m = max(d);
     hist(d);
@@ -96,7 +96,7 @@ function [ x ] = process_data( mx, matrix_name )
     grid on
 
     % PS distribution
-    subplot (4, 2, 6);
+    subplot (3, 2, 6);
     hist(mx(:,8));
     title('Packet size Distribution');
     xlabel('[bytes]');
