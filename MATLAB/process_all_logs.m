@@ -40,10 +40,10 @@ function [ ] = process_all_logs( log_type )
     std_dev_packetloss     = [];
     % ACTUAL PROCESSING
     % loop from 1 through to the amount of rows
-    for i = 1:length(file_set)
+    for ii = 1:length(file_set)
 
         % getting just the filename.ext
-        current_file_name_with_ext = file_set(i).name;
+        current_file_name_with_ext = file_set(ii).name;
 
         % extract sanitized filename for picture by replacing the extension
         bare_file_name            = strrep(current_file_name_with_ext, extension_loadfile, '');
@@ -68,8 +68,8 @@ function [ ] = process_all_logs( log_type )
 
         %%% PRODUCE DATA STRUCTURES TO BE USED FOR THE GRAPH
         %SAVE CORRESPONDING BITRATE VALUE, THE X VALUE FOR CORRESPONDENCE
-        %bitrate_of_test(i)   = str2num(substr(current_file_name_with_ext, 25, 5));
-        %bitrate_of_test(i)   = 8000:100:12000;
+        %bitrate_of_test(ii)   = str2num(substr(current_file_name_with_ext, 25, 5));
+        %bitrate_of_test(ii)   = 8000:100:12000;
         %SAVE CALCULATIONS HERE FOR OVERVIEW GRAPH AT THE END
         % mean values as y value according to x
         % standard deviations for having error values
@@ -89,8 +89,8 @@ function [ ] = process_all_logs( log_type )
     close(1);
     bitrate_interval   = 100;
     % took that out of the loop, since its got no running index
-    %bitrate_of_test    = 8000:bitrate_interval:12000;
-    bitrate_of_test    = 8000:bitrate_interval:8200;
+    bitrate_of_test    = 8000:bitrate_interval:12000;
+    %bitrate_of_test    = 8000:bitrate_interval:8200;
 
 
 
@@ -117,9 +117,6 @@ function [ ] = process_all_logs( log_type )
     subplot(4,1,1);
     %figure(1);
     %FIXME
-    disp(bitrate_of_test);
-    disp(mean_bitrate);
-    disp(std_dev_bitrate);
     errorbar(bitrate_of_test, mean_bitrate, std_dev_bitrate, 'rd');
     title('mean throughput + std. dev.');
     %xlabel('bitrates');
@@ -130,9 +127,6 @@ function [ ] = process_all_logs( log_type )
     %% DELAY
     subplot(4,1,2);
     %figure(2);
-    disp(bitrate_of_test);
-    disp(mean_delay);
-    disp(std_dev_delay);
     errorbar(bitrate_of_test, mean_delay, std_dev_delay, 'g*');
     title('mean delay + std. dev.');
     %xlabel('bitrates');
