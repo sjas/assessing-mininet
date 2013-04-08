@@ -1,2 +1,0 @@
-cd ./itg-logs
-addpath('..')

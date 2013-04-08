@@ -1,6 +1,7 @@
-% just for convieniently executing the single scripts more easily
 
-ProcessAllLogsTCPsnd
+%%% convenience script to generate all plots at once
+
 ProcessAllLogsTCPrcv
-ProcessAllLogsUDPsnd
+ProcessAllLogsTCPsnd
 ProcessAllLogsUDPrcv
+ProcessAllLogsUDPsnd
