@@ -86,11 +86,11 @@ function [ ] = process_all_logs( log_type )
 
     % close last picture or be damned
     % seriously
-    close all;
+    close(1);
     bitrate_interval   = 100;
     % took that out of the loop, since its got no running index
     %bitrate_of_test    = 8000:bitrate_interval:12000;
-    bitrate_of_test    = 8000:bitrate_interval:8500;
+    bitrate_of_test    = 8000:bitrate_interval:8200;
 
 
 
@@ -102,8 +102,8 @@ function [ ] = process_all_logs( log_type )
     s_mean_bitrate    = min(mean_bitrate)    * 0.9;
     s_mean_jitter     = min(mean_jitter)     * 0.9;
     e_mean_jitter     = max(mean_jitter)     * 1.1;
-    s_mean_delay      = min(mean_delay)      -0.1;
-    e_mean_delay      = max(mean_delay)      +0.1;
+    s_mean_delay      = min(mean_delay)      - 0.1;
+    e_mean_delay      = max(mean_delay)      + 0.1;
     s_mean_packetloss = min(mean_packetloss) * 0.9-0.1;
     e_mean_packetloss = max(mean_packetloss) * 1.1+0.1;
 
@@ -161,12 +161,13 @@ function [ ] = process_all_logs( log_type )
     grid on
 
 
-    figure(2);
-    saveas(2, overview_img_file, output_format);
+    figure(1);
+    saveas(1, overview_img_file, output_format);
+    close(1);
 
     % TIDY UP
     %clean all workspace info
     clear all
     % close gfx windows
-    close all
+    %close all
 end
