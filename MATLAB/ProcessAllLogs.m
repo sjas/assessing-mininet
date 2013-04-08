@@ -76,43 +76,35 @@ for i = 1:length(file_set)
 
 end
 
+bitrate_interval   = 100;
 % took that out of the loop, since its got no running index
-bitrate_of_test    = 8000:100:12000;
+bitrate_of_test    = 8000:bitrate_interval:12000;
 
 
 
 % CREATE THE ERRORBARS FOR BETTER OVERVIEW ALTOGETHER
-% FIRST CREATE START AND END VALUES FOR GRAPHS
-s_abitrate        = min(bitrate_of_test);
-e_abitrate        = max(bitrate_of_test);
+% FIRST CREATE START AND END POINTS FOR GRAPHS' AXES
+s_bitrate        = min(bitrate_of_test) - 3 * bitrate_interval;
+e_bitrate        = max(bitrate_of_test) + 3 * bitrate_interval;
 e_mean_bitrate    = max(mean_bitrate)    * 1.1-0.1;
 s_mean_bitrate    = min(mean_bitrate)    * 0.9;
-
-s_bbitrate        = min(bitrate_of_test);
-e_bbitrate        = max(bitrate_of_test);
 s_mean_jitter     = min(mean_jitter)     * 0.9;
 e_mean_jitter     = max(mean_jitter)     * 1.1;
-
-s_cbitrate        = min(bitrate_of_test);
-e_cbitrate        = max(bitrate_of_test);
 s_mean_delay      = min(mean_delay)      * 0.9;
 e_mean_delay      = max(mean_delay)      * 1.1;
-
-s_dbitrate        = min(bitrate_of_test);
-e_dbitrate        = max(bitrate_of_test);
 s_mean_packetloss = min(mean_packetloss) * 0.9-0.1;
 e_mean_packetloss = max(mean_packetloss) * 1.1+0.1;
 
-axis_bitrate    = ([s_abitrate, e_abitrate, s_mean_bitrate, e_mean_bitrate]);
-axis_delay      = ([s_bbitrate, e_bbitrate, s_mean_delay, e_mean_delay]);
-axis_jitter     = ([s_cbitrate, e_cbitrate, s_mean_jitter, e_mean_jitter]);
-axis_packetloss = ([s_dbitrate, e_dbitrate, s_mean_packetloss, e_mean_packetloss]);
+axis_bitrate    = ([s_bitrate, e_bitrate, s_mean_bitrate, e_mean_bitrate]);
+axis_delay      = ([s_bitrate, e_bitrate, s_mean_delay, e_mean_delay]);
+axis_jitter     = ([s_bitrate, e_bitrate, s_mean_jitter, e_mean_jitter]);
+axis_packetloss = ([s_bitrate, e_bitrate, s_mean_packetloss, e_mean_packetloss]);
 
 % NOW PLOT ACTUAL GRAPHS
 %% THROUGHPUT
 subplot(4,1,1);
 %figure(1);
-errorbar(bitrate_of_test, mean_bitrate, std_dev_bitrate, '~');
+errorbar(bitrate_of_test, mean_bitrate, std_dev_bitrate, 'rd');
 title('mean throughput + std. dev.');
 %xlabel('bitrates');
 ylabel('bitrate value');
@@ -122,7 +114,7 @@ grid on
 %% DELAY
 subplot(4,1,2);
 %figure(2);
-errorbar(bitrate_of_test, mean_delay, std_dev_delay, '~');
+errorbar(bitrate_of_test, mean_delay, std_dev_delay, 'g*');
 title('mean delay + std. dev.');
 %xlabel('bitrates');
 ylabel('delay value');
@@ -132,7 +124,7 @@ grid on
 %% JITTER
 subplot(4,1,3);
 %figure(3);
-errorbar(bitrate_of_test, mean_jitter, std_dev_jitter, '~');
+errorbar(bitrate_of_test, mean_jitter, std_dev_jitter, 'ms');
 title('mean jitter + std. dev.');
 %xlabel('bitrates');
 ylabel('jitter value');
@@ -142,7 +134,7 @@ grid on
 %% PACKET LOSS
 subplot(4,1,4);
 %figure(4);
-errorbar(bitrate_of_test, mean_packetloss, std_dev_packetloss, '~');
+errorbar(bitrate_of_test, mean_packetloss, std_dev_packetloss, 'cx');
 title('mean packetloss + std. dev.');
 %xlabel('bitrates');
 ylabel('packetloss value');
