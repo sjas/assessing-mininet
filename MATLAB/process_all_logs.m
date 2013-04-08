@@ -98,8 +98,8 @@ function [ ] = process_all_logs( log_type )
     s_mean_bitrate    = min(mean_bitrate)    * 0.9;
     s_mean_jitter     = min(mean_jitter)     * 0.9;
     e_mean_jitter     = max(mean_jitter)     * 1.1;
-    s_mean_delay      = min(mean_delay)      ;
-    e_mean_delay      = max(mean_delay)      ;
+    s_mean_delay      = min(mean_delay)      -0.1;
+    e_mean_delay      = max(mean_delay)      +0.1;
     s_mean_packetloss = min(mean_packetloss) * 0.9-0.1;
     e_mean_packetloss = max(mean_packetloss) * 1.1+0.1;
 
@@ -126,6 +126,7 @@ function [ ] = process_all_logs( log_type )
     title('mean delay + std. dev.');
     %xlabel('bitrates');
     ylabel('delay value');
+    disp(axis_delay);
     axis(axis_delay);
     grid on
 
