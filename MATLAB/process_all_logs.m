@@ -73,24 +73,24 @@ function [ ] = process_all_logs( log_type )
         %SAVE CALCULATIONS HERE FOR OVERVIEW GRAPH AT THE END
         % mean values as y value according to x
         % standard deviations for having error values
-        mean_bitrate       (:,i) = mean (parsed_data (:,1));
-        std_dev_bitrate    (:,i) = std  (parsed_data (:,1));
-        mean_delay         (:,i) = mean (parsed_data (:,2));
-        std_dev_delay      (:,i) = std  (parsed_data (:,2));
-        mean_jitter        (:,i) = mean (parsed_data (:,3));
-        std_dev_jitter     (:,i) = std  (parsed_data (:,3));
-        mean_packetloss    (:,i) = mean (parsed_data (:,4));
-        std_dev_packetloss (:,i) = std  (parsed_data (:,4));
+        mean_bitrate       (:,ii) = mean (parsed_data (:,1));
+        std_dev_bitrate    (:,ii) = std  (parsed_data (:,1));
+        mean_delay         (:,ii) = mean (parsed_data (:,2));
+        std_dev_delay      (:,ii) = std  (parsed_data (:,2));
+        mean_jitter        (:,ii) = mean (parsed_data (:,3));
+        std_dev_jitter     (:,ii) = std  (parsed_data (:,3));
+        mean_packetloss    (:,ii) = mean (parsed_data (:,4));
+        std_dev_packetloss (:,ii) = std  (parsed_data (:,4));
 
     end
 
     % close last picture or be damned
     % seriously
-    close(1);
+    close();
     bitrate_interval   = 100;
     % took that out of the loop, since its got no running index
-    bitrate_of_test    = 8000:bitrate_interval:12000;
-    %bitrate_of_test    = 8000:bitrate_interval:8200;
+    %bitrate_of_test    = 8000:bitrate_interval:12000;
+    bitrate_of_test    = 8000:bitrate_interval:8200;
 
 
 
@@ -113,8 +113,7 @@ function [ ] = process_all_logs( log_type )
     axis_packetloss = ([s_bitrate, e_bitrate, s_mean_packetloss, e_mean_packetloss]);
 
     % NOW PLOT ACTUAL GRAPHS
-    %% THROUGHPUT
-    subplot(4,1,1);
+    %% THROUGHPUT subplot(4,1,1);
     %figure(1);
     %FIXME
     errorbar(bitrate_of_test, mean_bitrate, std_dev_bitrate, 'rd');
@@ -157,7 +156,7 @@ function [ ] = process_all_logs( log_type )
 
     figure(1);
     saveas(1, overview_img_file, output_format);
-    close(1);
+    close();
 
     % TIDY UP
     %clean all workspace info
