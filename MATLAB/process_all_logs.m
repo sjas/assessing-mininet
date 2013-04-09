@@ -73,14 +73,14 @@ function [ ] = process_all_logs( log_type )
         %SAVE CALCULATIONS HERE FOR OVERVIEW GRAPH AT THE END
         % mean values as y value according to x
         % standard deviations for having error values
-        mean_bitrate       (:,ii) = mean (parsed_data (:,1));
-        std_dev_bitrate    (:,ii) = std  (parsed_data (:,1));
-        mean_delay         (:,ii) = mean (parsed_data (:,2));
-        std_dev_delay      (:,ii) = std  (parsed_data (:,2));
-        mean_jitter        (:,ii) = mean (parsed_data (:,3));
-        std_dev_jitter     (:,ii) = std  (parsed_data (:,3));
-        mean_packetloss    (:,ii) = mean (parsed_data (:,4));
-        std_dev_packetloss (:,ii) = std  (parsed_data (:,4));
+        mean_bitrate       (ii,:) = mean (parsed_data (:,1));
+        std_dev_bitrate    (ii,:) = std  (parsed_data (:,1));
+        mean_delay         (ii,:) = mean (parsed_data (:,2));
+        std_dev_delay      (ii,:) = std  (parsed_data (:,2));
+        mean_jitter        (ii,:) = mean (parsed_data (:,3));
+        std_dev_jitter     (ii,:) = std  (parsed_data (:,3));
+        mean_packetloss    (ii,:) = mean (parsed_data (:,4));
+        std_dev_packetloss (ii,:) = std  (parsed_data (:,4));
 
     end
 
