@@ -73,7 +73,8 @@ function [ ] = process_all_logs( log_type )
         %SAVE CALCULATIONS HERE FOR OVERVIEW GRAPH AT THE END
         % mean values as y value according to x
         % standard deviations for having error values
-        whos parsed_data;
+        parsed_data;
+
         mean_bitrate        = [ mean_bitrate       ; mean(parsed_data (:,1)) ];
         std_dev_bitrate     = [ std_dev_bitrate    ; std(parsed_data (:,1)) ];
         mean_delay          = [ mean_delay         ; mean(parsed_data (:,2)) ];
@@ -83,7 +84,7 @@ function [ ] = process_all_logs( log_type )
         mean_packetloss     = [ mean_packetloss    ; mean(parsed_data (:,4)) ];
         std_dev_packetloss  = [ std_dev_packetloss ; std(parsed_data (:,4)) ];
         
-        whos mean_bitrate;
+        mean_bitrate;
 
     end
 
