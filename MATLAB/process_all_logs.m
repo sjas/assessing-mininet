@@ -5,11 +5,11 @@ function [ ] = process_all_logs( log_type )
 
     %%% SETTINGS: where are which files
     % this stuff does just work because the file naming convention being proper
-    folder_name         = '/cygdrive/c/Users/sjas/work/ktr/MATLAB/itg-logs/';
+    folder_name         = '/cygdrive/c/Users/sjas/work/ktr/MATLAB/itg-logs1/';
     file_general_prefix = 'decoded_dat_log_';
     extension_loadfile  = '.dat';
     %choose: ps, eps, jpg, png, emf, pdf 
-    output_format       = 'png'
+    output_format       = 'png';
     %others are possible, lookup in documentation!
     extension_imgfile  = strcat('.', output_format);
     prefix_imgfile     = 'pic_';
@@ -28,7 +28,7 @@ function [ ] = process_all_logs( log_type )
     overview_img_file = strcat(prefix_imgfile, overview_img_part, log_type, extension_imgfile);
 
     %INITIALIZE VARIABLES FIRST
-    result_matrix          = []
+    result_matrix          = [];
     complete_result_matrix = [];
     mean_bitrate           = [];
     std_dev_bitrate        = [];
@@ -40,8 +40,8 @@ function [ ] = process_all_logs( log_type )
     std_dev_packetloss     = [];
     % ACTUAL PROCESSING
     % loop from 1 through to the amount of rows
+    ii=1;
     for ii = 1:length(file_set)
-
         % getting just the filename.ext
         current_file_name_with_ext = file_set(ii).name;
 
@@ -73,14 +73,17 @@ function [ ] = process_all_logs( log_type )
         %SAVE CALCULATIONS HERE FOR OVERVIEW GRAPH AT THE END
         % mean values as y value according to x
         % standard deviations for having error values
-        mean_bitrate       (:,ii) = mean (parsed_data (:,1));
-        std_dev_bitrate    (:,ii) = std  (parsed_data (:,1));
-        mean_delay         (:,ii) = mean (parsed_data (:,2));
-        std_dev_delay      (:,ii) = std  (parsed_data (:,2));
-        mean_jitter        (:,ii) = mean (parsed_data (:,3));
-        std_dev_jitter     (:,ii) = std  (parsed_data (:,3));
-        mean_packetloss    (:,ii) = mean (parsed_data (:,4));
-        std_dev_packetloss (:,ii) = std  (parsed_data (:,4));
+        whos parsed_data;
+        mean_bitrate        = [ mean_bitrate       ; mean(parsed_data (:,1)) ];
+        std_dev_bitrate     = [ std_dev_bitrate    ; std(parsed_data (:,1)) ];
+        mean_delay          = [ mean_delay         ; mean(parsed_data (:,2)) ];
+        std_dev_delay       = [ std_dev_delay      ; std(parsed_data (:,2)) ];
+        mean_jitter         = [ mean_jitter        ; mean(parsed_data (:,3)) ];
+        std_dev_jitter      = [ std_dev_jitter     ; std(parsed_data (:,3)) ];
+        mean_packetloss     = [ mean_packetloss    ; mean(parsed_data (:,4)) ];
+        std_dev_packetloss  = [ std_dev_packetloss ; std(parsed_data (:,4)) ];
+        
+        whos mean_bitrate;
 
     end
 
@@ -89,9 +92,11 @@ function [ ] = process_all_logs( log_type )
     close();
     bitrate_interval   = 100;
     % took that out of the loop, since its got no running index
-    %bitrate_of_test    = 8000:bitrate_interval:12000;
-    bitrate_of_test_list = 8000:bitrate_interval:8200;
-    bitrate_of_test      = bitrate_of_test_list';
+    bitrate_of_test = 8000:bitrate_interval:12000;
+    %bitrate_of_test = 8000:bitrate_interval:8200;
+    %bitrate_of_test_list = 8000:bitrate_interval:12000;
+    %bitrate_of_test_list = 8000:bitrate_interval:8200;
+    %bitrate_of_test      = bitrate_of_test_list';
 
 
     % CREATE THE ERRORBARS FOR BETTER OVERVIEW ALTOGETHER
@@ -112,51 +117,51 @@ function [ ] = process_all_logs( log_type )
     axis_jitter     = ([s_bitrate, e_bitrate, s_mean_jitter, e_mean_jitter]);
     axis_packetloss = ([s_bitrate, e_bitrate, s_mean_packetloss, e_mean_packetloss]);
 
-    % NOW PLOT ACTUAL GRAPHS
-    %% THROUGHPUT 
-    subplot(4,1,1);
+    %% NOW PLOT ACTUAL GRAPHS
+    %%% THROUGHPUT 
+    %subplot(4,1,1);
+    %%figure(1);
+    %errorbar(bitrate_of_test, mean_bitrate, std_dev_bitrate, 'rd');
+    %title('mean throughput + std. dev.');
+    %%xlabel('bitrates');
+    %ylabel('bitrate value');
+    %axis(axis_bitrate);
+    %grid on
+
+    %%% DELAY
+    %subplot(4,1,2);
+    %%figure(2);
+    %errorbar(bitrate_of_test, mean_delay, std_dev_delay, 'g*');
+    %title('mean delay + std. dev.');
+    %%xlabel('bitrates');
+    %ylabel('delay value');
+    %axis(axis_delay);
+    %grid on
+
+    %%% JITTER
+    %subplot(4,1,3);
+    %%figure(3);
+    %errorbar(bitrate_of_test, mean_jitter, std_dev_jitter, 'ms');
+    %title('mean jitter + std. dev.');
+    %%xlabel('bitrates');
+    %ylabel('jitter value');
+    %axis(axis_jitter);
+    %grid on
+
+    %%% PACKET LOSS
+    %subplot(4,1,4);
+    %%figure(4);
+    %errorbar(bitrate_of_test, mean_packetloss, std_dev_packetloss, 'cx');
+    %title('mean packetloss + std. dev.');
+    %%xlabel('bitrates');
+    %ylabel('packetloss value');
+    %axis(axis_packetloss);
+    %grid on
+
+
     %figure(1);
-    errorbar(bitrate_of_test, mean_bitrate, std_dev_bitrate, 'rd');
-    title('mean throughput + std. dev.');
-    %xlabel('bitrates');
-    ylabel('bitrate value');
-    axis(axis_bitrate);
-    grid on
-
-    %% DELAY
-    subplot(4,1,2);
-    %figure(2);
-    errorbar(bitrate_of_test, mean_delay, std_dev_delay, 'g*');
-    title('mean delay + std. dev.');
-    %xlabel('bitrates');
-    ylabel('delay value');
-    axis(axis_delay);
-    grid on
-
-    %% JITTER
-    subplot(4,1,3);
-    %figure(3);
-    errorbar(bitrate_of_test, mean_jitter, std_dev_jitter, 'ms');
-    title('mean jitter + std. dev.');
-    %xlabel('bitrates');
-    ylabel('jitter value');
-    axis(axis_jitter);
-    grid on
-
-    %% PACKET LOSS
-    subplot(4,1,4);
-    %figure(4);
-    errorbar(bitrate_of_test, mean_packetloss, std_dev_packetloss, 'cx');
-    title('mean packetloss + std. dev.');
-    %xlabel('bitrates');
-    ylabel('packetloss value');
-    axis(axis_packetloss);
-    grid on
-
-
-    figure(1);
-    saveas(1, overview_img_file, output_format);
-    close();
+    %saveas(1, overview_img_file, output_format);
+    %close();
 
     % TIDY UP
     %clean all workspace info
