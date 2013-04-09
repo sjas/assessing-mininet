@@ -73,14 +73,14 @@ function [ ] = process_all_logs( log_type )
         %SAVE CALCULATIONS HERE FOR OVERVIEW GRAPH AT THE END
         % mean values as y value according to x
         % standard deviations for having error values
-        mean_bitrate       (ii,:) = mean (parsed_data (:,1));
-        std_dev_bitrate    (ii,:) = std  (parsed_data (:,1));
-        mean_delay         (ii,:) = mean (parsed_data (:,2));
-        std_dev_delay      (ii,:) = std  (parsed_data (:,2));
-        mean_jitter        (ii,:) = mean (parsed_data (:,3));
-        std_dev_jitter     (ii,:) = std  (parsed_data (:,3));
-        mean_packetloss    (ii,:) = mean (parsed_data (:,4));
-        std_dev_packetloss (ii,:) = std  (parsed_data (:,4));
+        mean_bitrate       (:,ii) = mean (parsed_data (:,1));
+        std_dev_bitrate    (:,ii) = std  (parsed_data (:,1));
+        mean_delay         (:,ii) = mean (parsed_data (:,2));
+        std_dev_delay      (:,ii) = std  (parsed_data (:,2));
+        mean_jitter        (:,ii) = mean (parsed_data (:,3));
+        std_dev_jitter     (:,ii) = std  (parsed_data (:,3));
+        mean_packetloss    (:,ii) = mean (parsed_data (:,4));
+        std_dev_packetloss (:,ii) = std  (parsed_data (:,4));
 
     end
 
@@ -90,22 +90,22 @@ function [ ] = process_all_logs( log_type )
     bitrate_interval   = 100;
     % took that out of the loop, since its got no running index
     %bitrate_of_test    = 8000:bitrate_interval:12000;
-    bitrate_of_test    = 8000:bitrate_interval:8200;
-
+    bitrate_of_test_list = 8000:bitrate_interval:8200;
+    bitrate_of_test      = bitrate_of_test_list';
 
 
     % CREATE THE ERRORBARS FOR BETTER OVERVIEW ALTOGETHER
     % FIRST CREATE START AND END POINTS FOR GRAPHS' AXES
     s_bitrate         = min(bitrate_of_test) - 3 * bitrate_interval;
     e_bitrate         = max(bitrate_of_test) + 3 * bitrate_interval;
-    e_mean_bitrate    = max(mean_bitrate)    * 1.1-0.1;
-    s_mean_bitrate    = min(mean_bitrate)    * 0.9;
+    s_mean_bitrate    = min(mean_bitrate)    * 0.9 - 0.1;
+    e_mean_bitrate    = max(mean_bitrate)    * 1.1 + 0.1;
     s_mean_jitter     = min(mean_jitter)     * 0.9;
     e_mean_jitter     = max(mean_jitter)     * 1.1;
-    s_mean_delay      = min(mean_delay)      - 0.1;
-    e_mean_delay      = max(mean_delay)      + 0.1;
-    s_mean_packetloss = min(mean_packetloss) * 0.9-0.1;
-    e_mean_packetloss = max(mean_packetloss) * 1.1+0.1;
+    s_mean_delay      = min(mean_delay)             - 0.1;
+    e_mean_delay      = max(mean_delay)             + 0.1;
+    s_mean_packetloss = min(mean_packetloss) * 0.9  - 0.1;
+    e_mean_packetloss = max(mean_packetloss) * 1.1  + 0.1;
 
     axis_bitrate    = ([s_bitrate, e_bitrate, s_mean_bitrate, e_mean_bitrate]);
     axis_delay      = ([s_bitrate, e_bitrate, s_mean_delay, e_mean_delay]);
@@ -113,9 +113,9 @@ function [ ] = process_all_logs( log_type )
     axis_packetloss = ([s_bitrate, e_bitrate, s_mean_packetloss, e_mean_packetloss]);
 
     % NOW PLOT ACTUAL GRAPHS
-    %% THROUGHPUT subplot(4,1,1);
+    %% THROUGHPUT 
+    subplot(4,1,1);
     %figure(1);
-    %FIXME
     errorbar(bitrate_of_test, mean_bitrate, std_dev_bitrate, 'rd');
     title('mean throughput + std. dev.');
     %xlabel('bitrates');
