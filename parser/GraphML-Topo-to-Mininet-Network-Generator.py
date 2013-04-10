@@ -124,7 +124,7 @@ topos = { 'generated': ( lambda: GeneratedTopo() ) }
 # and providing ssh access to the the mininet hosts from within the ubuntu vm
 
 
-def setupNetwork():
+def setupNetwork(controller_ip):
     "Create network and run simple performance test"
     topo = GeneratedTopo()
     # check if remote controller's ip was set
@@ -179,7 +179,7 @@ def sshd( network, cmd='/usr/sbin/sshd', opts='-D' ):
 if __name__ == '__main__':
     setLogLevel('info')
     #setLogLevel('debug')
-    sshd( setupNetwork() )
+    sshd( setupNetwork(controller_ip) )
 '''
 
 #WHERE TO PUT RESULTS
