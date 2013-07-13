@@ -49,11 +49,11 @@ class BenchmarkTopo( Topo ):
         # add edges between switches
         self.addLink( sw1 , sw2, bw=10, delay='1ms' )
         self.addLink( sw1 , sw3, bw=10, delay='1ms' )
-        #self.addLink( sw2 , sw4, bw=10, delay='1ms' )
-        #self.addLink( sw3 , sw4, bw=10, delay='1ms' )
+       #self.addLink( sw2 , sw4, bw=10, delay='1ms' )
+       #self.addLink( sw3 , sw4, bw=10, delay='1ms' )
         self.addLink( sw3 , sw5, bw=10, delay='1ms' )
-        #self.addLink( sw4 , sw5, bw=10, delay='1ms' )
-        #self.addLink( sw4 , sw6, bw=10, delay='1ms' )
+       #self.addLink( sw4 , sw5, bw=10, delay='1ms' )
+       #self.addLink( sw4 , sw6, bw=10, delay='1ms' )
         self.addLink( sw5 , sw6, bw=10, delay='1ms' )
 
 topos = { 'benchmark': ( lambda: BenchmarkTopo() ) }
