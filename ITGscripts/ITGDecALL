@@ -5,10 +5,12 @@
 # and decode them.
 #
 # after putting them nicely in a folder here...
-# ... they will also be scp'd to 141.13.92.12.
+# ... they will also be scp'd to ktr-omega (IF IP IS STILL THE RIGHT ONE!).
 #
 ############################################
+
 #DECODE
+# process all output log files in /home/mininet/
 for file in $(ls log_*)
 do
     outputFileName="decoded_txt_${file}.txt"
@@ -17,36 +19,16 @@ do
     #OLD SETUP, JUST THE BASE FILE
     ~/D-ITG/D-ITG-2.8.0-rc1/bin/ITGDec ${file} -l $outputFileName -o $outputOctaveFileName
 
-    #NEW TEST, CREATES {DELAY, BITRATE, JITTER, PACKET-LOSS}.DAT
-        #AT LEAST I HOPE SO...
-        #CURRENTLY OUT OF ORDER 
-            #SINCE I DON'T WANT TO HAVE TO SET UP OCTAVE ON KTR LAB COMPUTER
-            #GETTING IT TO RUN ON CYGWIN WAS MORE FUN THAN MOST CAN EVEN IMAGINE
-    #~/D-ITG/D-ITG-2.8.0-rc1/bin/ITGDec ${file} -l $outputFileName -o $outputOctaveFileName \
-            #-d <insertTimeWindowHere>
-            #-b <insertTimeWindowHere>
-            #-j <insertTimeWindowHere>
-            #-p <insertTimeWindowHere>
 done
 
+# move them to a dedicated folder so scp later will work
 rm -rf /home/mininet/itg-logs/
 mkdir /home/mininet/itg-logs
 cp /home/mininet/decoded_* /home/mininet/itg-logs
 
-##THIS CONCATS ALL LOG FILES INTO ONE, 'TAC' JUST REVERSES THEIR ORDER
-    ##USELESS SINCE MATLAB CAN ONLY SHOW LAST FILE,
-    ##SINCE ALL COLUMNS NEED TO BE REINDEXED.
-#for file in $(ls /home/mininet/itg-logs/decoded_*.txt | tac)
-#do
-    #echo "${file}"
-    #cat "${file}" >> /home/mininet/itg-logs/complete.txt
-#done
-#for file in $(ls /home/mininet/itg-logs/decoded_*.dat | tac)
-#do
-    #echo "${file}"
-    #cat "${file}" >> /home/mininet/itg-logs/complete.dat
-#done
 
-# setting for pushing testfiles to while @ktr lab
-sshpass -p tcpip-admin ssh -oStrictHostKeyChecking=no ktr@141.13.92.1 "rm -rf Documents/MATLAB/Mininet/itg-logs && mkdir Documents/MATLAB/Mininet/itg-logs && exit"
-sshpass -p tcpip-admin scp -oStrictHostKeyChecking=no -r /home/mininet/itg-logs/* ktr@141.13.92.1:Documents/MATLAB/Mininet/itg-logs/
+# setting for pushing testfiles to ktr-omega.local to while @ktr lab
+# using 'ktr-omega.local' instead of the current ip does not work due to nameserver issues
+#   set accordingly if the matlab workstation ip changes!
+sshpass -p tcpip-admin ssh -oStrictHostKeyChecking=no ktr@141.13.92.10 "rm -rf Documents/MATLAB/Mininet/logs && mkdir Documents/MATLAB/Mininet/logs && exit"
+sshpass -p tcpip-admin scp -oStrictHostKeyChecking=no -r /home/mininet/itg-logs/* ktr@141.13.92.10:Documents/MATLAB/Mininet/logs/
