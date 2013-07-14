@@ -11,9 +11,12 @@
 #   -T  protocol type
 #
 #   -C  packets/sec
-#   -c  packtsize <constant>
+#   -c  packtsize <constant> in bytes
+#       UDP: 1500 - 20 - 8 =  1472
+#       TCP: 1500 - 20 - 20 = 1460
+#
 #   -u  min .. max packetsize <variable>
-#   -t  duration in microsec
+#   -t  duration in milisec
 #
 #   -l  send_log_file
 #   -L  logserv ip
@@ -21,13 +24,16 @@
 #   -X  logserv ip
 #
 ############################################
-#GENERATE LOGFILENAMES
+#DESTINATIONS
 destserv="${1}"
 logserv="${2}"
-sendname="log_tcp_snd_${3}cbr"
+#GENERATE LOGFILENAMES
+sendname="log_tcp_snd_${3}_cbr"
 recvname="log_tcp_rcv_${3}cbr"
-bitrate="${3}"
+#TRAFFIC
+bitrate=1460
 duration="${4}"
+packetcount="${5}"
 #
 #GO TEST SOME STUFF
-sudo D-ITG/D-ITG-2.8.0-rc1/bin/ITGSend -a $destserv -rp 9500 -T TCP -C 100 -c $bitrate -t $duration -l $sendname -L $logserv -x $recvname -X $logserv
+sudo D-ITG/D-ITG-2.8.0-rc1/bin/ITGSend -a $destserv -rp 9500 -T TCP -C $packetcount -c $bitrate -t $duration -l $sendname -L $logserv -x $recvname -X $logserv
