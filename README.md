@@ -1,10 +1,23 @@
 # Assessing Mininet
 
-This project contains three different system implementations:
+This project contains three different Frameworks/Generators:
 
     1. Python parser for Internet Topology Zoo's .graphml files to be converted into Mininet python-based topologies.
     2. D-ITG scripts for distributed traffic generation being used in a script framework.
     3. MATLAB code for evaluation of the D-ITG logs.
+    
+The parser is simply to ease the creation of larger real world topologies. Parse the .graphml file, add your hosts by
+hand into the topo, and you have a directly executable/runnable topology for use with mininet 2.x with SSH access enabled.
+
+The D-ITG scripts usually have to be tediously started by hand, thus a lot (though not all, sadly) of the tasks were 
+automated through bash scripts. Two hosts and a log server are i.e. needed for measurement, which means 3 extra SSH 
+sessions by hand, to be repeated as often as you wish... My test setup consisted of four different setups consisting of
+five hosts each, repeated about ~25 times. Do the math, you won't stand it without scripting.
+After running the test sets, a lot of data was generated, which was transferred directly to the MATLAB workstation after
+decoding, a single test setup was done with test rows, result data averaged at 350 to 400 MB for one-minute-tests.
+
+The make sense of the data, the aforementioned MATLAB was used, but here also extensive scripting was needed, due to the 
+size and the amount of log files.
 
 ## project contents:
 
@@ -30,7 +43,7 @@ For easier handling create symlinks like
 
 At least that was the one I used usually: (Change to fit your needs, being careful...)
 
-    0. ssh into maching running your SDN controller, if you use a remote one like me, and start it.
+    0. ssh into machine running your SDN controller, if you use a remote one like me, and start it.
     1. ssh into mininet VM (define host entry in ~/.ssh/config for convenience).
     2. *$ sudo ./simple-topo* to start test topology with ssh access.
     3. ssh into mininet VM with another console to run the test suite.
