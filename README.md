@@ -32,7 +32,7 @@ size and the amount of log files.
 
 After the installation/setup of a Mininet VM, clone this repository to the mininet user's /home (usually /home/mininet on the pre-installed VM, as of Mininet 2.0.0) and name it 'ktr'. Install D-ITG (here 2.8.0 was used, version 2.8.1 is available by now at least.). **D-ITG** and **ktr** must reside in the homefolder, if you do not set the path's differently.
 
-For easier handling create symlinks like 
+For easier handling symlinks like 
 
     $ ln -s /home/mininet/ktr/parser/topologies/Crosstraffic-Benchmark-without-node-4.py simple-topo
     $ ln -s /home/mininet/ktr/parser/topologies/Crosstraffic-Benchmark.py meshed-topo
@@ -48,13 +48,25 @@ At least that was the one I used usually: (Change to fit your needs, being caref
 
     0. ssh into machine running your SDN controller, if you use a remote one like me, and start it.
     1. ssh into mininet VM (define host entry in ~/.ssh/config for convenience).
-    2. *$ sudo ./simple-topo* to start test topology with ssh access.
+    2. $ sudo ./simple-topo # to start test topology with ssh access.
     3. ssh into mininet VM with another console to run the test suite.
-    4. *$ sudo ./fulltest* starts the test suite which will start all needed ssh connections for D-ITG and start the measurements.
-    5. *$ sudo ./decode* will convert the binary logs to octave/matlab and text format, plus SCP'ing them to the MATLAB workstation I used for data analysis. Change the IP in the ITGDecAll file.
+    4. $ sudo ./fulltest # starts the test suite which will start all needed ssh connections for D-ITG and start the measurements.
+    5. $ sudo ./decode # will convert the binary logs to octave/matlab and text format, plus SCP'ing them to the MATLAB workstation I used for data analysis. Change the IP in the ITGDecAll file.
     6. Use the MATLAB scripts on the .dat data files with the given scripts.
 
+Test setups for me were
+
+    simple-topo + fulltest
+    simple-topo + fulltestcross
+    meshed-topo + fulltest
+    meshed-topo + fulltestcross
+    
+A word on the SDN controller:
+Here 'Floodlight' was used, because it supports topologies that has loops in it. Others did NOT work.
+Keep that in mind before starting hourlong debugging sessions. (BTW 'Thou shalt subcribe to the mininet mailing list...')
+
 A lot of filename creation takes place within these scripts, be careful when changing to a deviating naming scheme.
+Also the MATLAB code WILL break. If you don't care, you will be fine. If not, fear the consequences. =)
 
 ## TODO
 
