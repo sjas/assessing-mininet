@@ -310,7 +310,7 @@ for e in edge_set:
     #    r = 6378.137 km
     #
     #    formula: (speed of light)
-    #     v = 2.3 * 10**8 m/s
+    #     v = 1.97 * 10**8 m/s
     #
     #    formula: (latency being calculated from distance and light speed)
     #    t = distance / speed of light

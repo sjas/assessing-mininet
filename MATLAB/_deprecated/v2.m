@@ -44,8 +44,8 @@ function [ x ] = v2( matrix )
     plot(0:j-2, rate_u(1:j-1),'-');
     title('Throughput');
     xlabel('time [s]');
-    ylabel('[Kbps]');
-    axis([0 max(t_conv) 0 round(max(rate_u))+1]);
+    ylabel('Throughput [Mbps]');
+    axis([0 max(t_conv)*1.125 0 round(max(rate_u))+1]);
     grid on
     %hold on;
 
