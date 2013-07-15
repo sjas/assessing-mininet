@@ -29,7 +29,7 @@ destserv="${1}"
 logserv="${2}"
 #GENERATE LOGFILENAMES
 sendname="log_tcp_snd_${3}_cbr"
-recvname="log_tcp_rcv_${3}cbr"
+recvname="log_tcp_rcv_${3}_cbr"
 #TRAFFIC
 bitrate=1460
 duration="${4}"

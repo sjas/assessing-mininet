@@ -11,6 +11,7 @@
 
 #DECODE
 # process all output log files in /home/mininet/
+
 for file in $(ls log_*)
 do
     outputFileName="decoded_txt_${file}.txt"
@@ -24,11 +25,14 @@ done
 # move them to a dedicated folder so scp later will work
 rm -rf /home/mininet/itg-logs/
 mkdir /home/mininet/itg-logs
-cp /home/mininet/decoded_* /home/mininet/itg-logs
+mv /home/mininet/decoded_* /home/mininet/itg-logs
 
 
 # setting for pushing testfiles to ktr-omega.local to while @ktr lab
 # using 'ktr-omega.local' instead of the current ip does not work due to nameserver issues
 #   set accordingly if the matlab workstation ip changes!
-sshpass -p tcpip-admin ssh -oStrictHostKeyChecking=no ktr@141.13.92.10 "rm -rf Documents/MATLAB/Mininet/logs && mkdir Documents/MATLAB/Mininet/logs && exit"
-sshpass -p tcpip-admin scp -oStrictHostKeyChecking=no -r /home/mininet/itg-logs/* ktr@141.13.92.10:Documents/MATLAB/Mininet/logs/
+sshpass -p tcpip-admin ssh -oStrictHostKeyChecking=no ktr@141.13.92.12 "rm -rf Documents/MATLAB/Mininet/logs && mkdir Documents/MATLAB/Mininet/logs && exit"
+sshpass -p tcpip-admin scp -oStrictHostKeyChecking=no -r /home/mininet/itg-logs/* ktr@141.13.92.12:Documents/MATLAB/Mininet/logs/
+
+# clean up all generated log binaries
+rm -rf /home/mininet/log_*
