@@ -7,10 +7,10 @@
 # Files have to be in the same directory.
 #
 # Arguments:
-#   -f              [filename to of GraphML input file]
-#   --file          [filename to of GraphML input file]
-#   -o              [filename to of GraphML output file]
-#   --output        [filename to of GraphML output file]
+#   -f              [filename of GraphML input file]
+#   --file          [filename of GraphML input file]
+#   -o              [filename of GraphML output file]
+#   --output        [filename of GraphML output file]
 #   -b              [number as integer for bandwidth in mbit]
 #   --bw            [number as integer for bandwidth in mbit]
 #   --bandwidth     [number as integer for bandwidth in mbit]
@@ -19,6 +19,8 @@
 #
 # Without any input, program will terminate.
 # Without specified output, outputfile will have the same name as the input file.
+# This means, the argument for the outputfile can be omitted.
+# Parameters for bandwith and controller ip have default values, if they are omitted, too.
 #
 #
 # Created by Stephan Schuberth in 01/2013 to 04/2013
