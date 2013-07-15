@@ -6,38 +6,38 @@ function [ x ] = process_data( mx, matrix_name )
     t_conv_s  = (mx(:,2) * 3600 + mx(:,3) * 60 + mx(:,4)) - t_start_s;
 
     % compute intervals
-    j     = 1;
+    jj     = 1;
     t_int = 0;
 
-    bitrate(j) = 0;
-    delay(j)   = 0;
-    jitter(j)  = 0;
-    pktloss(j) = 0;
+    bitrate(jj) = 0;
+    delay(jj)   = 0;
+    jitter(jj)  = 0;
+    pktloss(jj) = 0;
 
 
-    for i = 1:length(mx)
+    for ii = 1:length(mx)
 
         % EITHER
-        if (t_conv(i) - t_int >= 1)
-            j          = j + 1;
-            t_int      = t_conv(i);
-            bitrate(j) = mx(i,8);
-            delay(j)   = t_conv(i) - t_conv_s(i);
+        if (t_conv(ii) - t_int >= 1)
+            jj          = jj + 1;
+            t_int       = t_conv(ii);
+            bitrate(jj) = mx(ii,8);
+            delay(jj)   = t_conv(ii) - t_conv_s(ii);
 
-            if (i > 1)
-                pktloss(j) = mx(i,1) - mx(i-1,1) - 1;
-                jitter(j)  = t_conv(i) - t_conv(i-1);
+            if (ii > 1)
+                pktloss(jj) = mx(ii,1) - mx(ii-1,1) - 1;
+                jitter(jj)  = t_conv(ii) - t_conv(ii-1);
             end
 
         % OR
         else
 
-            bitrate(j) = bitrate(j) + mx(i,8);
-            delay(j)   = mean([delay(j) (t_conv(i) - t_conv_s(i))]);
+            bitrate(jj) = bitrate(jj) + mx(ii,8);
+            delay(jj)   = mean([delay(jj) (t_conv(ii) - t_conv_s(ii))]);
 
-            if (i > 1)
-                pktloss(j) = pktloss(j) + mx(i,1) - mx(i-1,1) - 1;
-                jitter(j)  = mean([jitter(j) (t_conv(i) - t_conv(i-1))]);
+            if (ii > 1)
+                pktloss(jj) = pktloss(jj) + mx(ii,1) - mx(ii-1,1) - 1;
+                jitter(jj)  = mean([jitter(jj) (t_conv(ii) - t_conv(ii-1))]);
             end
         end
     end

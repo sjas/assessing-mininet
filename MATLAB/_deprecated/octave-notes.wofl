@@ -31,6 +31,11 @@ THIS FILE IS INTENDED TO HOLD VALUABLE INFORMATION WHILE LEARNING OCTAVE
 * clear bound variable:
   $ clear <varname>
 * ';' as delimiter needed in scripts, but not on REPL
+* dont use 'i' or 'j' as indexes or variables
+  * these represent the imaginary unit (sqrt(-1)), use 'ii' and 'jj' instead
+    * for speed reasons, if you need 'i', use 'li' anyway instead for speed reasons
+  * if you don't you might break complex math code by overwriting it!
+  * even if you dont break something, execution time is still sacrificed
 \\ real language stuff now following
 * #console-print:
   $ fprintf('hello world\n')
