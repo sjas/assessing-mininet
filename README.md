@@ -33,11 +33,14 @@ size and the amount of log files.
 After the installation/setup of a Mininet VM, clone this repository to the mininet user's /home (usually /home/mininet on the pre-installed VM, as of Mininet 2.0.0) and name it 'ktr'. Install D-ITG (here 2.8.0 was used, version 2.8.1 is available by now at least.). **D-ITG** and **ktr** must reside in the homefolder, if you do not set the path's differently.
 
 For easier handling create symlinks like 
+
     $ ln -s /home/mininet/ktr/parser/topologies/Crosstraffic-Benchmark-without-node-4.py simple-topo
     $ ln -s /home/mininet/ktr/parser/topologies/Crosstraffic-Benchmark.py meshed-topo
     $ ln -s /home/mininet/ktr/ITGscripts/full-test-suite.sh fulltest
     $ ln -s /home/mininet/ktr/ITGscripts/full-test-suite-crosstraffic.sh fulltestcross
     $ ln -s /home/mininet/ktr/ITGscripts/ITGDecALL decode
+    
+should be created.
 
 ## workflow
 
