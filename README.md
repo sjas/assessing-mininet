@@ -1,4 +1,4 @@
-# Asessing Mininet
+# Assessing Mininet
 
 This project contains three different system implementations:
 
