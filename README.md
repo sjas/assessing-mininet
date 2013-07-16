@@ -2,11 +2,12 @@
 
 ## What is this good for?
 
-Working with the Mininet Network Simulator ( wwww.http://mininet.org/ ). Creating runnable Topologies for it, 
-doing automated measurements via D-ITG (Distributed Internet Traffic Generator, http://traffic.comics.unina.it/software/ITG/),
-using MATLAB to parse the results and produce usable output. (Samples can be found under https://github.com/sjas/assessing-mininet-results ).
+Working with the Mininet Network Simulator ( http://mininet.org/ ). Creating runnable Topologies for it, 
+doing automated measurements via D-ITG (Distributed Internet Traffic Generator, http://traffic.comics.unina.it/software/ITG/)
+ on it, using MATLAB to parse the results and produce usable output. 
+(Samples can be found under https://github.com/sjas/assessing-mininet-results ).
 
-This project contains three different Frameworks/Generators:
+So this project contains three different Frameworks/Generators:
 
     1. Python parser for Internet Topology Zoo's .graphml files to be converted into Mininet python-based topologies.
     2. D-ITG scripts for distributed traffic generation being used in a script framework.
@@ -16,11 +17,13 @@ The parser is simply to ease the creation of larger real world topologies. Parse
 hand into the topo, and you have a directly executable/runnable topology for use with mininet 2.x with SSH access enabled.
 
 The D-ITG scripts usually have to be tediously started by hand, thus a lot (though not all, sadly) of the tasks were 
-automated through bash scripts. Two hosts and a log server are i.e. needed for measurement, which means 3 extra SSH 
-sessions by hand, to be repeated as often as you wish... My test setup consisted of four different setups consisting of
-five hosts each, repeated about ~25 times. Do the math, you won't stand it without scripting.
+automated through bash scripts. Two hosts and a log server are i.e. a setup used for measurements.
+This means three extra SSH sessions by hand, to be repeated as often as you wish... My test setup consisted of four different setups consisting of five hosts each, repeated about ~25 times. Do the math, you won't stand this without scripting.
+
 After running the test sets, a lot of data was generated, which was transferred directly to the MATLAB workstation after
 decoding, a single test setup was done with test rows, result data averaged at 350 to 400 MB for one-minute-tests.
+
+Currently these scripts need a lot of customizing due to hardcoded IP's and setting switches not being usable through a central config, and thus are a little like italian pasta. But every other approach would have rendered the work impossible.
 
 The make sense of the data, the aforementioned MATLAB was used, but here also extensive scripting was needed, due to the 
 size and the amount of log files.
@@ -69,7 +72,7 @@ Test setups for me were
     
 A word on the SDN controller:
 Here 'Floodlight' was used, because it supports topologies that has loops in it. Others did NOT work.
-Keep that in mind before starting hourlong debugging sessions. (BTW 'Thou shalt subcribe to the mininet mailing list...')
+Keep that in mind before starting hourlong debugging sessions. (By the way 'Thou shalt subcribe to the mininet mailing list...' if you plan on doing anything with it. Freshest source of information you can find with highly active developers, and informations are up to date. If you ever use Mininet 1.x documentation, you will understand.)
 
 A lot of filename creation takes place within these scripts, be careful when changing to a deviating naming scheme.
 Also the MATLAB code WILL break. If you don't care, you will be fine. If not, fear the consequences. =)
@@ -77,7 +80,7 @@ Also the MATLAB code WILL break. If you don't care, you will be fine. If not, fe
 ## TODO
 
 - [ ] An overhaul of the scripting setup is neccessary, to avoid the hardlinked folder/file paths.
-- [ ] Supply sources/links of technologies used.
+- [x] Supply sources/links of technologies used.
 - [ ] Check parser after last update for correctness.
 - [x] Cleanup D-ITG code.
 - [x] Cleanup MATLAB code.
@@ -91,3 +94,10 @@ no steps were taken into that direction.
 Automatically provisioned Mininet VM's, controller restarts and running all 4 predefined test-setups automated 
 are the goals to be strived for. But likely a lot of these further efforts being put into the bash scripts 
 would be wasted, so you have to stick with what is implemented.
+
+## software's versions being currently used
+
+- Mininet 2.0.0 
+- D-ITG 2.8.0-rc1
+- MATLAB R2012a 7.14.0.739
+- Floodlight SDN controller (cloned git repository at April 3rd 2013, changeset aca7e5943c7d8f8b299b5f91618286d325212b29)
