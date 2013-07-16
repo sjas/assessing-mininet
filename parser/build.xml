@@ -6,7 +6,7 @@
 
     <!--delete generated topo-->
     <target name="clean" description="remove last generated topo">
-        <delete file="raw-material/Dfn.graphml-generated-Mininet-Topo.py"/>
+        <delete file="topologies/Dfn.graphml-generated-Mininet-Topo.py"/>
         <echo taskname="delmsg">Deleted all generated files!</echo>
     </target>
 
@@ -15,7 +15,7 @@
         <exec executable="python" dir="." taskname="genmsg">
             <arg value="GraphML-Topo-to-Mininet-Network-Generator.py"/>
             <arg value="-f"/>
-            <arg value="raw-material/Dfn.graphml"/>
+            <arg value="topologies/Dfn.graphml"/>
             <arg value="-b"/>
             <arg value="100"/>
         </exec>
