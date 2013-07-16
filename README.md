@@ -1,5 +1,11 @@
 # Assessing Mininet
 
+## What is this good for?
+
+Working with the Mininet Network Simulator ( wwww.http://mininet.org/ ). Creating runnable Topologies for it, 
+doing automated measurements via D-ITG (Distributed Internet Traffic Generator, http://traffic.comics.unina.it/software/ITG/),
+using MATLAB to parse the results and produce usable output. (Samples can be found under https://github.com/sjas/assessing-mininet-results ).
+
 This project contains three different Frameworks/Generators:
 
     1. Python parser for Internet Topology Zoo's .graphml files to be converted into Mininet python-based topologies.
