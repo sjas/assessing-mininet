@@ -101,3 +101,4 @@ would be wasted, so you have to stick with what is implemented.
 - D-ITG 2.8.0-rc1
 - MATLAB R2012a 7.14.0.739
 - Floodlight SDN controller (cloned git repository at April 3rd 2013, changeset aca7e5943c7d8f8b299b5f91618286d325212b29)
+- VirtualBox 4.2.10 rc84104
