@@ -1,6 +1,14 @@
 <?xml version='1.0'?>
 <project name='ktr-parser' default='run'>
 
+    <!--
+    This buildscript generates a Mininettopo through the Generator and fixes user rights of the generated file afterwards.
+    USAGE: change topo name in the next section and execute.
+            The .graphml file must lie in the 'topologies' folder, the generated file will be put there, too.
+            Change the controller ip, if you need to.
+    Ant was used to check how executing shell commands works with it.
+    -->
+
 
     <!--PROPERTIES-->
     <property name='topofolder' value='topologies'/>
