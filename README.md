@@ -81,7 +81,7 @@ Also the MATLAB code WILL break. If you don't care, you will be fine. If not, fe
 
 - [ ] An overhaul of the scripting setup is neccessary, to avoid the hardlinked folder/file paths.
 - [x] Supply sources/links of technologies used.
-- [ ] Check parser after last update for correctness.
+- [x] Check parser for correctness.
 - [x] Cleanup D-ITG code.
 - [x] Cleanup MATLAB code.
 - [x] Automate MATLAB for all current test scenarios.
