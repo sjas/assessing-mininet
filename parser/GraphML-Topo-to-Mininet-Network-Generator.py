@@ -23,16 +23,14 @@
 # Parameters for bandwith and controller ip have default values, if they are omitted, too.
 #
 #
-# Created by Stephan Schuberth in 01/2013 to 04/2013
+# sjas
+# Wed Jul 17 02:59:06 PDT 2013
 #
 #
 # TODO's:
 #   -   fix double name error of some topologies
 #   -   fix topoparsing (choose by name, not element <d..>)
 #           =    topos with duplicate labels
-#   -   clean up
-#   -   make ip parameter to set adress for remote controller
-#   -   use formatted strings instead of this ugly concatenation
 #   -   use 'argparse' for script parameters, eases help creation
 #
 #################################################################################
@@ -90,6 +88,7 @@ from mininet.node import CPULimitedHost
 from mininet.link import TCLink
 from mininet.cli import CLI
 from mininet.log import setLogLevel
+from mininet.util import dumpNodeConnections
 
 class GeneratedTopo( Topo ):
     "Internet Topology Zoo Specimen."
@@ -116,34 +115,34 @@ outputstring_3b='''
         # add edges between switches
 '''
 
-outputstring_4='''
-
+outputstring_4a='''
 topos = { 'generated': ( lambda: GeneratedTopo() ) }
 
 # HERE THE CODE DEFINITION OF THE TOPOLOGY ENDS
 
 # the following code produces an executable script working with a remote controller
 # and providing ssh access to the the mininet hosts from within the ubuntu vm
+'''
 
-
+outputstring_4b = '''
 def setupNetwork(controller_ip):
     "Create network and run simple performance test"
-    topo = GeneratedTopo()
     # check if remote controller's ip was set
-    # else set it to vbox standard: 10.0.2.2
+    # else set it to localhost
+    topo = GeneratedTopo()
     if controller_ip == '':
-        controller_ip = '10.0.2.2';
+        #controller_ip = '10.0.2.2';
+        controller_ip = '127.0.0.1';
     net = Mininet(topo=topo, controller=lambda a: RemoteController( a, ip=controller_ip, port=6633 ), host=CPULimitedHost, link=TCLink)
     return net
 
-
 def connectToRootNS( network, switch, ip, prefixLen, routes ):
-    """Connect hosts to root namespace via switch. Starts network.
-      network: Mininet() network object
-      switch: switch to connect to root namespace
-      ip: IP address for root namespace node
-      prefixLen: IP address prefix length (e.g. 8, 16, 24)
-      routes: host networks to route to"""
+    "Connect hosts to root namespace via switch. Starts network."
+    "network: Mininet() network object"
+    "switch: switch to connect to root namespace"
+    "ip: IP address for root namespace node"
+    "prefixLen: IP address prefix length (e.g. 8, 16, 24)"
+    "routes: host networks to route to"
     # Create a node in root namespace and link to switch 0
     root = Node( 'root', inNamespace=False )
     intf = TCLink( root, switch ).intf1
@@ -154,7 +153,6 @@ def connectToRootNS( network, switch, ip, prefixLen, routes ):
     for route in routes:
         root.cmd( 'route add -net ' + route + ' dev ' + str( intf ) )
 
-
 def sshd( network, cmd='/usr/sbin/sshd', opts='-D' ):
     "Start a network, connect it to root ns, and run sshd on all hosts."
     switch = network.switches[ 0 ]  # switch to use
@@ -163,20 +161,27 @@ def sshd( network, cmd='/usr/sbin/sshd', opts='-D' ):
     connectToRootNS( network, switch, ip, 8, routes )
     for host in network.hosts:
         host.cmd( cmd + ' ' + opts + '&' )
+
+    # DEBUGGING INFO
+    print
+    print "Dumping host connections"
+    dumpNodeConnections(network.hosts)
     print
     print "*** Hosts are running sshd at the following addresses:"
     print
-
     for host in network.hosts:
         print host.name, host.IP()
-
-    print "(If the topo breaks down HERE, check the xxx.graphml file for duplicate labels!)"
     print
     print "*** Type 'exit' or control-D to shut down network"
+    print
+    print "*** For testing network connectivity among the hosts, wait a bit for the controller to create all the routes, then do 'pingall' on the mininet console."
+    print
+
     CLI( network )
     for host in network.hosts:
         host.cmd( 'kill %' + cmd )
     network.stop()
+
 
 if __name__ == '__main__':
     setLogLevel('info')
@@ -262,6 +267,7 @@ for n in node_set:
 # FIRST CREATE THE SWITCHES AND HOSTS
 tempstring1 = ''
 tempstring2 = ''
+tempstring3 = ''
 
 for i in range(0, len(id_node_name_dict)):
 
@@ -281,19 +287,30 @@ for i in range(0, len(id_node_name_dict)):
     tempstring1 += temp1
     tempstring2 += temp2
 
+    # link each switch and its host...
+    temp3 =  '        self.addLink( '
+    temp3 += id_node_name_dict[str(i)]
+    temp3 += ' , '
+    temp3 += id_node_name_dict[str(i)]
+    temp3 += "_host )"
+    temp3 += '\n'
+    tempstring3 += temp3
+
 outputstring_to_be_exported += outputstring_2a
 outputstring_to_be_exported += tempstring1
 outputstring_to_be_exported += outputstring_2b
 outputstring_to_be_exported += tempstring2
 outputstring_to_be_exported += outputstring_3a
+outputstring_to_be_exported += tempstring3
+outputstring_to_be_exported += outputstring_3b
 
 
 # SECOND CALCULATE DISTANCES BETWEEN SWITCHES,
 #   set global bandwidth and create the edges between switches,
 #   and link each single host to its corresponding switch
 
-tempstring3 = ''
 tempstring4 = ''
+tempstring5 = ''
 distance = 0.0
 latency = 0.0
 
@@ -303,7 +320,7 @@ for e in edge_set:
     src_id = e.attrib['source']
     dst_id = e.attrib['target']
 
-    # CALCULATE
+    # CALCULATE DELAYS
 
     #    CALCULATION EXPLANATION
     #
@@ -311,36 +328,30 @@ for e in edge_set:
     #    dist(SP,EP) = arccos{ sin(La[EP]) * sin(La[SP]) + cos(La[EP]) * cos(La[SP]) * cos(Lo[EP] - Lo[SP])} * r
     #    r = 6378.137 km
     #
-    #    formula: (speed of light)
+    #    formula: (speed of light, not within a vacuumed box)
     #     v = 1.97 * 10**8 m/s
     #
     #    formula: (latency being calculated from distance and light speed)
     #    t = distance / speed of light
     #    t (in ms) = ( distance in km * 1000 (for meters) ) / ( speed of light / 1000 (for ms))
 
-    #    ACTUAL CALCULATION
-    #    this was no fun
-    firstproduct = math.sin(float(id_latitude_dict[dst_id])) * math.sin(float(id_latitude_dict[src_id]))
-    secondproductfirstpart = math.cos(float(id_latitude_dict[dst_id])) * math.cos(float(id_latitude_dict[src_id]))
-    secondproductsecondpart = math.cos((float(id_longitude_dict[dst_id])) - (float(id_longitude_dict[src_id])))
+    #    ACTUAL CALCULATION: implementing this was no fun.
 
-    distance = math.radians(math.acos(firstproduct + (secondproductfirstpart * secondproductsecondpart))) * 6378.137
+    first_product               = math.sin(float(id_latitude_dict[dst_id])) * math.sin(float(id_latitude_dict[src_id]))
+    second_product_first_part   = math.cos(float(id_latitude_dict[dst_id])) * math.cos(float(id_latitude_dict[src_id]))
+    second_product_second_part  = math.cos((float(id_longitude_dict[dst_id])) - (float(id_longitude_dict[src_id])))
 
-    #t (in ms) = ( distance in km * 1000 (for meters) ) / ( speed of light / 1000 (for ms))
-    latency = ( distance * 1000 ) / ( 230000 )
+    distance = math.radians(math.acos(first_product + (second_product_first_part * second_product_second_part))) * 6378.137
+
+    # t (in ms) = ( distance in km * 1000 (for meters) ) / ( speed of light / 1000 (for ms))
+    # t         = ( distance       * 1000              ) / ( 1.97 * 10**8   / 1000         )
+    latency = ( distance * 1000 ) / ( 197000 )
 
     # BANDWIDTH LIMITING
     #set bw to 10mbit if nothing was specified otherwise on startup
     if bandwidth_argument == '':
         bandwidth_argument = '10';
 
-    # link each switch and its host...
-    temp3 =  '        self.addLink( '
-    temp3 += id_node_name_dict[src_id]
-    temp3 += ' , '
-    temp3 += id_node_name_dict[src_id]
-    temp3 += "_host )"
-    temp3 += '\n'
     # ... and link all corresponding switches with each other
     temp4 =  '        self.addLink( '
     temp4 += id_node_name_dict[src_id]
@@ -354,13 +365,19 @@ for e in edge_set:
     temp4 += '\n'
     # next line so i dont have to look up other possible settings
     #temp += "ms', loss=0, max_queue_size=1000, use_htb=True)"
-    tempstring3 += temp3
     tempstring4 += temp4
 
-outputstring_to_be_exported += tempstring3
-outputstring_to_be_exported += outputstring_3b
 outputstring_to_be_exported += tempstring4
-outputstring_to_be_exported += outputstring_4
+outputstring_to_be_exported += outputstring_4a
+
+# this is kind of dirty, due to having to use mixed '' ""
+temp5  = "controller_ip = '"
+temp5 += controller_ip
+temp5 += "'\n"
+tempstring5 += temp5
+
+outputstring_to_be_exported += tempstring5
+outputstring_to_be_exported += outputstring_4b
 
 
 # GENERATION FINISHED, WRITE STRING TO FILE

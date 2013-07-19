@@ -67,12 +67,10 @@ def setupNetwork():
 
     # Controller for KTR network
     net = Mininet(topo=topo, controller=lambda a: RemoteController( a, ip='141.13.92.68', port=6633 ), host=CPULimitedHost, link=TCLink)
-    # Controller for vbox
-    #net = Mininet(topo=topo, controller=lambda a: RemoteController( a, ip='10.0.2.2', port=6633 ), host=CPULimitedHost, link=TCLink)
     return net
 
+
 def connectToRootNS( network, switch, ip, prefixLen, routes ):
-#def connectToRootNS( network, ip, prefixLen, routes ):
     """Connect hosts to root namespace via switch. Starts network.
       network: Mininet() network object
       switch: switch to connect to root namespace
@@ -81,7 +79,6 @@ def connectToRootNS( network, switch, ip, prefixLen, routes ):
       routes: host networks to route to"""
     # Create a node in root namespace and link to switch 0
     root = Node( 'root', inNamespace=False )
-    #for switch in network.switches:
     intf = TCLink( root, switch ).intf1
     root.setIP( ip, prefixLen, intf )
     # Start network that now includes link to root namespace
@@ -90,40 +87,31 @@ def connectToRootNS( network, switch, ip, prefixLen, routes ):
     for route in routes:
         root.cmd( 'route add -net ' + route + ' dev ' + str( intf ) )
 
+
 def sshd( network, cmd='/usr/sbin/sshd', opts='-D' ):
     "Start a network, connect it to root ns, and run sshd on all hosts."
     ip = '10.123.123.1'  # our IP address on host network
     routes = [ '10.0.0.0/8' ]  # host networks to route to
     switch = network.switches[ 0 ]  # switch to use
     connectToRootNS( network, switch, ip, 8, routes )
-    #connectToRootNS( network, ip, 8, routes )
     for host in network.hosts:
         host.cmd( cmd + ' ' + opts + '&' )
+
+
+    # DEBUGGING INFO
     print
     print "*** Hosts are running sshd at the following addresses:"
     print
-
-    #FIXME: when host lacks an interface because of broken setup process, dont call it!
-    #FIXME: host.IP() will trigger a warning and shut mininet down
-    #FIXME: (at least on this loglevel, dont know if others are different)
     for host in network.hosts:
         print host.name, host.IP()
-    #FIXME: because the upper part wont work dynamically,
-    #FIXME: the listing (according to the settings just above the print statements above)
-    #FIXME: will be static. in case you change the ip above, the next print lines
-    #FIXME: will be false: 10.0.0.x will be wrong!
-    #FIXME:
-    #print "use 'ssh 10.0.0.x' from other consoles to connect"
     print
     print "*** Type 'exit' or control-D to shut down network"
-
     print "Dumping host connections"
     dumpNodeConnections(network.hosts)
     print "Testing network connectivity"
     network.pingAll()
 
-    ## TEST
-    #network.pingAll()
+    ## TEST NETWORK THROUGHPUT VIA MININET'S IPERF
     #print "Testing bandwidth between srv1 and cl1"
     #h1, h2 = network.getNodeByName('srv1', 'cl1')
     #network.iperf((h1, h2))
@@ -136,6 +124,7 @@ def sshd( network, cmd='/usr/sbin/sshd', opts='-D' ):
     #network.iperf((h1, h2))
     #network.iperf((h1, h2))
     #network.iperf((h1, h2))
+    #print "Testing bandwidth between srv2 and cl2"
     #h3, h4 = network.getNodeByName('srv2', 'cl2')
     #network.iperf((h3, h4))
     #network.iperf((h3, h4))
@@ -153,16 +142,8 @@ def sshd( network, cmd='/usr/sbin/sshd', opts='-D' ):
         host.cmd( 'kill %' + cmd )
     network.stop()
 
+
 if __name__ == '__main__':
     setLogLevel('info')
     #setLogLevel('debug')
     sshd( setupNetwork() )
-
-# DEAD CODE
-#print "Dumping host connections"
-#dumpNodeConnections(net.hosts)
-#print "Testing network connectivity"
-#net.pingAll()
-#print "Testing bandwidth between h1 and h2"
-#h1, h2 = net.getNodeByName('h1', 'h2')
-#net.iperf((h1, h2))

@@ -1,35 +1,39 @@
 <?xml version='1.0'?>
 <project name='ktr-parser' default='run'>
 
-    <!--[>property file<]-->
-    <!--<property file='build.properties'/>-->
 
-    <!--delete generated topo-->
+    <!--PROPERTIES-->
+    <property name='topofolder' value='topologies'/>
+    <!--<property name='file' value='Abilene'/>-->
+    <property name='file' value='Dfn'/>
+
+
+    <!--DELETE GENERATED TOPO-->
     <target name='clean' description='remove last generated topo'>
         <!--<delete file='topologies/Dfn.graphml-generated-Mininet-Topo.py'/>-->
-        <delete file='topologies/Abilene.graphml-generated-Mininet-Topo.py'/>
-        <echo taskname='delmsg'>Deleted all generated files!</echo>
+        <delete file='${topofolder}/${file}.graphml-generated-Mininet-Topo.py'/>
+        <echo taskname='delete'>Deleted all generated files!</echo>
     </target>
 
-    <!--run script and generate topo-->
+
+    <!--RUN SCRIPT AND GENERATE TOPO-->
     <target name='run' description='run the python code and generate current topo' depends='clean'>
         <exec executable='python' dir='.' taskname='generate'>
             <arg value='GraphML-Topo-to-Mininet-Network-Generator.py'/>
-            <arg value='-f'/>
-            <!--<arg value='topologies/Dfn.graphml'/>-->
-            <arg value='topologies/Abilene.graphml'/>
-            <arg value='-b'/>
-            <arg value='100'/>
+            <arg value='--file'/>
+            <arg value='${topofolder}/${file}.graphml'/>
+            <arg value='--bandwidth'/>
+            <arg value='1'/>
+            <arg value='--controller'/>
+            <arg value='141.13.92.68'/>
         </exec>
-        <exec executable='chmod' dir='./topologies' taskname='chmod'>
+        <exec executable='chmod' dir='${topofolder}' taskname='chmod'>
             <arg value='777'/>
-            <!--<arg value='Dfn.graphml-generated-Mininet-Topo.py'/>-->
-            <arg value='Abilene.graphml-generated-Mininet-Topo.py'/>
+            <arg value='${file}.graphml-generated-Mininet-Topo.py'/>
         </exec>
-        <echo>Fixed topo user rights.</echo>
-        <exec executable='ls' dir='./topologies' taskname='ls'>
-            <!--<arg value='topologies'/>-->
-        </exec>
+        <echo taskname='chmod'>Fixed topo user rights.</echo>
+        <exec executable='ls' dir='${topofolder}' taskname='ls'/>
     </target>
+
 
 </project>
