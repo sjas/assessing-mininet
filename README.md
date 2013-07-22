@@ -77,15 +77,6 @@ Keep that in mind before starting hourlong debugging sessions. (By the way 'Thou
 A lot of filename creation takes place within these scripts, be careful when changing to a deviating naming scheme.
 Also the MATLAB code WILL break. If you don't care, you will be fine. If not, fear the consequences. =)
 
-## TODO
-
-- [ ] An overhaul of the scripting setup is neccessary, to avoid the hardlinked folder/file paths.
-- [x] Supply sources/links of technologies used.
-- [x] Check parser for correctness.
-- [x] Cleanup D-ITG code.
-- [x] Cleanup MATLAB code.
-- [x] Automate MATLAB for all current test scenarios.
-    
 ## context / future
 
 Since at the time being a bigger overhaul using different tools than when this was written was discussed, 
