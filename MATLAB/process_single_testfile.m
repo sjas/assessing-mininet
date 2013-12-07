@@ -34,7 +34,6 @@ function [ return_matrix ] = process_single_testfile( mx, matrix_name, log_type,
 
         % OR
         else
-            %% CHANGED: ./125000 to convert scalar from Kbyte to Mbit
             bitrate(jj) = bitrate(jj) + mx(ii,8);
             delay(jj)   = mean([delay(jj) (t_conv(ii) - t_conv_s(ii))]);
 
@@ -50,7 +49,6 @@ function [ return_matrix ] = process_single_testfile( mx, matrix_name, log_type,
     bitrate = bitrate ./ 125000;
            
     %% CHANGED: output gathered for aggregation later on
-    %return_matrix = [bitrate'];
     return_matrix = [bitrate' delay' jitter' pktloss'];
 
     %% THROUGHPUT
